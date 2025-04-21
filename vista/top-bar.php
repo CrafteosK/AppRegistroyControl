@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    
+    <!--<link rel="stylesheet" href="Stilos/header.css">  Opcional: agrega estilos -->
 </head>
 <body>
     <!-- Header -->
@@ -10,6 +10,7 @@
         <button id="toggleBtn">☰</button>
         <div class="logo">
             <img src="imagen/Picsart_25-03-31_14-46-19-016.png" alt="logo">
+            
         </div>
         <nav>
             <ul class="nav-links">
@@ -24,10 +25,7 @@
     <!-- Barra lateral -->
     <nav class="sidebar" id="sidebar">
         <ul>
-            <li><a href="maestros.php">Maestros</a></li>
-            <li><a href="cocineros.php">Cocineros</a></li>
-            <li><a href="vigilantes.php">Vigilantes</a></li>
-            <li><a href="obreros.php">Obreros</a></li>
+            <li><a href="asistencias.php">Asistencias</a></li>
             <li><a href="trabajadores.php">Trabajadores</a></li>
         </ul>
     </nav>

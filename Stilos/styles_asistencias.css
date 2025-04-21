@@ -262,3 +262,19 @@ button:hover {
 .download-button:hover {
     background-color: #6502bc;
 }
+
+.filtros {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px; /* Limitar el ancho máximo del contenedor */
+    margin: 0 auto; /* Centrar el contenedor en la página */
+    flex-wrap: wrap; /* Permitir que los elementos se envuelvan en varias líneas si es necesario */
+    
+}

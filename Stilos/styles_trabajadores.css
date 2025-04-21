@@ -379,3 +379,7 @@ button:hover {
     font-size: 16px;
     transition: background-color 0.3s;
 }
+
+.fa-square-poll-vertical{
+    font-size: 26px;
+}

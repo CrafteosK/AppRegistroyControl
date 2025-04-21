@@ -317,9 +317,12 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
                     <td><?php echo $fila['telefono']; ?></td>
                     <td><?php echo $fila['cargo']; ?></td> <!-- Mostrar el nombre del cargo -->
                     <td>
-                        <!-- Botón para eliminar -->
+                        <!-- Botón para eliminar editar y abrir estadisticas-->
                         <form method="POST" action="" style="display:inline;">
                             <input type="hidden" name="id" value="<?php echo $fila['id_trabajador']; ?>">
+                            <button type="button" class="btn btn-success ">
+                            <i class="fa-solid fa-square-poll-vertical"></i>
+                            </button>
                             <button type="button" class="btn btn-warning " data-bs-toggle="modal" data-bs-target="#exampleModal<?php echo $fila['id_trabajador']; ?>">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>     
