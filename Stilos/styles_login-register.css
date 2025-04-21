@@ -1,0 +1,215 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.logo {
+  position: absolute; 
+  top: -1px;       
+  left: 20px;
+  transform: translateX(-50%);
+  width: 70px;       
+  height: auto;
+  border-radius: 30%;
+  box-shadow: 0 4px 8px rgba(50, 1, 48, 0.815);
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-image: url('../imagen/4-4.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  backdrop-filter: blur(3px);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Contenedor__login-register{
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+  position: relative;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+}
+
+.login-container {
+  display: flex;
+  width: 800px;
+  height: 500px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.login-form {
+  flex: 1;
+  padding: 60px 40px;
+  color: white;
+  background-color: #490467bc;
+}
+
+.login-form h1 {
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+.login-form p {
+  font-size: 14px;
+  color: #ffffff;
+  margin-bottom: 30px;
+}
+
+.login-form a, .register-form a {
+  display: block; 
+  font-size: 14px; 
+  margin: 3px 0; 
+  color: #c1aef9; 
+  text-decoration: none; 
+  margin-top: -15px;
+  transition: color 0.3s;
+}
+
+.login-form a:hover, .register-form a:hover {
+  color: #4f27bc; /* Cambia el color al pasar el mouse */
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  padding: 10px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #4a2153;
+  color: white;
+}
+
+.remember {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 13px;
+}
+
+.remember input {
+  margin-right: 10px;
+}
+
+button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #7f5af0, #5f27cd);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: linear-gradient(90deg, #6f43c6, #2c0db5);
+}
+
+.login-bg {
+  flex: 1;
+  background-image: url('../imagen/Simon.jpg');
+  background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  height: 100%; /* Asegura que ocupe toda la altura del contenedor */
+  width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
+}
+
+/* registro*/
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 800px;
+  height: 500px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.register-form {
+  flex: 1;
+  padding: 40px 40px;
+  color: white;
+  background-color: #490467bc;
+}
+.register-form h1 {
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 28px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.register-form p {
+  font-size: 14px;
+  color: #ffffff;
+  margin-bottom: 5px;
+}
+.register-form a {
+  color: #c1aef9;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.register-form a:hover {
+  color: #a18ae0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+label {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+h4 {
+  font-size: 14px; 
+  margin: 10px 0; 
+  color: white; 
+}
+
+.register-form a {
+  display: block;
+  font-size: 15px;
+  text-align: center;
+  margin: 20px 0; 
+  color: #c1aef9; 
+  text-decoration: none; 
+  transition: color 0.3s;
+  margin-top: 0%;
+}
+.register-form a:hover {
+  color: #8903a7d4;
+}
+.register-bg {
+  width: 100%; 
+  height: 100%; 
+  flex: 1;
+  background: url('../imagen/Simon.jpg') center/cover;
+}
+
