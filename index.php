@@ -15,6 +15,7 @@ if(isset($_SESSION['usuario'])){
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Registro y control de asistencias</title>
+  <link rel="stylesheet" href="Stilos/css/bootstrap.min.css"> <!-- Opcional: agrega estilos a las tablas -->
   <link rel="stylesheet" href="Stilos/styles_login-register.css"/>
 </head>
 <body>
@@ -41,13 +42,38 @@ if(isset($_SESSION['usuario'])){
           <button type="submit">Entrar</button>
           <br>
           <h4>¿No tienes cuenta?</h4> <a id="" href="register.php">Da click aqui para registrarte</a>
-          <h4>¿Olvidaste tu contraseña?</h4> <a href="#">Recuperar contraseña</a>
+          <h4>¿Olvidaste tu contraseña?</h4> <a href="recovery.php">Recuperar contraseña</a>
         </form>
       </div>
       <div class="login-bg"></div>
     </div>
     
-  </main>    
+  </main> 
+  <?php
+    if(isset($_GET['message'])){
+          switch($_GET['message']){
+            case 'ok':
+              ?>
+              <div class="alert alert-success alerta" role="alert">
+              <?php
+              echo 'Correo enviado correctamente. Revisa tu correo';
+              ?>
+              </div>
+              <?php
+              break;
+            default:
+            ?>
+              <div class="alert alert-danger" role="alert">
+              <?php
+                echo 'Ha ocurrido un error. Intenta nuevamente.';
+                ?>
+              </div>
+              <?php
+              break;
+          }
+        
+    }
+    ?>   
   <script src="Java/Script.js"></script>
 </body>
 </html>

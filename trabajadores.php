@@ -1,19 +1,7 @@
 <?php
 // Incluir la conexión a la base de datos
 include 'conexion_be.php'; // Asegúrate de que este archivo contiene la conexión a la base de datos
-
-session_start();
-
-    if (isset($_SESSION['usuario'])) {
-        //echo '<h1>Bienvenido: ' . $_SESSION['usuario'] . '</h1>';
-    } else {
-        echo '<script>
-            alert("Debes iniciar sesión para acceder a esta página");
-            window.location = "index.php";
-        </script>';
-        session_destroy();
-        die();
-    }
+include 'validar_sesion.php';
 
 // Manejar la adición de un nuevo trabajador
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar'])) {

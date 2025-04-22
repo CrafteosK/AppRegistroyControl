@@ -8,12 +8,14 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
     $contraseña = hash('sha512', $contraseña); // Encriptar la contraseña ingresada
 
     // Verificar si el usuario y la contraseña coinciden en la base de datos
-    $query = "SELECT * FROM usuarios WHERE user = '$usuario' AND password = '$contraseña'";
+    $query = "SELECT u.ID, u.user, u.password, l.roles as rol FROM usuarios u LEFT JOIN level_user l ON u.rol_id = l.id WHERE user = '$usuario' AND password = '$contraseña'";
     $resultado = mysqli_query($enlace, $query);
+    $row = $resultado->fetch_assoc();
 
     if (mysqli_num_rows($resultado) > 0) {
         // Credenciales correctas, iniciar sesión
         $_SESSION['usuario'] = $usuario;
+        $_SESSION['rol'] = $row['rol'];
         header('Location: inicio.php'); // Redirigir a la página de inicio
         exit();
     } else {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-04-2025 a las 06:51:25
+-- Tiempo de generación: 21-04-2025 a las 22:25:28
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -62,6 +62,25 @@ CREATE TABLE `cocineros` (
 INSERT INTO `cocineros` (`id`, `id_trabajador`, `tipo`, `hora`) VALUES
 (1, 18, 'entrada', '2025-04-19 00:14:00'),
 (2, 18, 'salida', '2025-04-19 00:14:00');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `level_user`
+--
+
+CREATE TABLE `level_user` (
+  `id` int(11) NOT NULL,
+  `roles` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `level_user`
+--
+
+INSERT INTO `level_user` (`id`, `roles`) VALUES
+(1, 'Administrador'),
+(2, 'Usuario');
 
 -- --------------------------------------------------------
 
@@ -125,10 +144,11 @@ CREATE TABLE `trabajadores` (
 --
 
 INSERT INTO `trabajadores` (`id_trabajador`, `nombre`, `apellido`, `cedula`, `telefono`, `cargos`) VALUES
-(18, 'pedro', 'Diaz', '25647980', '04242222222', '1'),
+(18, 'Pedro', 'Diaz', '25647980', '04242222222', '1'),
 (19, 'Juan', 'Pérez', '12345678', '04240000000', '3'),
 (20, 'Angeli', 'Mari', '0000000', '04249152713', '4'),
-(21, 'Maria', 'Suarez', '6574321', '04242222222', '2');
+(21, 'Maria', 'Suarez', '6574321', '04242222222', '2'),
+(22, 'Maria', 'Suarez', '25647980', '04242222222', '3');
 
 -- --------------------------------------------------------
 
@@ -141,15 +161,16 @@ CREATE TABLE `usuarios` (
   `nombre_completo` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `user` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `rol_id` int(11) NOT NULL DEFAULT 2
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`ID`, `nombre_completo`, `email`, `user`, `password`) VALUES
-(12, 'Kervin Días ', 'kervindiaz2017@gmail.com', 'Craft', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db');
+INSERT INTO `usuarios` (`ID`, `nombre_completo`, `email`, `user`, `password`, `rol_id`) VALUES
+(1, 'Kervin Días ', 'kervindiaz2017@gmail.com', 'Craft', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 1);
 
 -- --------------------------------------------------------
 
@@ -190,6 +211,12 @@ ALTER TABLE `cargos`
 ALTER TABLE `cocineros`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_trabajador` (`id_trabajador`);
+
+--
+-- Indices de la tabla `level_user`
+--
+ALTER TABLE `level_user`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `maestros`
@@ -241,6 +268,12 @@ ALTER TABLE `cocineros`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT de la tabla `level_user`
+--
+ALTER TABLE `level_user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `maestros`
 --
 ALTER TABLE `maestros`
@@ -256,7 +289,7 @@ ALTER TABLE `obreros`
 -- AUTO_INCREMENT de la tabla `trabajadores`
 --
 ALTER TABLE `trabajadores`
-  MODIFY `id_trabajador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_trabajador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

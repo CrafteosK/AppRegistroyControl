@@ -1,6 +1,8 @@
 <?php
 include 'conexion_be.php'; // Asegúrate de que este archivo contiene la conexión a la base de datos
 
+include 'validar_sesion.php';
+
 // Obtener el filtro seleccionado
 $filtro = isset($_GET['filtro']) ? $_GET['filtro'] : 'todos';
 $filtro_fecha = isset($_GET['filtro_fecha']) ? $_GET['filtro_fecha'] : 'hoy';

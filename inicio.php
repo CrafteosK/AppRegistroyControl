@@ -1,19 +1,10 @@
 <?php
     // Llamar a la conexión de la base de datos
     include 'conexion_be.php';
+    include 'validar_sesion.php';
+    include 'validar_rol.php';
 
-    session_start();
-
-    if (isset($_SESSION['usuario'])) {
-        echo '<h1>Bienvenido: ' . $_SESSION['usuario'] . '</h1>';
-    } else {
-        echo '<script>
-            alert("Debes iniciar sesión para acceder a esta página");
-            window.location = "index.php";
-        </script>';
-        session_destroy();
-        die();
-    }
+    
 
     // Procesar el formulario
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {

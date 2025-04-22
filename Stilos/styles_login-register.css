@@ -44,7 +44,7 @@ body {
 .login-container {
   display: flex;
   width: 800px;
-  height: 500px;
+  height: 550px;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
@@ -213,3 +213,17 @@ h4 {
   background: url('../imagen/Simon.jpg') center/cover;
 }
 
+.alert {
+  /*mover hacia abajo*/
+  position: absolute;
+  top: 80%; /* Ajusta la distancia desde la parte superior */
+  left: 50%;
+  transform: translateX(-50%); /* Centra horizontalmente */
+
+  
+}
+
+.alerta {
+   background-color: #8df084; /* Color de fondo rojo */
+  
+}
