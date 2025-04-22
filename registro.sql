@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-04-2025 a las 22:25:28
+-- Tiempo de generación: 22-04-2025 a las 06:45:55
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -79,8 +79,8 @@ CREATE TABLE `level_user` (
 --
 
 INSERT INTO `level_user` (`id`, `roles`) VALUES
-(1, 'Administrador'),
-(2, 'Usuario');
+(1, 'administrador'),
+(2, 'usuario');
 
 -- --------------------------------------------------------
 
