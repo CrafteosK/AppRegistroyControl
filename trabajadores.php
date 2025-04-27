@@ -183,6 +183,7 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
     <link rel="stylesheet" href="Stilos/styles_trabajadores.css"> <!-- Opcional: agrega estilos -->
     <link rel="stylesheet" href="Stilos/styles_tablas.css"> <!-- Opcional: agrega estilos a las tablas -->
     <link rel="stylesheet" href="fontawesome/fontawesome-free-6.7.2-web/css/all.css">
+    <link href="DataTables/datatables.min.css" rel="stylesheet">
 </head>
 <body class="trab-body">
     <?php include 'vista/top-bar.php'; ?>
@@ -380,5 +381,6 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
 
     <script src="Java/js/bootstrap.bundle.min.js"></script>
     <script src="Java/js.js"></script>
+    <script src="DataTables/datatables.min.js"></script>
 </body>
 </html>
