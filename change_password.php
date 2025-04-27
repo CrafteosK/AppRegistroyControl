@@ -1,6 +1,10 @@
 <?php
 session_start();
-$ID = isset($_GET['ID']) ? $_GET['ID'] : null; // Obtener el ID desde la URL
+$ID = isset($_GET['id']) ? $_GET['id'] : null; // Cambiar 'ID' a 'id'
+
+if (!$ID) {
+    die("Error: No se proporcionó un ID válido.");
+}
 ?>
 
 <!DOCTYPE html>

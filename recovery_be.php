@@ -39,9 +39,9 @@ if (isset($row2['ID'])) {
 
         $mail->isHTML(true);
         $mail->Subject = 'Recuperación de Contraseña';
-        $mail->Body    = 'Hola, si te llegó este correo es porque has solicitado recuperar tu contraseña.<br>
+        $mail->Body = 'Hola, si te llegó este correo es porque has solicitado recuperar tu contraseña.<br>
         <br>Si no has solicitado este correo, por favor ignora este mensaje.<br><br>
-        Entra al siguiente link para cambiar la contraseña: <a href="http://localhost/AppRegistroyControl/change_password.php?id=' . $row2['ID'] . '">Recuperar Contraseña</a>';
+        Entra al siguiente link para cambiar la contraseña: <a href="http://localhost/AppRegistroyControl/change_password.php?id=' . htmlspecialchars($row2['ID']) . '">Recuperar Contraseña</a>';
         $mail->AltBody = 'Este es el mensaje en texto plano para clientes que no soportan HTML.';
 
         $mail->send();
