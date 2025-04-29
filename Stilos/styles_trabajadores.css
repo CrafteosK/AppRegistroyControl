@@ -18,7 +18,8 @@ body {
     flex-direction: column;
     
     height: 100vh; /* Altura completa de la ventana */
-    overflow: hidden; /* Evita el desplazamiento */
+    overflow-y: scroll; /* Evita el desplazamiento */
+    padding-bottom: 30px;
 }
 
 .trab-body{
