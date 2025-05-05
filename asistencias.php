@@ -89,6 +89,9 @@ if (!$resultado) {
     <link rel="stylesheet" href="Stilos/styles_asistencias.css">
     <link rel="stylesheet" href="Stilos/styles_tablas.css">
     <link rel="stylesheet" href="Stilos/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Stilos/jquery.dataTables.min.css">
+    <script src="Java/jquery.min.js"></script>
+    <script src="Java/jquery.dataTables.min.js"></script>
 </head>
 <body>
 
@@ -134,7 +137,7 @@ if (!$resultado) {
 
     <!-- Tabla para mostrar los registros -->
     <h2>Lista de Registros</h2>
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover" id="data-tables">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -178,5 +181,11 @@ if (!$resultado) {
 
     <script src="Java/js/bootstrap.bundle.min.js"></script>
     <script src="Java/js.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#data-tables').DataTable()
+        });
+                
+     </script>
 </body>
 </html>

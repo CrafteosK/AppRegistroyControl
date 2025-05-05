@@ -111,8 +111,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barra Desplegable y Header</title>
-    <link rel="stylesheet" href="Stilos/estilos_inicio.css">
+    <link rel="stylesheet" href="Stilos/inicio.css">
+    <title>Inicio</title>
 </head>
 <body>
 
@@ -120,8 +120,8 @@
 
     <!-- Contenido principal -->
     <main class="content" id="content">
-        <h1>Bienvenido registra tu asistencia</h1>
-        <h2 id="fecha"></h2>
+        <h1>Bienvenido al sistema de asistencias</h1>
+        <h2>Por favor registre su asistencia</h2>
         <div class="container">
             <p class="CI">Ingrese su Cedula</p>
             <form action="" method="POST">
@@ -133,8 +133,8 @@
             </form>
         </div>
 
-        <script>
 
+        <script>
             setInterval(function() {
                 let fecha = new Date();
                 let fechaHora=fecha.toLocaleString();

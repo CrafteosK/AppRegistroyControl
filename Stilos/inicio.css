@@ -1,0 +1,105 @@
+body {
+    background-image: url('../imagen/4-4.webp');
+    background-size: cover;
+    background-position: center;
+    backdrop-filter: blur(5px);
+}
+
+main.content {
+    align-items: center;
+    padding: 6rem;
+    background-color: #4403707b; /* Fondo claro para diferenciar */
+    border-radius: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 2rem auto;
+    text-align: center;
+}
+
+main.content h1 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 2rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+h1{
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+  
+h1{
+    text-shadow: 1px 1px 2px black, -1px -1px 2px gray; /* Varias sombras */
+}
+
+main.content h2 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+h2{
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+  
+h2{
+    text-shadow: 1px 1px 2px black, -1px -1px 2px gray; /* Varias sombras */
+}
+
+main.content .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+main.content .CI {
+    font-size: 1.2rem;
+    color: #ebd8fc;
+    margin-bottom: -1rem;
+}
+
+main.content input[type="text"] {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #aa00f9;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+main.content input[type="text"]:focus {
+    border-color: #ff00a6;
+}
+
+main.content .btn-inicio {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+main.content .btn-inicio button {
+    padding: 0.8rem 1.5rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: #fff;
+    background: linear-gradient(to right, #370151, #00ff73);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+main.content .btn-inicio button:hover {
+    background: linear-gradient(to right, #00ff73, #370151);
+}
+
+main.content .btn-inicio button.salida {
+    background: linear-gradient(to right, #ff0000, #ff0044);
+}
+
+main.content .btn-inicio button.salida:hover {
+    background: linear-gradient(to right, #ff0044, #ff0000);
+}
