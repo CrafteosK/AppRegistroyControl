@@ -183,7 +183,6 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
     <link rel="stylesheet" href="Stilos/styles_trabajadores.css"> <!-- Opcional: agrega estilos -->
     <link rel="stylesheet" href="Stilos/styles_tablas.css">  <!--Opcional: agrega estilos a las tablas -->
     <link rel="stylesheet" href="fontawesome/fontawesome-free-6.7.2-web/css/all.css">
-    <!--<link href="DataTables/datatables.min.css" rel="stylesheet">-->
     <link rel="stylesheet" href="Stilos/jquery.dataTables.min.css">
     <script src="Java/jquery.min.js"></script>
     <script src="Java/jquery.dataTables.min.js"></script>
@@ -382,13 +381,8 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
         </table>
     </div>
 
-    <script>
-        let table = new DataTable('#myTable');
-    </script>
-
     <script src="Java/js/bootstrap.bundle.min.js"></script>
     <script src="Java/js.js"></script>
-    <!-- <script src="DataTables/datatables.min.js"></script>-->
      <script>
         $(document).ready(function() {
             $('#data-tables').DataTable()

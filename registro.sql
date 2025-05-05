@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-04-2025 a las 06:45:55
+-- Tiempo de generación: 01-05-2025 a las 03:31:29
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -148,7 +148,13 @@ INSERT INTO `trabajadores` (`id_trabajador`, `nombre`, `apellido`, `cedula`, `te
 (19, 'Juan', 'Pérez', '12345678', '04240000000', '3'),
 (20, 'Angeli', 'Mari', '0000000', '04249152713', '4'),
 (21, 'Maria', 'Suarez', '6574321', '04242222222', '2'),
-(22, 'Maria', 'Suarez', '25647980', '04242222222', '3');
+(22, 'Maria', 'Suarez', '25647980', '04242222222', '3'),
+(23, '1', '1', '52399411', '04242222222', '3'),
+(24, '2', '2', '3658446', '04259631269', '4'),
+(25, '3', '3', '36985471', '25136987452', '2'),
+(26, '4', '4', '32145698', '25478963221', '1'),
+(27, '5', '5', '15695423', '25647895643', '3'),
+(28, '6', '6', '36521477', '25413336986', '4');
 
 -- --------------------------------------------------------
 
@@ -170,7 +176,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`ID`, `nombre_completo`, `email`, `user`, `password`, `rol_id`) VALUES
-(1, 'Kervin Días ', 'kervindiaz2017@gmail.com', 'Craft', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 1);
+(1, 'Kervin Días ', 'kervindiaz2017@gmail.com', 'Craft', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 1),
+(14, 'María Suárez ', 'kervindiaz2021@gmail.com', 'hola', '0a6f9ebaa55e21ce270b6df2e7d812c987d511ab0472d24b501622b5878f9e4b03011356f3c9f85b084cf763a995a93f142d5107fa9a92d8e60e78d3c96a614a', 2);
 
 -- --------------------------------------------------------
 
@@ -289,13 +296,13 @@ ALTER TABLE `obreros`
 -- AUTO_INCREMENT de la tabla `trabajadores`
 --
 ALTER TABLE `trabajadores`
-  MODIFY `id_trabajador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_trabajador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `vigilantes`
