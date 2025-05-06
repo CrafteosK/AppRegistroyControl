@@ -16,6 +16,7 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
         // Credenciales correctas, iniciar sesión
         $_SESSION['usuario'] = $usuario;
         $_SESSION['rol'] = $row['rol'];
+        $_SESSION['id_usuario'] = $row['ID']; // Asegúrate de almacenar el ID del usuario
         header('Location: inicio.php'); // Redirigir a la página de inicio
         exit();
     } else {

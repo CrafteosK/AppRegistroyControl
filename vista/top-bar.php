@@ -19,9 +19,14 @@
 
         <div class="right">
          <h2 id="fecha"></h2>
-            <a href="notificacion.php">
+            <a href="#" id="notificaciones-icono">
                 <div class="iconos"><ion-icon name="notifications-outline"></ion-icon></div>
             </a>
+            <div id="notificaciones-contenedor" class="notificaciones-oculto">
+                <ul id="notificaciones-lista">
+                    <!-- Aquí se cargarán las notificaciones dinámicamente -->
+                </ul>
+            </div>
 
             <a href="cambiar-nombre.php">
             <div class="iconos"><ion-icon name="person-circle-outline"></ion-icon></div>
@@ -66,7 +71,7 @@
                     </a>
                 </li>
                 <li style="--bg:#884dff;">
-                    <a href="#">
+                    <a href="usuarios.php">
                         <div class="icon"><ion-icon name="person-outline"></ion-icon></div>
                         <div class="text">Usuario</div>
                     </a>
@@ -142,6 +147,58 @@
                 });
             });
         }
+
+        const notificacionesIcono = document.getElementById('notificaciones-icono');
+        const notificacionesContenedor = document.getElementById('notificaciones-contenedor');
+        const notificacionesLista = document.getElementById('notificaciones-lista');
+
+        // Simular notificaciones (puedes reemplazar esto con una llamada AJAX)
+        const notificaciones = [
+            { id: 1, mensaje: "Nueva asistencia registrada." },
+            { id: 2, mensaje: "Usuario actualizado correctamente." },
+            { id: 3, mensaje: "Se agregó un nuevo trabajador." }
+        ];
+
+        // Mostrar/ocultar el contenedor de notificaciones
+        notificacionesIcono.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation(); // Detener la propagación del evento
+            console.log("Ícono de notificaciones clickeado");
+            notificacionesContenedor.classList.toggle('notificaciones-visible');
+            console.log("Clases del contenedor:", notificacionesContenedor.classList);
+        });
+
+        // Evitar que el clic dentro del contenedor cierre el contenedor
+        notificacionesContenedor.addEventListener('click', (e) => {
+            e.stopPropagation(); // Detener la propagación del evento
+        });
+
+        // Función para cargar las notificaciones
+        function cargarNotificaciones() {
+            notificacionesLista.innerHTML = ''; // Limpiar la lista
+
+            if (notificaciones.length === 0) {
+                // Mostrar mensaje si no hay notificaciones
+                const li = document.createElement('li');
+                li.textContent = "No hay notificaciones.";
+                li.style.textAlign = "center";
+                li.style.color = "#888";
+                notificacionesLista.appendChild(li);
+            } else {
+                // Mostrar las notificaciones
+                notificaciones.forEach(notificacion => {
+                    const li = document.createElement('li');
+                    li.textContent = notificacion.mensaje;
+                    notificacionesLista.appendChild(li);
+                });
+            }
+        }
+
+        // Ocultar el contenedor si se hace clic fuera de él
+        document.addEventListener('click', (e) => {
+            console.log("Clic detectado fuera del contenedor");
+            notificacionesContenedor.classList.remove('notificaciones-visible');
+        });
     });
 </script>
 
