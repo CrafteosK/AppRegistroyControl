@@ -2,6 +2,8 @@
 // Incluir la conexión a la base de datos
 include 'conexion_be.php'; // Asegúrate de que este archivo contiene la conexión a la base de datos
 include 'validar_sesion.php';
+include 'validar_level_user.php';
+
 
 // Manejar la adición de un nuevo trabajador
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar'])) {
@@ -262,7 +264,7 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
         <table class="table table-striped table-hover" id="data-tables">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>#</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Cédula</th>
@@ -272,9 +274,10 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
                 </tr>
             </thead>
             <tbody id="trabajadores-list">
-
-                <!-- Aquí se llenarán los datos de los trabajadores -->
                 <?php 
+                // Inicializar el contador de filas
+                $numero_fila = 1;
+
                 // Obtener el filtro de cargo
                 $cargo_filtro = isset($_GET['cargo']) ? $_GET['cargo'] : 'todos';
 
@@ -300,18 +303,18 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
                 // Mostrar los resultados en la tabla
                 while ($fila = $resultado->fetch_assoc()): ?>
                 <tr>
-                    <td><?php echo $fila['id_trabajador']; ?></td>
+                    <td><?php echo $numero_fila++; ?></td> <!-- Mostrar el número de fila -->
                     <td><?php echo $fila['nombre']; ?></td>
                     <td><?php echo $fila['apellido']; ?></td>
                     <td><?php echo $fila['cedula']; ?></td>
                     <td><?php echo $fila['telefono']; ?></td>
                     <td><?php echo $fila['cargo']; ?></td> <!-- Mostrar el nombre del cargo -->
                     <td>
-                        <!-- Botón para eliminar editar y abrir estadisticas-->
+                        <!-- Botón para eliminar, editar y abrir estadísticas -->
                         <form method="POST" action="" style="display:inline;">
                             <input type="hidden" name="id" value="<?php echo $fila['id_trabajador']; ?>">
                             <button type="button" class="btn btn-success ">
-                            <i class="fa-solid fa-square-poll-vertical"></i>
+                                <i class="fa-solid fa-square-poll-vertical"></i>
                             </button>
                             <button type="button" class="btn btn-warning " data-bs-toggle="modal" data-bs-target="#exampleModal<?php echo $fila['id_trabajador']; ?>">
                                 <i class="fa-solid fa-pen-to-square"></i>

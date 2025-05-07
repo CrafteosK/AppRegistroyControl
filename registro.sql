@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-05-2025 a las 03:31:29
+-- Tiempo de generación: 07-05-2025 a las 04:25:08
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -79,8 +79,9 @@ CREATE TABLE `level_user` (
 --
 
 INSERT INTO `level_user` (`id`, `roles`) VALUES
-(1, 'administrador'),
-(2, 'usuario');
+(1, 'Administrador'),
+(2, 'Moderador'),
+(3, 'Usuario');
 
 -- --------------------------------------------------------
 
@@ -102,6 +103,19 @@ CREATE TABLE `maestros` (
 INSERT INTO `maestros` (`id`, `id_trabajador`, `tipo`, `hora`) VALUES
 (1, 21, 'entrada', '2025-04-19 00:10:51'),
 (2, 21, 'salida', '2025-04-19 00:10:57');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `medical_rest`
+--
+
+CREATE TABLE `medical_rest` (
+  `id` int(11) NOT NULL,
+  `id_trabajador` int(11) NOT NULL,
+  `e` int(11) NOT NULL,
+  `Vence` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -176,8 +190,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`ID`, `nombre_completo`, `email`, `user`, `password`, `rol_id`) VALUES
-(1, 'Kervin Días ', 'kervindiaz2017@gmail.com', 'Craft', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 1),
-(14, 'María Suárez ', 'kervindiaz2021@gmail.com', 'hola', '0a6f9ebaa55e21ce270b6df2e7d812c987d511ab0472d24b501622b5878f9e4b03011356f3c9f85b084cf763a995a93f142d5107fa9a92d8e60e78d3c96a614a', 2);
+(1, 'Kervin Días ', 'kervindiaz2017@gmail.com', 'Craft', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 1);
 
 -- --------------------------------------------------------
 
@@ -200,7 +213,9 @@ INSERT INTO `vigilantes` (`id`, `id_trabajador`, `tipo`, `hora`) VALUES
 (1, 19, 'entrada', '2025-04-18 21:09:00'),
 (2, 19, 'salida', '2025-04-19 00:02:00'),
 (3, 19, 'entrada', '2025-04-19 00:27:00'),
-(4, 19, 'salida', '2025-04-19 00:27:00');
+(4, 19, 'salida', '2025-04-19 00:27:00'),
+(5, 19, 'entrada', '2025-05-05 12:39:00'),
+(6, 19, 'salida', '2025-05-05 12:39:00');
 
 --
 -- Índices para tablas volcadas
@@ -278,7 +293,7 @@ ALTER TABLE `cocineros`
 -- AUTO_INCREMENT de la tabla `level_user`
 --
 ALTER TABLE `level_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `maestros`
@@ -308,7 +323,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `vigilantes`
 --
 ALTER TABLE `vigilantes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas

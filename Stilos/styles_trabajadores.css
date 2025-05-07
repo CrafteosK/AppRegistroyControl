@@ -1,191 +1,202 @@
-/* Reset básico */
-* {
+
+body.trab-body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-body {
-    background-image: url('../imagen/Apk.png');
+    background-image: url('../imagen/4-4.webp');
+    backdrop-filter: blur(5px);
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center;
     background-attachment: fixed;
+    background-position: center;
+    overflow-x: scroll;
+    color: #050505;
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
     padding: 20px;
-    display: flex;
-    /* Cambiado a flexbox para centrar el contenido */
-    flex-direction: column;
-    
-    height: 100vh; /* Altura completa de la ventana */
-    overflow-y: scroll; /* Evita el desplazamiento */
-    padding-bottom: 30px;
+    background-color: rgba(59, 0, 86, 0.687);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.trab-body{
-    margin: 50px;
-    /* Alineación vertical y horizontal */
-    margin-top: 7%;
-    align-items: center;
-}
-
-.documentos {
-
-    margin-top: 5px; /* Espacio arriba del menú */
-    margin-bottom: 5px; /* Espacio abajo del menú */
-    padding: 0;
-    border-radius: 35%; /* Bordes redondeados */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
-    background-color: rgba(255, 255, 255, 0.1); /* Fondo blanco con opacidad */
-    padding: 10px; /* Espacio interno del menú */
-    transition: background-color 0.3s;
-
-}
-
-h1, h2 {
-    color: #333;
-}
-
-form {
+/* Título principal */
+.container h1 {
+    font-size: 2em;
+    text-align: center;
+    color: #ffffff;
     margin-bottom: 20px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-form input, form button, form select {
-    margin: 5px;
-    padding: 10px;
+/* Formulario de filtro */
+form.from-rigth {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
 }
 
-form input {
-    width: 125px;
+form.from-rigth label {
+    font-weight: bold;
+    color: #555;
 }
 
+form.from-rigth .form-select {
+    width: 200px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form.from-rigth .btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: linear-gradient(to right, #007bff, #013b78);
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form.from-rigth .btn:hover {
+    background: linear-gradient(to right, #003369, #007bff);
+}
+
+form.from-rigth .download-button {
+    background: linear-gradient(to right, #09571b, #00ff26);
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+form.from-rigth .download-button:hover {
+    background: linear-gradient(to right, #00ff26, #09571b);
+}
+
+/* Tabla de trabajadores */
 table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-table, th, td {
-    border: 1px solid #ccc;
-}
 
-th, td {
+table th, table td {
     padding: 10px;
-    text-align: center;
+    text-align: left;
+    border: 1px solid #ddd;
 }
 
-button {
-    background-color: #f44336;
-    color: white;
+table tbody tr td button {
+    margin-right: -2px;
+}
+
+/* Botones de acciones */
+.btn-success {
+    background: linear-gradient(to right, #28a745, #007bff);
     border: none;
+    color: #fff;
     padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-success:hover {
+    background: linear-gradient(to right, #007bff, #28a745);
+}
+
+.btn-warning {
+    background: linear-gradient(to right, #ffc107, #ff5900);
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-warning:hover {
+    background: linear-gradient(to right, #ff5900, #ffc107);
+}
+
+.btn-danger {
+    background: linear-gradient(to right, #4e030b, #c82333);
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-danger:hover {
+    background: linear-gradient(to right, #c82333, #4e030b);
+}
+
+/* Modales */
+.modal-content {
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    background-color: #3f0058;
+    color: #ffffff;
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+}
+
+.modal-header .btn-close {
+    background-color: #fff;
+    border: none;
+    border-radius: 50%;
+    padding: 5px;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #d32f2f;
+.modal-header .btn-close:hover {
+    background-color: #ccc;
 }
 
-/*estilos para alinear boton de descarga y el formulario*/
-.download-button {
-    text-align: center;
-    width: 73px;
-    margin: 10px;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    text-decoration: none;
+.modal-footer .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    color: #fff;
+    padding: 8px 15px;
     border-radius: 5px;
-    font-size: 16px;
-    transition: background-color 0.3s;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-
-.download-button:hover {
-    background-color: #45a049;
+.modal-footer .btn-secondary:hover {
+    background-color: #5a6268;
 }
 
-.btn-warning, .btn-danger{
-    /*modificar tamaño*/
-    width: 50px;
-    height: 40px;
-}
-
-.btn-warning{
-
-    background-color: #ffb64f;
-
-}
-
-.fa-solid{
-    font-size: 20px;
-    color: white;
-}
-
-.sel2{
-    width: 150px;
-    height: 40px;
+.modal-footer .btn-primary {
+    background: linear-gradient(to right, #007bff, #013b78);
+    border: none;
+    color: #fff;
+    padding: 8px 15px;
     border-radius: 5px;
-    padding: 5px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.sel2:hover{
-    background-color: #e0e0e0;
-}
-.sel2:focus{
-    outline: none;
-    border-color: #4CAF50;
-}
-.sel2 option{
-    padding: 5px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-}
-.sel2 option:hover{
-    background-color: #e0e0e0;
-}
-.sel2 option:focus{
-    outline: none;
-    border-color: #4CAF50;
-}
-
-.from-rigth{
-    /*colocar formulario del lado derecho al lado del h1*/
-    position: absolute;
-    right: 0;
-    top: 0;
-    margin-top: 35px;
-    margin-right: 20px; /* Espacio a la derecha */
-    padding: 20px;
-    width: 700px; /* Ancho del formulario */
-    height: 300px; /* Alto del formulario */
-    display: flex;
-    align-items: center; /* Centrar horizontalmente */
-    
-}
-
-.fa-plus{
-    margin-right: 10px;
-}
-
-.btn-pad{
-    text-align: center;
-}
-
-.download-button{
-    text-align: center;
-    width: 120px;
-    margin: 10px;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: background-color 0.3s;
-}
-
-.fa-square-poll-vertical{
-    font-size: 26px;
+.modal-footer .btn-primary:hover {
+    background: linear-gradient(to right, #003369, #007bff);
 }

@@ -1,109 +1,115 @@
 <?php
-    // Llamar a la conexión de la base de datos
-    include 'conexion_be.php';
-    include 'validar_sesion.php';
-    include 'validar_rol.php';
+session_start();
+include 'conexion_be.php';
+include 'validar_sesion.php';
+include 'validar_level_user.php';
 
-    
+// Mostrar la notificación solo al iniciar sesión
+if (!isset($_SESSION['notificacion_mostrada']) || $_SESSION['notificacion_mostrada'] === false) {
+    echo '<script>
+        alert("Por favor, asegúrese de que la fecha y hora de su ordenador estén configuradas correctamente para que el sistema funcione adecuadamente.");
+    </script>';
+    $_SESSION['notificacion_mostrada'] = true; // Marcar como mostrada
+}
 
-    // Procesar el formulario
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (isset($_POST['cedula']) && !empty($_POST['cedula'])) {
-            $cedula = htmlspecialchars(trim($_POST['cedula']));
-            $hora_actual = date('Y-m-d H:i'); // Obtener la hora actual sin segundos
+// Procesar el formulario
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['cedula']) && !empty($_POST['cedula'])) {
+        $cedula = htmlspecialchars(trim($_POST['cedula']));
+        $hora_actual = date('Y-m-d H:i'); // Obtener la hora actual sin segundos
 
-            // Validar formato de cédula
-            if (!preg_match('/^\d{7,8}$/', $cedula)) {
+        // Validar formato de cédula
+        if (!preg_match('/^\d{7,8}$/', $cedula)) {
+            echo '<script>
+                alert("La cédula debe contener entre 7 y 8 dígitos.");
+                window.location.href = "inicio.php";
+            </script>';
+            exit();
+        }
+
+        // Verificar si la cédula existe en la base de datos
+        $consulta = $enlace->prepare("
+            SELECT t.id_trabajador, c.cargo 
+            FROM trabajadores t 
+            INNER JOIN cargos c ON t.cargos = c.id_cargo 
+            WHERE t.cedula = ?
+        ");
+        $consulta->bind_param("s", $cedula);
+        $consulta->execute();
+        $resultado = $consulta->get_result();
+
+        if ($resultado->num_rows > 0) {
+            $trabajador = $resultado->fetch_assoc();
+            $id_trabajador = $trabajador['id_trabajador'];
+            $cargo = strtolower($trabajador['cargo']); // Convertir el cargo a minúsculas para evitar errores
+
+            // Determinar la tabla según el cargo
+            $tabla = '';
+            if ($cargo === 'maestro') {
+                $tabla = 'maestros';
+            } elseif ($cargo === 'obrero') {
+                $tabla = 'obreros';
+            } elseif ($cargo === 'vigilante') {
+                $tabla = 'vigilantes';
+            } elseif ($cargo === 'cocinero') {
+                $tabla = 'cocineros';
+            } else {
                 echo '<script>
-                    alert("La cédula debe contener entre 7 y 8 dígitos.");
+                    alert("El cargo no está asociado a una tabla válida.");
                     window.location.href = "inicio.php";
                 </script>';
                 exit();
             }
 
-            // Verificar si la cédula existe en la base de datos
-            $consulta = $enlace->prepare("
-                SELECT t.id_trabajador, c.cargo 
-                FROM trabajadores t 
-                INNER JOIN cargos c ON t.cargos = c.id_cargo 
-                WHERE t.cedula = ?
-            ");
-            $consulta->bind_param("s", $cedula);
-            $consulta->execute();
-            $resultado = $consulta->get_result();
-
-            if ($resultado->num_rows > 0) {
-                $trabajador = $resultado->fetch_assoc();
-                $id_trabajador = $trabajador['id_trabajador'];
-                $cargo = strtolower($trabajador['cargo']); // Convertir el cargo a minúsculas para evitar errores
-
-                // Determinar la tabla según el cargo
-                $tabla = '';
-                if ($cargo === 'maestro') {
-                    $tabla = 'maestros';
-                } elseif ($cargo === 'obrero') {
-                    $tabla = 'obreros';
-                } elseif ($cargo === 'vigilante') {
-                    $tabla = 'vigilantes';
-                } elseif ($cargo === 'cocinero') {
-                    $tabla = 'cocineros';
-                } else {
+            // Registrar entrada
+            if (isset($_POST['btnentrada'])) {
+                $stmt = $enlace->prepare("INSERT INTO $tabla (id_trabajador, tipo, hora) VALUES (?, 'entrada', ?)");
+                $stmt->bind_param("is", $id_trabajador, $hora_actual);
+                if ($stmt->execute()) {
                     echo '<script>
-                        alert("El cargo no está asociado a una tabla válida.");
+                        alert("Hora de entrada registrada correctamente en la tabla ' . $tabla . '.");
                         window.location.href = "inicio.php";
                     </script>';
-                    exit();
+                } else {
+                    echo '<script>
+                        alert("Error al registrar la hora de entrada.");
+                        window.location.href = "inicio.php";
+                    </script>';
                 }
-
-                // Registrar entrada
-                if (isset($_POST['btnentrada'])) {
-                    $stmt = $enlace->prepare("INSERT INTO $tabla (id_trabajador, tipo, hora) VALUES (?, 'entrada', ?)");
-                    $stmt->bind_param("is", $id_trabajador, $hora_actual);
-                    if ($stmt->execute()) {
-                        echo '<script>
-                            alert("Hora de entrada registrada correctamente en la tabla ' . $tabla . '.");
-                            window.location.href = "inicio.php";
-                        </script>';
-                    } else {
-                        echo '<script>
-                            alert("Error al registrar la hora de entrada.");
-                            window.location.href = "inicio.php";
-                        </script>';
-                    }
-                    $stmt->close();
-                }
-
-                // Registrar salida
-                if (isset($_POST['btnsalida'])) {
-                    $stmt = $enlace->prepare("INSERT INTO $tabla (id_trabajador, tipo, hora) VALUES (?, 'salida', ?)");
-                    $stmt->bind_param("is", $id_trabajador, $hora_actual);
-                    if ($stmt->execute()) {
-                        echo '<script>
-                            alert("Hora de salida registrada correctamente en la tabla ' . $tabla . '.");
-                            window.location.href = "inicio.php";
-                        </script>';
-                    } else {
-                        echo '<script>
-                            alert("Error al registrar la hora de salida.");
-                            window.location.href = "inicio.php";
-                        </script>';
-                    }
-                    $stmt->close();
-                }
-            } else {
-                echo '<script>
-                    alert("La cédula no está registrada en la base de datos.");
-                    window.location.href = "inicio.php";
-                </script>';
+                $stmt->close();
             }
-            $consulta->close();
+
+            // Registrar salida
+            if (isset($_POST['btnsalida'])) {
+                $stmt = $enlace->prepare("INSERT INTO $tabla (id_trabajador, tipo, hora) VALUES (?, 'salida', ?)");
+                $stmt->bind_param("is", $id_trabajador, $hora_actual);
+                if ($stmt->execute()) {
+                    echo '<script>
+                        alert("Hora de salida registrada correctamente en la tabla ' . $tabla . '.");
+                        window.location.href = "inicio.php";
+                    </script>';
+                } else {
+                    echo '<script>
+                        alert("Error al registrar la hora de salida.");
+                        window.location.href = "inicio.php";
+                    </script>';
+                }
+                $stmt->close();
+            }
         } else {
             echo '<script>
-                alert("Por favor, ingrese una cédula.");
+                alert("La cédula no está registrada en la base de datos.");
                 window.location.href = "inicio.php";
             </script>';
         }
+        $consulta->close();
+    } else {
+        echo '<script>
+            alert("Por favor, ingrese una cédula.");
+            window.location.href = "inicio.php";
+        </script>';
     }
+}
 ?>
 
 <!DOCTYPE html>
@@ -132,16 +138,6 @@
                 </div>
             </form>
         </div>
-
-
-        <script>
-            setInterval(function() {
-                let fecha = new Date();
-                let fechaHora=fecha.toLocaleString();
-                document.getElementById("fecha").textContent = fechaHora;
-            }, 1000);
-
-        </script>
     </main>
 
     <script src="Java/js.js"></script>

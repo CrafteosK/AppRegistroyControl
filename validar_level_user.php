@@ -1,6 +1,6 @@
 <?php
 
-$roles_permitidos = ['administrador', 'usuario']; // Define los roles permitidos
+$roles_permitidos = ['Administrador', 'Moderador', 'Usuario']; // Define los roles permitidos
 
     if(!array_key_exists('rol', $_SESSION) || !in_array($_SESSION['rol'], $roles_permitidos)) {
         echo '<script>

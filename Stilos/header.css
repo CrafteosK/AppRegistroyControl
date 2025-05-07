@@ -108,12 +108,12 @@ h2 {
 }
 
 .sidebar {
-    top: 40px; /* Ajustado para que no se superponga al header */
+    top: 40px; 
     position: fixed;
     width: 80px;
-    height: calc(100vh - 40px);
+    height: calc(135vh - 40px);
     background-color: #3f0058;
-    transition: 0.5s; /* Corregido el valor de la transición */
+    transition: 0.5s; 
     padding-left: 10px;
     overflow: hidden;
     z-index: 100;
@@ -228,63 +228,8 @@ h2 {
     color: var(--bg);
 }
 
-.sidebar ul li.active a .icon::before
-{
-    content: '';
-    position: absolute;
-    inset: 5px;
-    width: 60px;
-    background: var(--bg);
-    border-radius: 50%;
-    transition: 0.5s;
-}
-
-.sidebar ul li:hover.active a .icon::before{
-    background: #fff;
-}
 
 .sidebar ul li:hover a {
     background-color: rgba(47, 1, 68, 0.612);
     border-radius: 35px;
-}
-
-/* Estilo para el contenedor de notificaciones */
-#notificaciones-contenedor {
-    position: absolute;
-    top: 60px; /* Ajusta según la posición del ícono */
-    right: 20px; /* Ajusta según la posición del ícono */
-    width: 300px;
-    max-height: 400px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-    z-index: 1000;
-    display: none; /* Oculto por defecto */
-}
-
-/* Estilo para las notificaciones */
-#notificaciones-lista {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-#notificaciones-lista li {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-}
-
-#notificaciones-lista li:last-child {
-    border-bottom: none;
-}
-
-#notificaciones-lista li:hover {
-    background-color: #f9f9f9;
-}
-
-/* Mostrar el contenedor cuando esté activo */
-.notificaciones-visible {
-    display: block;
 }
