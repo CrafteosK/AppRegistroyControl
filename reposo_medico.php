@@ -143,8 +143,11 @@ if (!$resultado) {
                 <button type="button" class="btn btn-primary btn-pad" data-bs-toggle="modal" data-bs-target="#addWorkerModal">
                     <i class="fa-solid fa-plus"></i> Agregar Reposo
                 </button>
+                <a href="descargar_reposos.php?filtro=<?php echo $filtro; ?>&filtro_fecha=<?php echo $filtro_fecha; ?>&fecha_inicio=<?php echo $fecha_inicio; ?>&fecha_fin=<?php echo $fecha_fin; ?>" class="btn btn-primary btn-pad">
+                    <i class="fa-solid fa-download"></i> Descargar PDF
+                </a>
             </form>
-        </div>
+            </div>
     
 
         <!-- Modal para agregar Nuevo Reposo -->

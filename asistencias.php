@@ -133,6 +133,11 @@ if (!$resultado) {
 
                 <!-- Botón para aplicar los filtros -->
                 <button type="submit">Filtrar</button>
+
+                <!-- Botón para descargar PDF -->
+                <button type="button" class="btn btn-pad" data-bs-toggle="modal" data-bs-target="#addWorkerModal">
+                    <a href="descargar_asistencias.php?filtro=<?php echo $filtro; ?>&filtro_fecha=<?php echo $filtro_fecha; ?>&fecha_inicio=<?php echo $fecha_inicio; ?>&fecha_fin=<?php echo $fecha_fin; ?>" class="dowl">Descargar</a>
+                </button>
             </form>
         </div>
 

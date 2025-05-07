@@ -212,7 +212,9 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
             <button type="button" class="btn btn-primary btn-pad" data-bs-toggle="modal" data-bs-target="#addWorkerModal">
                 <i class="fa-solid fa-plus"></i> Agregar Trabajador
             </button>
-            <a href="descargar.php?file=registros_trabajadores.pdf" class="download-button">Descargar</a>
+            <a href="descargar.php?cargo=<?php echo isset($_GET['cargo']) ? $_GET['cargo'] : 'todos'; ?>" class="btn btn-primary btn-pad">
+                <i class="fa-solid fa-download"></i> Descargar
+            </a>
         </form>
 
         <!-- Modal para agregar un nuevo trabajador -->

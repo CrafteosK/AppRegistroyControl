@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-05-2025 a las 04:25:08
+-- Tiempo de generación: 07-05-2025 a las 12:49:51
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -113,9 +113,17 @@ INSERT INTO `maestros` (`id`, `id_trabajador`, `tipo`, `hora`) VALUES
 CREATE TABLE `medical_rest` (
   `id` int(11) NOT NULL,
   `id_trabajador` int(11) NOT NULL,
-  `e` int(11) NOT NULL,
-  `Vence` int(11) NOT NULL
+  `e` date NOT NULL,
+  `Vence` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `medical_rest`
+--
+
+INSERT INTO `medical_rest` (`id`, `id_trabajador`, `e`, `Vence`) VALUES
+(3, 20, '2025-05-05', '2025-05-29'),
+(4, 19, '2025-04-07', '2025-05-05');
 
 -- --------------------------------------------------------
 
@@ -190,7 +198,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`ID`, `nombre_completo`, `email`, `user`, `password`, `rol_id`) VALUES
-(1, 'Kervin Días ', 'kervindiaz2017@gmail.com', 'Craft', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 1);
+(1, 'Kervin Días ', 'kervindiaz2017@gmail.com', 'Craft', '3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2', 1);
 
 -- --------------------------------------------------------
 
@@ -248,6 +256,13 @@ ALTER TABLE `maestros`
   ADD KEY `id_trabajador` (`id_trabajador`);
 
 --
+-- Indices de la tabla `medical_rest`
+--
+ALTER TABLE `medical_rest`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_medical_rest_trabajadores` (`id_trabajador`);
+
+--
 -- Indices de la tabla `obreros`
 --
 ALTER TABLE `obreros`
@@ -302,6 +317,12 @@ ALTER TABLE `maestros`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT de la tabla `medical_rest`
+--
+ALTER TABLE `medical_rest`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT de la tabla `obreros`
 --
 ALTER TABLE `obreros`
@@ -340,6 +361,12 @@ ALTER TABLE `cocineros`
 --
 ALTER TABLE `maestros`
   ADD CONSTRAINT `maestros_ibfk_1` FOREIGN KEY (`id_trabajador`) REFERENCES `trabajadores` (`id_trabajador`);
+
+--
+-- Filtros para la tabla `medical_rest`
+--
+ALTER TABLE `medical_rest`
+  ADD CONSTRAINT `fk_medical_rest_trabajadores` FOREIGN KEY (`id_trabajador`) REFERENCES `trabajadores` (`id_trabajador`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `obreros`
