@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="fontawesome/fontawesome-free-6.7.2-web/css/all.css">
     <link rel="stylesheet" href="Stilos/header.css">
     <title>Inicio</title>
 </head>
@@ -11,7 +12,7 @@
         <div class="left">
             <div class="menu-container">
                 <div class="menu" id="menu">
-                    <div class="iconos"><ion-icon name="grid-outline"></ion-icon></div>
+                    <div class="i"><i class="fa-solid fa-bars"></i></div>
 
                 </div>
             </div>
@@ -19,22 +20,23 @@
 
         <div class="right">
          <h2 id="fecha"></h2>
-            <a href="#" id="notificaciones-icono">
-                <div class="iconos"><ion-icon name="notifications-outline"></ion-icon></div>
+            <a href="notificacion.php">
+                <div class="iconos"><i class="fa-solid fa-bell"></i></div>
             </a>
+
             <a href="cambiar-nombre.php">
-            <div class="iconos"><ion-icon name="person-circle-outline"></ion-icon></div>
+            <div class="iconos"><i class="fa-solid fa-circle-user"></i></div>
             </a>
 
             <a href="cerrar_sesion.php">
-                <div class="iconos"><ion-icon name="log-out-outline"></ion-icon></div>
+                <div class="iconos"><i class="fa-solid fa-right-to-bracket"></i></div>
             </a>
         </div>
     </header>
     <div class="sidebar" id="sidebar">
         <ul>
             <li class="logo" style="--bg:#ffffff;">
-                <a href="#">
+                <a href="inicio.php">
                     <div class="icon"><img src="imagen/Picsart_25-03-31_14-46-19-016.png" alt=""></div>
                     <div class="text">C.E.I Simoncito Guayana</div>
                 </a>
@@ -42,31 +44,31 @@
             <div class="Menulist">
                 <li style="--bg:#ff4d4d;" class="active">
                     <a href="inicio.php">
-                        <div class="icon"><ion-icon name="home-outline"></ion-icon></div>
+                        <div class="icon"><i class="fa-solid fa-house"></i></div>
                         <div class="text">Inicio</div>
                     </a>
                 </li>
                 <li style="--bg:#ff7e4d;">
                     <a href="asistencias.php">
-                        <div class="icon"><ion-icon name="clipboard-outline"></ion-icon></div>
+                        <div class="icon"><i class="fa-solid fa-clipboard"></i></div>
                         <div class="text">Asistencias</div>
                     </a>
                 </li>
                 <li style="--bg:#ffdf4d;">
                     <a href="trabajadores.php">
-                        <div class="icon"><ion-icon name="man-outline"></ion-icon></div>
+                        <div class="icon"><i class="fa-solid fa-person"></i></div>
                         <div class="text">Trabajadores</div>
                     </a>
                 </li>
                 <li style="--bg:#4dff4d;">
                     <a href="reposo_medico.php">
-                        <div class="icon"><ion-icon name="medkit-outline"></ion-icon></div>
+                        <div class="icon"><i class="fa-solid fa-kit-medical"></i></div>
                         <div class="text">Reposo medico</div>
                     </a>
                 </li>
                 <li style="--bg:#884dff;">
                     <a href="usuarios.php">
-                        <div class="icon"><ion-icon name="person-outline"></ion-icon></div>
+                        <div class="icon"><i class="fa-solid fa-user"></i></div>
                         <div class="text">Usuario</div>
                     </a>
                 </li>
@@ -141,12 +143,7 @@
                 });
             });
         }
-
-        const notificacionesIcono = document.getElementById('notificaciones-icono');
-        const notificacionesContenedor = document.getElementById('notificaciones-contenedor');
-        const notificacionesLista = document.getElementById('notificaciones-lista');
-
-        
+    });
 </script>
 
 </body>
