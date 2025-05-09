@@ -103,7 +103,9 @@ if (!$resultado) {
 
     <?php include 'vista/top-bar.php'; ?>
     <div class="container">
-        <h1>Gestión de Reposos</h1>
+        <div class="contenedor">
+            <h1>Gestión de Reposos</h1>
+        </div>
 
         <div class="filtros">
             <h2>Filtros</h2>
@@ -202,45 +204,47 @@ if (!$resultado) {
         </div>
 
         <!-- Tabla para mostrar los registros -->
-        <h2>Lista de Reposos</h2>
-        <table class="table table-striped table-hover" id="data-tables">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Apellido</th>
-                <th scope="col">Cédula</th>
-                <th scope="col">Tipo de Trabajador</th>
-                <th scope="col">Fecha de Expedición</th>
-                <th scope="col">Fecha de Vencimiento</th>
-                <th scope="col">Estado</th>
-              </tr>
-            </thead>
-            <tbody>
-                <?php 
-                $numero_fila = 1; // Inicializa el contador de filas
-                $fecha_actual = date('Y-m-d'); // Obtiene la fecha actual del sistema
-                while ($fila = $resultado->fetch_assoc()): 
-                ?>
-                    <tr>
-                        <td scope="row"><?php echo $numero_fila++; ?></td>
-                        <td><?php echo $fila['nombre']; ?></td>
-                        <td><?php echo $fila['apellido']; ?></td>
-                        <td><?php echo $fila['cedula']; ?></td>
-                        <td><?php echo $fila['tipo_trabajador']; ?></td> <!-- Tipo de trabajador -->
-                        <td><?php echo date('d/m/Y', strtotime($fila['fecha_expedicion'])); ?></td> <!-- Fecha de expedición -->
-                        <td><?php echo date('d/m/Y', strtotime($fila['fecha_vencimiento'])); ?></td> <!-- Fecha de vencimiento -->
-                        <td>
-                            <?php if ($fila['fecha_vencimiento'] < $fecha_actual): ?>
-                                <span class="badge bg-danger">Vencido</span>
-                            <?php else: ?>
-                                <span class="badge bg-success">Vigente</span>
-                            <?php endif; ?>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
+        <div class="tabla">
+            <h2>Lista de Reposos</h2>
+            <table class="table table-striped table-hover" id="data-tables">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Cédula</th>
+                    <th scope="col">Tipo de Trabajador</th>
+                    <th scope="col">Fecha de Expedición</th>
+                    <th scope="col">Fecha de Vencimiento</th>
+                    <th scope="col">Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <?php 
+                    $numero_fila = 1; // Inicializa el contador de filas
+                    $fecha_actual = date('Y-m-d'); // Obtiene la fecha actual del sistema
+                    while ($fila = $resultado->fetch_assoc()): 
+                    ?>
+                        <tr>
+                            <td scope="row"><?php echo $numero_fila++; ?></td>
+                            <td><?php echo $fila['nombre']; ?></td>
+                            <td><?php echo $fila['apellido']; ?></td>
+                            <td><?php echo $fila['cedula']; ?></td>
+                            <td><?php echo $fila['tipo_trabajador']; ?></td> <!-- Tipo de trabajador -->
+                            <td><?php echo date('d/m/Y', strtotime($fila['fecha_expedicion'])); ?></td> <!-- Fecha de expedición -->
+                            <td><?php echo date('d/m/Y', strtotime($fila['fecha_vencimiento'])); ?></td> <!-- Fecha de vencimiento -->
+                            <td>
+                                <?php if ($fila['fecha_vencimiento'] < $fecha_actual): ?>
+                                    <span class="badge bg-danger">Vencido</span>
+                                <?php else: ?>
+                                    <span class="badge bg-success">Vigente</span>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script>

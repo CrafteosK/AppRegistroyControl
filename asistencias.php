@@ -98,7 +98,9 @@ if (!$resultado) {
 
     <?php include 'vista/top-bar.php'; ?>
     <div class="container">
-        <h1>Gestión de Asistencias</h1>
+        <div class="contenedor">
+            <h1>Gestión de Asistencias</h1>
+        </div>
 
         <div class="filtros">
             <h2>Filtros</h2>
@@ -141,37 +143,39 @@ if (!$resultado) {
             </form>
         </div>
 
-        <!-- Tabla para mostrar los registros -->
-        <h2>Lista de Registros</h2>
-        <table class="table table-striped table-hover" id="data-tables">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Apellido</th>
-                <th scope="col">Cédula</th>
-                <th scope="col">Tipo de Trabajador</th>
-                <th scope="col">Tipo</th>
-                <th scope="col">Hora</th>
-              </tr>
-            </thead>
-            <tbody>
-                <?php 
-                $numero_fila = 1; // Inicializa el contador de filas
-                while ($fila = $resultado->fetch_assoc()): 
-                ?>
-                    <tr>
-                        <td scope="row"><?php echo $numero_fila++; ?></td>
-                        <td><?php echo $fila['nombre']; ?></td>
-                        <td><?php echo $fila['apellido']; ?></td>
-                        <td><?php echo $fila['cedula']; ?></td>
-                        <td><?php echo $fila['tipo_trabajador']; ?></td>
-                        <td><?php echo $fila['tipo']; ?></td>
-                        <td><?php echo substr($fila['hora'], 0, 16); ?></td>
-                    </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
+        <div class="tabla">
+            <!-- Tabla para mostrar los registros -->
+            <h2>Lista de Registros</h2>
+            <table class="table table-striped table-hover" id="data-tables">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Cédula</th>
+                    <th scope="col">Tipo de Trabajador</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Hora</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <?php 
+                    $numero_fila = 1; // Inicializa el contador de filas
+                    while ($fila = $resultado->fetch_assoc()): 
+                    ?>
+                        <tr>
+                            <td scope="row"><?php echo $numero_fila++; ?></td>
+                            <td><?php echo $fila['nombre']; ?></td>
+                            <td><?php echo $fila['apellido']; ?></td>
+                            <td><?php echo $fila['cedula']; ?></td>
+                            <td><?php echo $fila['tipo_trabajador']; ?></td>
+                            <td><?php echo $fila['tipo']; ?></td>
+                            <td><?php echo substr($fila['hora'], 0, 16); ?></td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script>
