@@ -4,18 +4,33 @@ include 'validar_sesion.php';
 include 'validar_level_user.php';
 
 // Mostrar la notificación solo al iniciar sesión
-if (!isset($_SESSION['notificacion_mostrada']) || $_SESSION['notificacion_mostrada'] === false) {
-    echo '<script>
-        alert("Por favor, asegúrese de que la fecha y hora de su ordenador estén configuradas correctamente para que el sistema funcione adecuadamente.");
-    </script>';
-    $_SESSION['notificacion_mostrada'] = true; // Marcar como mostrada
-}
+    if (isset($_GET['status']) && isset($_GET['data_tipo'])) {
+        $status = $_GET['status'];
+        $data_tipo = $_GET['data_tipo'];
+
+        $tipo = $status === 'info' ? 'info' : '';
+        $titulo = $status === 'info' ? 'Información' : '';
+        $descripcion = $status === 'info' 
+            ? 'Por favor, asegúrese de que la fecha y hora de su ordenador estén configuradas correctamente para que el sistema funcione adecuadamente.' 
+            : '';
+
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', () => {
+                agregarToast({
+                    tipo: '$tipo',
+                    titulo: '$titulo',
+                    descripcion: '$descripcion',
+                    
+                });
+            });
+        </script>";
+    }
 
 // Procesar el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['cedula']) && !empty($_POST['cedula'])) {
         $cedula = htmlspecialchars(trim($_POST['cedula']));
-        $hora_actual = date('Y-m-d H:i'); // Obtener la hora actual sin segundos
+        $hora_actual = date('Y-m-d H:i:s'); // Obtener la hora actual con segundos
 
         // Validar formato de cédula
         if (!preg_match('/^\d{7,8}$/', $cedula)) {
@@ -28,9 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Verificar si la cédula existe en la base de datos
         $consulta = $enlace->prepare("
-            SELECT t.id_trabajador, c.cargo 
-            FROM trabajadores t 
-            INNER JOIN cargos c ON t.cargos = c.id_cargo 
+            SELECT t.nombre, t.apellido, t.cedula, c.cargo AS tipo_trabajador
+            FROM trabajadores t
+            INNER JOIN cargos c ON t.cargos = c.id_cargo
             WHERE t.cedula = ?
         ");
         $consulta->bind_param("s", $cedula);
@@ -38,69 +53,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $resultado = $consulta->get_result();
 
         if ($resultado->num_rows > 0) {
+            // Obtener los datos del trabajador
             $trabajador = $resultado->fetch_assoc();
-            $id_trabajador = $trabajador['id_trabajador'];
-            $cargo = strtolower($trabajador['cargo']); // Convertir el cargo a minúsculas para evitar errores
+            $nombre = $trabajador['nombre'];
+            $apellido = $trabajador['apellido'];
+            $tipo_trabajador = $trabajador['tipo_trabajador'];
 
-            // Determinar la tabla según el cargo
-            $tabla = '';
-            if ($cargo === 'maestro') {
-                $tabla = 'maestros';
-            } elseif ($cargo === 'obrero') {
-                $tabla = 'obreros';
-            } elseif ($cargo === 'vigilante') {
-                $tabla = 'vigilantes';
-            } elseif ($cargo === 'cocinero') {
-                $tabla = 'cocineros';
+            // Registrar entrada o salida en la tabla asistencias
+            if (isset($_POST['btnentrada'])) {
+                $tipo = 'entrada';
+            } elseif (isset($_POST['btnsalida'])) {
+                $tipo = 'salida';
             } else {
                 echo '<script>
-                    alert("El cargo no está asociado a una tabla válida.");
+                    alert("Debe seleccionar un tipo de asistencia.");
                     window.location.href = "inicio.php";
                 </script>';
                 exit();
             }
 
-            // Registrar entrada
-            if (isset($_POST['btnentrada'])) {
-                $stmt = $enlace->prepare("INSERT INTO $tabla (id_trabajador, tipo, hora) VALUES (?, 'entrada', ?)");
-                $stmt->bind_param("is", $id_trabajador, $hora_actual);
-                if ($stmt->execute()) {
-                    echo '<script>
-                        alert("Hora de entrada registrada correctamente en la tabla ' . $tabla . '.");
-                        window.location.href = "inicio.php";
-                    </script>';
-                } else {
-                    echo '<script>
-                        alert("Error al registrar la hora de entrada.");
-                        window.location.href = "inicio.php";
-                    </script>';
-                }
-                $stmt->close();
+            // Insertar los datos en la tabla asistencias
+            $stmt = $enlace->prepare("
+                INSERT INTO asistencias (nombre, apellido, cedula, tipo_trabajador, tipo, hora)
+                VALUES (?, ?, ?, ?, ?, ?)
+            ");
+            $stmt->bind_param("ssssss", $nombre, $apellido, $cedula, $tipo_trabajador, $tipo, $hora_actual);
+
+            if ($stmt->execute()) {
+                echo '<script>
+                    alert("Asistencia registrada correctamente.");
+                    window.location.href = "inicio.php";
+                </script>';
+            } else {
+                echo '<script>
+                    alert("Error al registrar la asistencia.");
+                    window.location.href = "inicio.php";
+                </script>';
             }
 
-            // Registrar salida
-            if (isset($_POST['btnsalida'])) {
-                $stmt = $enlace->prepare("INSERT INTO $tabla (id_trabajador, tipo, hora) VALUES (?, 'salida', ?)");
-                $stmt->bind_param("is", $id_trabajador, $hora_actual);
-                if ($stmt->execute()) {
-                    echo '<script>
-                        alert("Hora de salida registrada correctamente en la tabla ' . $tabla . '.");
-                        window.location.href = "inicio.php";
-                    </script>';
-                } else {
-                    echo '<script>
-                        alert("Error al registrar la hora de salida.");
-                        window.location.href = "inicio.php";
-                    </script>';
-                }
-                $stmt->close();
-            }
+            $stmt->close();
         } else {
             echo '<script>
                 alert("La cédula no está registrada en la base de datos.");
                 window.location.href = "inicio.php";
             </script>';
         }
+
         $consulta->close();
     } else {
         echo '<script>
@@ -109,6 +107,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </script>';
     }
 }
+include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
+
 ?>
 
 <!DOCTYPE html>
@@ -118,6 +118,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Stilos/inicio.css">
     <title>Inicio</title>
+    <link rel="stylesheet" href="fontawesome/fontawesome-free-6.7.2-web/css/all.css">
+    <script src="Java/notificaciones.js" defer></script>
+
 </head>
 <body>
 

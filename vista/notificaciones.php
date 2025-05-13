@@ -1,8 +1,8 @@
 <body>
     
-    <div class="contenedor">
+<div class="contenedor">
     <div class="contenedor-toast" id="contenedor-toast">
-        <div class="toast exito autoCierre" id="1">
+        <!--<div class="toast exito autoCierre" id="1">
             <div class="contenido">
                 <div class="icono">
                     <i class="fa-solid fa-square-check i"></i>
@@ -37,6 +37,25 @@
             </button>
             
         </div>
+
+        <div class="toast info" id="3">
+            <div class="contenido">
+                <div class="icono">
+                    <i class="fa-solid fa-circle-info i"></i>
+                </div>
+                <div class="texto">
+                    <p class="titulo">Informacion!</p>
+                    <p class="descripcion">Por favor, asegúrese de que la fecha y hora de su ordenador estén configuradas correctamente para que el sistema funcione adecuadamente.</p>
+                </div>
+            </div>
+            <button class="btn-cerrar">
+                <div class="icono">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+            </button>
+            
+        </div>-->
+
     </div>
 </div>
 </body>

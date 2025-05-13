@@ -223,7 +223,7 @@ h4 {
   width: 100%;
   max-width: 400px;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   gap: 20px;
 }
 
@@ -245,7 +245,7 @@ h4 {
   background: #4caf50;
 }
 
-.toast.error{
+.toast.error, .toast.error2{
   background: #f44336;
 }
 
@@ -314,7 +314,7 @@ h4 {
   
 }
 
-.toast.cerrado{
+.toast.cerrando{
   animation-name: cierre;
   animation-duration: 200ms;
   animation-timing-function: ease-out;

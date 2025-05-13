@@ -1,8 +1,25 @@
 <?php
-// Incluir la conexión a la base de datos
 include 'conexion_be.php'; // Asegúrate de que este archivo contiene la conexión a la base de datos
 include 'validar_sesion.php';
 include 'validar_level_user.php';
+
+// Permitir acceso a todos los roles, pero restringir acciones para el rol Usuario (rol_id = 3)
+$solo_visualizar = ($_SESSION['rol_id'] == 3); // Si es Usuario, solo puede visualizar
+
+
+include 'validar_acceso.php';
+
+// Solo Administradores (rol_id = 1) y Moderadores (rol_id = 2) pueden agregar/editar trabajadores
+if ($_SESSION['rol'] == 3) { // Usuario
+    echo '<script>
+        alert("No tienes permiso para agregar o editar trabajadores.");
+        window.location.href = "inicio.php";
+    </script>';
+    exit();
+}
+
+// Incluir la conexión a la base de datos
+
 
 
 // Manejar la adición de un nuevo trabajador
@@ -180,7 +197,7 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trabajadores</title>
+    <title>Gestión de Trabajadores</title>
     <link rel="stylesheet" href="Stilos/styles_trabajadores.css">
     <link rel="stylesheet" href="Stilos/css/bootstrap.min.css">  <!--Opcional: agrega estilos a las tablas -->
     <link rel="stylesheet" href="Stilos/styles_tablas.css">  <!--Opcional: agrega estilos a las tablas -->
@@ -194,7 +211,7 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
     <?php  ?>
 
     <div class="container">
-        <h1>Registro de Trabajadores</h1>
+        <h1>Gestión de Trabajadores</h1>
         <!-- Formulario para filtrar por cargo -->
         <form method="GET" action="trabajadores.php" class="mb-3 d-flex align-items-center from-rigth">
             <label for="filtro-cargo" class="form-label me-2">Filtrar Cargo:</label>
@@ -210,9 +227,11 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
                     </option>
                 <?php endwhile; ?>
             </select>
-            <button type="button" class="btn btn-primary btn-pad" data-bs-toggle="modal" data-bs-target="#addWorkerModal">
-                <i class="fa-solid fa-plus"></i> Agregar Trabajador
-            </button>
+            <?php if (!$solo_visualizar): // Mostrar solo si no es Usuario ?>
+                <button type="button" class="btn btn-primary btn-pad" data-bs-toggle="modal" data-bs-target="#addWorkerModal">
+                    <i class="fa-solid fa-plus"></i> Agregar Trabajador
+                </button>
+            <?php endif; ?>
             <a href="descargar.php?cargo=<?php echo isset($_GET['cargo']) ? $_GET['cargo'] : 'todos'; ?>" class="btn btn-primary btn-pad">
                 <i class="fa-solid fa-download"></i> Descargar
             </a>
@@ -337,29 +356,27 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
                             </div>
                             <div class="modal-body">
                                 <form method="POST" action="">
-                                    <!-- Campo oculto para enviar el ID del trabajador -->
                                     <input type="hidden" name="id" value="<?php echo $fila['id_trabajador']; ?>">
 
-                                    <!-- Campos para editar los datos del trabajador -->
                                     <div class="mb-3">
                                         <label for="nombre" class="form-label">Nombre</label>
-                                        <input type="text" class="form-control" name="nombre" value="<?php echo $fila['nombre']; ?>" required>
+                                        <input type="text" class="form-control" name="nombre" value="<?php echo $fila['nombre']; ?>" <?php echo $solo_visualizar ? 'readonly' : ''; ?>>
                                     </div>
                                     <div class="mb-3">
                                         <label for="apellido" class="form-label">Apellido</label>
-                                        <input type="text" class="form-control" name="apellido" value="<?php echo $fila['apellido']; ?>" required>
+                                        <input type="text" class="form-control" name="apellido" value="<?php echo $fila['apellido']; ?>" <?php echo $solo_visualizar ? 'readonly' : ''; ?>>
                                     </div>
                                     <div class="mb-3">
                                         <label for="cedula" class="form-label">Cédula</label>
-                                        <input type="text" class="form-control" name="cedula" value="<?php echo $fila['cedula']; ?>" required>
+                                        <input type="text" class="form-control" name="cedula" value="<?php echo $fila['cedula']; ?>" <?php echo $solo_visualizar ? 'readonly' : ''; ?>>
                                     </div>
                                     <div class="mb-3">
                                         <label for="telefono" class="form-label">Teléfono</label>
-                                        <input type="text" class="form-control" name="telefono" value="<?php echo $fila['telefono']; ?>" required>
+                                        <input type="text" class="form-control" name="telefono" value="<?php echo $fila['telefono']; ?>" <?php echo $solo_visualizar ? 'readonly' : ''; ?>>
                                     </div>
                                     <div class="mb-3">
                                         <label for="cargos" class="form-label">Cargo</label>
-                                        <select class="form-select" name="cargos" required>
+                                        <select class="form-select" name="cargos" <?php echo $solo_visualizar ? 'disabled' : ''; ?>>
                                             <option value="" disabled>Seleccione un cargo</option>
                                             <?php foreach ($cargos_array as $cargo): ?>
                                                 <option value="<?php echo $cargo['id_cargo']; ?>" 
@@ -370,11 +387,12 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
                                         </select>
                                     </div>
 
-                                    <!-- Botones del modal -->
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="submit" name="actualizar" class="btn btn-primary">Actualizar</button>
-                                    </div>
+                                    <?php if (!$solo_visualizar): // Mostrar botones solo si no es Usuario ?>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            <button type="submit" name="actualizar" class="btn btn-primary">Actualizar</button>
+                                        </div>
+                                    <?php endif; ?>
                                 </form>
                             </div>
                         </div>

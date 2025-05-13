@@ -3,6 +3,13 @@ include 'conexion_be.php'; // Conexión a la base de datos
 include 'validar_sesion.php';
 include 'validar_level_user.php';
 
+// Permitir acceso a todos los roles, pero restringir acciones para el rol Usuario (rol_id = 3)
+$solo_visualizar = ($_SESSION['rol_id'] == 3); // Si es Usuario, solo puede visualizar
+
+include 'validar_acceso.php';
+
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar'])) {
     // Validar que el campo 'trabajadores' esté definido
     if (!isset($_POST['trabajadores']) || empty($_POST['trabajadores'])) {
@@ -142,12 +149,16 @@ if (!$resultado) {
                <!-- Botón para aplicar los filtros -->
                <button type="submit">Filtrar</button>
 
-                <button type="button" class="btn btn-primary btn-pad" data-bs-toggle="modal" data-bs-target="#addWorkerModal">
-                    <i class="fa-solid fa-plus"></i> Agregar Reposo
-                </button>
-                <a href="descargar_reposos.php?filtro=<?php echo $filtro; ?>&filtro_fecha=<?php echo $filtro_fecha; ?>&fecha_inicio=<?php echo $fecha_inicio; ?>&fecha_fin=<?php echo $fecha_fin; ?>" class="btn btn-primary btn-pad">
-                    <i class="fa-solid fa-download"></i> Descargar PDF
-                </a>
+                <?php if (!$solo_visualizar): // Mostrar solo si no es Usuario ?>
+                    <button type="button" class="btn btn-primary btn-pad" data-bs-toggle="modal" data-bs-target="#addWorkerModal">
+                        <i class="fa-solid fa-plus"></i> Agregar Reposo
+                    </button>
+                <?php endif; ?>
+                <?php if (!$solo_visualizar): // Mostrar solo si no es Usuario ?>
+                    <a href="descargar_reposos.php?filtro=<?php echo $filtro; ?>&filtro_fecha=<?php echo $filtro_fecha; ?>&fecha_inicio=<?php echo $fecha_inicio; ?>&fecha_fin=<?php echo $fecha_fin; ?>" class="btn btn-primary btn-pad">
+                        <i class="fa-solid fa-download"></i> Descargar PDF
+                    </a>
+                <?php endif; ?>
             </form>
             </div>
     
@@ -164,7 +175,7 @@ if (!$resultado) {
                         <form method="POST" action="reposo_medico.php">
                             <div class="mb-3">
                                 <label for="trabajadores" class="form-label">Seleccione un trabajador</label>
-                                <select name="trabajadores" id="trabajadores" class="form-control" required>
+                                <select name="trabajadores" id="trabajadores" class="form-control" <?php echo $solo_visualizar ? 'disabled' : ''; ?> required>
                                     <option value="" disabled selected>Seleccione un trabajador</option>
                                     <?php
                                     // Consulta para obtener los trabajadores
@@ -187,16 +198,18 @@ if (!$resultado) {
                             </div>
                             <div class="mb-3">
                                 <label for="e" class="form-label">Fecha de Expedición</label>
-                                <input type="date" class="form-control" name="e" required>
+                                <input type="date" class="form-control" name="e" <?php echo $solo_visualizar ? 'disabled' : ''; ?> required>
                             </div>
                             <div class="mb-3">
                                 <label for="vence" class="form-label">Fecha de Vencimiento</label>
-                                <input type="date" class="form-control" name="vence" required>
+                                <input type="date" class="form-control" name="vence" <?php echo $solo_visualizar ? 'disabled' : ''; ?> required>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                <button type="submit" name="agregar" class="btn btn-primary">Registrar</button>
-                            </div>
+                            <?php if (!$solo_visualizar): // Mostrar botones solo si no es Usuario ?>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" name="agregar" class="btn btn-primary">Registrar</button>
+                                </div>
+                            <?php endif; ?>
                         </form>
                     </div>
                 </div>

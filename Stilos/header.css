@@ -79,6 +79,8 @@ h2 {
     justify-content: center;
     align-items: center;
     gap: 1.6rem;
+    position: relative; /* Asegura que el z-index funcione */
+    z-index: 1000;
 }
 
 .right a {
@@ -87,6 +89,8 @@ h2 {
     align-items: center;
     border-radius: 0.5rem;
     transition: background-color 0.2s ease;
+    position: relative; /* Asegura que el z-index funcione */
+    z-index: 1000;
 }
 
 .right a:hover {
@@ -232,4 +236,70 @@ h2 {
 .sidebar ul li:hover a {
     background-color: rgba(47, 1, 68, 0.612);
     border-radius: 35px;
+}
+
+/* Contenedor de notificaciones */
+.notification-container {
+    position: fixed;
+    top: 70px; /* Ajusta según la altura de tu header */
+    right: 20px;
+    width: 300px;
+    max-height: 400px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    display: none; /* Oculto por defecto */
+    z-index: 1000;
+}
+
+/* Encabezado del contenedor */
+.notification-header {
+    background-color: #4d79ff;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Botón de cerrar */
+.notification-header .close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.notification-header .close-btn:hover {
+    color: #ff4d4d;
+}
+
+/* Cuerpo del contenedor */
+.notification-body {
+    padding: 10px;
+}
+
+.notification-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.notification-body ul li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    font-size: 0.9rem;
+}
+
+.notification-body ul li:last-child {
+    border-bottom: none;
+}
+
+.notification-body ul li:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
 }

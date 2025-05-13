@@ -3,7 +3,6 @@ include 'conexion_be.php'; // Asegúrate de que este archivo contiene la conexi�
 include 'validar_sesion.php';
 include 'validar_level_user.php';
 
-
 // Obtener el filtro seleccionado
 $filtro = isset($_GET['filtro']) ? $_GET['filtro'] : 'todos';
 $filtro_fecha = isset($_GET['filtro_fecha']) ? $_GET['filtro_fecha'] : 'hoy';
@@ -26,48 +25,16 @@ if ($filtro_fecha === 'hoy') {
 // Construir la consulta SQL según el filtro
 if ($filtro === 'todos') {
     $consulta = "
-        SELECT c.id, t.nombre, t.apellido, t.cedula, 'Cocinero' AS tipo_trabajador, c.tipo, c.hora
-        FROM cocineros c
-        INNER JOIN trabajadores t ON c.id_trabajador = t.id_trabajador
-        WHERE $consulta_fecha
-        UNION
-        SELECT v.id, t.nombre, t.apellido, t.cedula, 'Vigilante' AS tipo_trabajador, v.tipo, v.hora
-        FROM vigilantes v
-        INNER JOIN trabajadores t ON v.id_trabajador = t.id_trabajador
-        WHERE $consulta_fecha
-        UNION
-        SELECT m.id, t.nombre, t.apellido, t.cedula, 'Maestro' AS tipo_trabajador, m.tipo, m.hora
-        FROM maestros m
-        INNER JOIN trabajadores t ON m.id_trabajador = t.id_trabajador
-        WHERE $consulta_fecha
-        UNION
-        SELECT o.id, t.nombre, t.apellido, t.cedula, 'Obrero' AS tipo_trabajador, o.tipo, o.hora
-        FROM obreros o
-        INNER JOIN trabajadores t ON o.id_trabajador = t.id_trabajador
+        SELECT id, nombre, apellido, cedula, tipo_trabajador, tipo, hora
+        FROM asistencias
         WHERE $consulta_fecha
         ORDER BY hora DESC
     ";
 } else {
     $consulta = "
-        SELECT c.id, t.nombre, t.apellido, t.cedula, 'Cocinero' AS tipo_trabajador, c.tipo, c.hora
-        FROM cocineros c
-        INNER JOIN trabajadores t ON c.id_trabajador = t.id_trabajador
-        WHERE 'Cocinero' = '$filtro' AND $consulta_fecha
-        UNION
-        SELECT v.id, t.nombre, t.apellido, t.cedula, 'Vigilante' AS tipo_trabajador, v.tipo, v.hora
-        FROM vigilantes v
-        INNER JOIN trabajadores t ON v.id_trabajador = t.id_trabajador
-        WHERE 'Vigilante' = '$filtro' AND $consulta_fecha
-        UNION
-        SELECT m.id, t.nombre, t.apellido, t.cedula, 'Maestro' AS tipo_trabajador, m.tipo, m.hora
-        FROM maestros m
-        INNER JOIN trabajadores t ON m.id_trabajador = t.id_trabajador
-        WHERE 'Maestro' = '$filtro' AND $consulta_fecha
-        UNION
-        SELECT o.id, t.nombre, t.apellido, t.cedula, 'Obrero' AS tipo_trabajador, o.tipo, o.hora
-        FROM obreros o
-        INNER JOIN trabajadores t ON o.id_trabajador = t.id_trabajador
-        WHERE 'Obrero' = '$filtro' AND $consulta_fecha
+        SELECT id, nombre, apellido, cedula, tipo_trabajador, tipo, hora
+        FROM asistencias
+        WHERE tipo_trabajador = '$filtro' AND $consulta_fecha
         ORDER BY hora DESC
     ";
 }
@@ -77,7 +44,44 @@ $resultado = $enlace->query($consulta);
 
 // Verificar si la consulta fue exitosa
 if (!$resultado) {
-    die("Error en la consulta: " . $enlace->error);
+    die("Error en la consulta: " . $conexion->error);
+}
+
+// Código para registrar asistencia
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Obtener la cédula y el tipo del formulario
+    $cedula = $_POST['cedula'];
+    $tipo = $_POST['tipo']; // Ejemplo: entrada o salida
+    $hora = date('Y-m-d H:i:s'); // Hora actual
+
+    // Verificar si la cédula existe en la tabla trabajadores
+    $query_trabajador = "SELECT t.nombre, t.apellido, t.cedula, c.cargo AS tipo_trabajador
+                         FROM trabajadores t
+                         INNER JOIN cargos c ON t.cargos = c.id_cargo
+                         WHERE t.cedula = '$cedula'";
+    $resultado_trabajador = $conexion->query($query_trabajador);
+
+    if ($resultado_trabajador->num_rows > 0) {
+        // Obtener los datos del trabajador
+        $trabajador = $resultado_trabajador->fetch_assoc();
+        $nombre = $trabajador['nombre'];
+        $apellido = $trabajador['apellido'];
+        $tipo_trabajador = $trabajador['tipo_trabajador'];
+
+        // Insertar los datos en la tabla asistencias
+        $query_asistencia = "INSERT INTO asistencias (nombre, apellido, cedula, tipo_trabajador, tipo, hora)
+                             VALUES ('$nombre', '$apellido', '$cedula', '$tipo_trabajador', '$tipo', '$hora')";
+
+        if ($conexion->query($query_asistencia) === TRUE) {
+            echo "Asistencia registrada exitosamente.";
+        } else {
+            echo "Error al registrar la asistencia: " . $conexion->error;
+        }
+    } else {
+        echo "La cédula no existe en la tabla trabajadores.";
+    }
+
+    $conexion->close();
 }
 ?>
 
@@ -148,15 +152,15 @@ if (!$resultado) {
             <h2>Lista de Registros</h2>
             <table class="table table-striped table-hover" id="data-tables">
                 <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellido</th>
-                    <th scope="col">Cédula</th>
-                    <th scope="col">Tipo de Trabajador</th>
-                    <th scope="col">Tipo</th>
-                    <th scope="col">Hora</th>
-                  </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Cédula</th>
+                        <th>Tipo de Trabajador</th>
+                        <th>Tipo</th>
+                        <th>Hora</th>
+                    </tr>
                 </thead>
                 <tbody>
                     <?php 
@@ -164,7 +168,7 @@ if (!$resultado) {
                     while ($fila = $resultado->fetch_assoc()): 
                     ?>
                         <tr>
-                            <td scope="row"><?php echo $numero_fila++; ?></td>
+                            <td><?php echo $numero_fila++; ?></td>
                             <td><?php echo $fila['nombre']; ?></td>
                             <td><?php echo $fila['apellido']; ?></td>
                             <td><?php echo $fila['cedula']; ?></td>

@@ -1,8 +1,19 @@
 <?php
-session_start(); // Asegúrate de que esto esté presente
 include 'conexion_be.php';
 include 'validar_sesion.php';
 include 'validar_level_user.php';
+if (!isset($_SESSION['rol_id']) || $_SESSION['rol_id'] != 1) { // Solo Administradores (rol_id = 1)
+    echo '<script>
+        alert("No tienes permiso para acceder a esta página.");
+        window.location.href = "inicio.php";
+    </script>';
+    exit();
+}
+
+include 'validar_acceso.php';
+
+// Solo los administradores (rol_id = 1) pueden acceder
+validar_acceso([1]);
 
 
 
@@ -26,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar'])) {
     $nombre_completo = htmlspecialchars(trim($_POST['nombre_completo']));
     $email = htmlspecialchars(trim($_POST['email']));
     $user = htmlspecialchars(trim($_POST['user']));
-    $rol_id = intval($_POST['rol_id']);
+    $rol_id = intval($_POST['rol']);
 
     // Validar campos vacíos
     if (empty($nombre_completo) || empty($email) || empty($user) || empty($rol_id)) {
@@ -104,7 +115,7 @@ while ($rol = $rol_resultado->fetch_assoc()) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>usuarios</title>
+    <title>Gestión de Usuarios</title>
     <link rel="stylesheet" href="Stilos/usuarios.css">
     <link rel="stylesheet" href="Stilos/css/bootstrap.min.css">  <!--Opcional: agrega estilos a las tablas -->
     <link rel="stylesheet" href="Stilos/styles_tablas.css">  <!--Opcional: agrega estilos a las tablas -->
@@ -199,12 +210,12 @@ while ($rol = $rol_resultado->fetch_assoc()) {
                                             <input type="text" class="form-control" name="user" value="<?php echo $fila['user']; ?>" readonly>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="rol_id" class="form-label">Rol</label>
-                                            <select class="form-select" name="rol_id" required>
+                                            <label for="rol" class="form-label">Rol</label>
+                                            <select class="form-select" name="rol" required>
                                                 <option value="" disabled>Seleccione un Rol</option>
                                                 <?php foreach ($rol_array as $rol): ?>
                                                     <option value="<?php echo $rol['id']; ?>" 
-                                                        <?php echo ($rol['id'] == $fila['rol_id']) ? 'selected' : ''; ?>>
+                                                        <?php echo ($rol['id'] == $fila['rol']) ? 'selected' : ''; ?>>
                                                         <?php echo $rol['roles']; ?>
                                                     </option>
                                                 <?php endforeach; ?>

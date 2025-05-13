@@ -16,6 +16,35 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `asistencias`
+--
+
+DROP TABLE IF EXISTS `asistencias`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `asistencias` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) NOT NULL,
+  `apellido` varchar(100) NOT NULL,
+  `cedula` varchar(20) NOT NULL,
+  `tipo_trabajador` varchar(50) NOT NULL,
+  `tipo` enum('entrada','salida') NOT NULL,
+  `hora` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `asistencias`
+--
+
+LOCK TABLES `asistencias` WRITE;
+/*!40000 ALTER TABLE `asistencias` DISABLE KEYS */;
+INSERT INTO `asistencias` VALUES (1,'Juan','Pérez','12345678','Vigilante','entrada','2025-05-13 06:11:33'),(2,'Juan','Pérez','12345678','Vigilante','salida','2025-05-13 06:11:38'),(3,'variedades','Yose','28688249','Vigilante','entrada','2025-05-13 06:15:09'),(4,'kervin','diaz','30993371','Cocinero','entrada','2025-05-13 06:15:14'),(5,'variedades','Yose','28688249','Vigilante','salida','2025-05-13 06:15:19'),(6,'kervin','diaz','30993371','Cocinero','entrada','2025-05-13 06:15:23'),(7,'kervin','diaz','30993371','Cocinero','salida','2025-05-13 06:15:29');
+/*!40000 ALTER TABLE `asistencias` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `cargos`
 --
 
@@ -37,34 +66,6 @@ LOCK TABLES `cargos` WRITE;
 /*!40000 ALTER TABLE `cargos` DISABLE KEYS */;
 INSERT INTO `cargos` VALUES (1,'Cocinero'),(2,'Maestro'),(3,'Vigilante'),(4,'Obrero');
 /*!40000 ALTER TABLE `cargos` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `cocineros`
---
-
-DROP TABLE IF EXISTS `cocineros`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `cocineros` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_trabajador` int(11) NOT NULL,
-  `tipo` enum('entrada','salida') NOT NULL,
-  `hora` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_trabajador` (`id_trabajador`),
-  CONSTRAINT `cocineros_ibfk_1` FOREIGN KEY (`id_trabajador`) REFERENCES `trabajadores` (`id_trabajador`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `cocineros`
---
-
-LOCK TABLES `cocineros` WRITE;
-/*!40000 ALTER TABLE `cocineros` DISABLE KEYS */;
-INSERT INTO `cocineros` VALUES (1,18,'entrada','2025-04-19 00:14:00'),(2,18,'salida','2025-04-19 00:14:00');
-/*!40000 ALTER TABLE `cocineros` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -92,34 +93,6 @@ INSERT INTO `level_user` VALUES (1,'Administrador'),(2,'Moderador'),(3,'Usuario'
 UNLOCK TABLES;
 
 --
--- Table structure for table `maestros`
---
-
-DROP TABLE IF EXISTS `maestros`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `maestros` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_trabajador` int(11) NOT NULL,
-  `tipo` enum('entrada','salida') NOT NULL,
-  `hora` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_trabajador` (`id_trabajador`),
-  CONSTRAINT `maestros_ibfk_1` FOREIGN KEY (`id_trabajador`) REFERENCES `trabajadores` (`id_trabajador`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `maestros`
---
-
-LOCK TABLES `maestros` WRITE;
-/*!40000 ALTER TABLE `maestros` DISABLE KEYS */;
-INSERT INTO `maestros` VALUES (1,21,'entrada','2025-04-19 00:10:51'),(2,21,'salida','2025-04-19 00:10:57');
-/*!40000 ALTER TABLE `maestros` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `medical_rest`
 --
 
@@ -143,36 +116,7 @@ CREATE TABLE `medical_rest` (
 
 LOCK TABLES `medical_rest` WRITE;
 /*!40000 ALTER TABLE `medical_rest` DISABLE KEYS */;
-INSERT INTO `medical_rest` VALUES (3,20,'2025-05-05','2025-05-29'),(4,19,'2025-04-07','2025-05-05');
 /*!40000 ALTER TABLE `medical_rest` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `obreros`
---
-
-DROP TABLE IF EXISTS `obreros`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `obreros` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_trabajador` int(11) NOT NULL,
-  `tipo` enum('entrada','salida') NOT NULL,
-  `hora` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_trabajador` (`id_trabajador`),
-  CONSTRAINT `obreros_ibfk_1` FOREIGN KEY (`id_trabajador`) REFERENCES `trabajadores` (`id_trabajador`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `obreros`
---
-
-LOCK TABLES `obreros` WRITE;
-/*!40000 ALTER TABLE `obreros` DISABLE KEYS */;
-INSERT INTO `obreros` VALUES (1,20,'entrada','2025-04-19 00:06:44'),(2,20,'salida','2025-04-19 00:06:53');
-/*!40000 ALTER TABLE `obreros` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -190,7 +134,7 @@ CREATE TABLE `trabajadores` (
   `telefono` varchar(20) NOT NULL,
   `cargos` varchar(255) NOT NULL,
   PRIMARY KEY (`id_trabajador`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -199,7 +143,7 @@ CREATE TABLE `trabajadores` (
 
 LOCK TABLES `trabajadores` WRITE;
 /*!40000 ALTER TABLE `trabajadores` DISABLE KEYS */;
-INSERT INTO `trabajadores` VALUES (18,'Pedro','Diaz','25647980','04242222222','3'),(19,'Juan','Pérez','12345678','04240000000','3'),(20,'Angeli','Mari','0000000','04249152713','4'),(21,'Maria','Suarez','6574321','04242222222','2'),(22,'Maria','Suarez','25647980','04242222222','3'),(23,'1','1','52399411','04242222222','3'),(24,'2','2','3658446','04259631269','4'),(25,'3','3','36985471','25136987452','2'),(26,'4','4','32145698','25478963221','1'),(27,'5','5','15695423','25647895643','3'),(28,'6','6','36521477','25413336986','4');
+INSERT INTO `trabajadores` VALUES (30,'variedades','Yose','28688249','04148503709','3'),(31,'susu ledys','jkjkj','12761541','04148503709','4');
 /*!40000 ALTER TABLE `trabajadores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -230,34 +174,6 @@ LOCK TABLES `usuarios` WRITE;
 INSERT INTO `usuarios` VALUES (1,'Kervin Días ','kervindiaz2017@gmail.com','Craft','d404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db',1),(18,'maria gh','siontvsports@gmail.com','guy58','40883b2b2bed501ba260864d6ad8821ccb8dda7ef84d21e1e884b3cc0bea04d88135089bd576ce1a5d828f6c1338963380afff2ef4623c63793d6439853da03b',3),(19,'maria d','kervindiaz2021@gmail.com','guy','450932b36461918a013b8d6cdf7491c9c601f49e71902d502daf8cdc8734cef65ed8e102cfa321b3441c87650751724fb3c15d32fa86bb1b5e6d2dc60ba86228',2);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `vigilantes`
---
-
-DROP TABLE IF EXISTS `vigilantes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `vigilantes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_trabajador` int(11) NOT NULL,
-  `tipo` enum('entrada','salida') NOT NULL,
-  `hora` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_trabajador` (`id_trabajador`),
-  CONSTRAINT `vigilantes_ibfk_1` FOREIGN KEY (`id_trabajador`) REFERENCES `trabajadores` (`id_trabajador`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `vigilantes`
---
-
-LOCK TABLES `vigilantes` WRITE;
-/*!40000 ALTER TABLE `vigilantes` DISABLE KEYS */;
-INSERT INTO `vigilantes` VALUES (1,19,'entrada','2025-04-18 21:09:00'),(2,19,'salida','2025-04-19 00:02:00'),(3,19,'entrada','2025-04-19 00:27:00'),(4,19,'salida','2025-04-19 00:27:00'),(5,19,'entrada','2025-05-05 12:39:00'),(6,19,'salida','2025-05-05 12:39:00'),(7,19,'entrada','2025-05-11 20:54:00'),(8,19,'salida','2025-05-11 20:54:00');
-/*!40000 ALTER TABLE `vigilantes` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -268,4 +184,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-13  3:37:28
+-- Dump completed on 2025-05-13  6:21:44

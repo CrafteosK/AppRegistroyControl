@@ -64,10 +64,14 @@ if (!$resultado) {
 
 // Crear el PDF
 $pdf = new FPDF();
-$pdf->AddPage();
-$pdf->SetFont('Arial', 'B', 16);
-$pdf->Cell(0, 10, utf8_decode('Registros de Reposos Médicos'), 0, 1, 'C');
-$pdf->Ln(10);
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 16); // Fuente más grande para el título principal
+    $pdf->Cell(0, 10, utf8_decode('C.E.I. Simoncito Guayana'), 0, 1, 'C');
+    $pdf->Ln(5); // Espacio debajo del título principal
+
+    $pdf->SetFont('Arial', 'B', 14); // Fuente más pequeña para el subtítulo
+    $pdf->Cell(0, 10, utf8_decode('Registro de reportes medicos'), 0, 1, 'C');
+    $pdf->Ln(1);
 
 // Agregar encabezados de la tabla
 $pdf->SetFont('Arial', 'B', 12);

@@ -1,3 +1,40 @@
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['sql_file'])) {
+    $host = "localhost";
+    $user = "root"; // Cambia esto si tienes un usuario diferente
+    $password = ""; // Cambia esto si tienes una contraseña
+    $database = "registro"; // Cambia esto por el nombre de tu base de datos
+
+    // Verificar si se subió un archivo
+    if ($_FILES['sql_file']['error'] === UPLOAD_ERR_OK) {
+        // Ruta temporal del archivo subido
+        $uploaded_file = $_FILES['sql_file']['tmp_name'];
+
+        // Comando para importar la base de datos
+        $command = "mysql --host=$host --user=$user --password=$password $database < $uploaded_file";
+
+        // Ejecutar el comando
+        exec($command, $output, $result);
+
+        if ($result === 0) {
+            echo '<script>
+                alert("Base de datos importada exitosamente.");
+                window.location.href = window.location.href;
+            </script>';
+        } else {
+            echo '<script>
+                alert("Error al importar la base de datos. Verifica el archivo SQL.");
+                window.location.href = window.location.href;
+            </script>';
+        }
+    } else {
+        echo '<script>
+            alert("Error al subir el archivo. Verifica que sea un archivo válido.");
+            window.location.href = window.location.href;
+        </script>';
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +42,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="fontawesome/fontawesome-free-6.7.2-web/css/all.css">
     <link rel="stylesheet" href="Stilos/header.css">
-    <link rel="stylesheet" href="Stilos/notificaciones.css"/>
+    <link rel="stylesheet" href="Stilos/modal.css">
+   
 
     <title>Inicio</title>
 </head>
@@ -22,11 +60,29 @@
 
         <div class="right">
          <h2 id="fecha"></h2>
+            <script>
+                const fecha = new Date();
+                const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                const fechaFormateada = fecha.toLocaleDateString('es-ES', opciones);
+                document.getElementById('fecha').textContent = fechaFormateada;
+            </script>
+        <h2 id="hora"></h2>
+            <script>
+                function actualizarHora() {
+                    const fecha = new Date();
+                    const horas = String(fecha.getHours()).padStart(2, '0');
+                    const minutos = String(fecha.getMinutes()).padStart(2, '0');
+                    const segundos = String(fecha.getSeconds()).padStart(2, '0');
+                    document.getElementById('hora').textContent = `${horas}:${minutos}:${segundos}`;
+                }
+                setInterval(actualizarHora, 1000);
+            </script>
+            
             <a href="notificacion.php">
                 <div class="iconos"><i class="fa-solid fa-bell"></i></div>
             </a>
 
-            <a href="cerrar_sesion.php">
+            <a href="cerrar_sesion.php" onclick="console.log('Cerrando sesión');">
                 <div class="iconos"><i class="fa-solid fa-right-to-bracket"></i></div>
             </a>
         </div>
@@ -65,16 +121,43 @@
                     </a>
                 </li>
                 <li style="--bg:#884dff;">
-                    <a href="usuarios.php">
-                        <div class="icon"><i class="fa-solid fa-user"></i></div>
-                        <div class="text">Usuario</div>
+                    <?php if (isset($_SESSION['rol_id']) && $_SESSION['rol_id'] == 1): // Solo Administradores ?>
+                        <a href="usuarios.php">
+                            <div class="icon"><i class="fa-solid fa-user"></i></div>
+                            <div class="text">Usuario</div>
+                        </a>
+                    <?php endif; ?>
+                </li>
+                <li style="--bg:#ff4dff;">
+                    <a href="backup_db.php" name="data_tipo" value="login">
+                        <div class="icon"><i class="fa-solid fa-download"></i></div>
+                        <div class="text">Exportar Data Base</div>
                     </a>
                 </li>
+                <li style="--bg:#ff4dhh;">
+                    <a href="modal_importar.php" data-bs-toggle="modal" data-bs-target="#importDbModal">
+                        <div class="icon"><i class="fa-solid fa-upload"></i></div>
+                        <div class="text">Importar Data Base</div>
+                    </a>
+                </li>
+
             </div>
         </ul>
     </div>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <!-- Contenedor de notificaciones -->
+    <div id="notification-container" class="notification-container">
+        <div class="notification-header">
+            <h4>Notificaciones</h4>
+            <button id="close-notifications" class="close-btn">&times;</button>
+        </div>
+        <div class="notification-body">
+            <!-- Aquí se cargarán las notificaciones dinámicamente -->
+            <ul id="notification-list">
+                <li>No hay notificaciones nuevas.</li>
+            </ul>
+        </div>
+    </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -139,6 +222,51 @@
                         })
                         .catch(error => console.error('Error al cargar el módulo:', error));
                 });
+            });
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const sqlFileInput = document.getElementById('sql_file');
+        const importModal = document.getElementById('importDbModal');
+
+        if (sqlFileInput && importModal) {
+            const importButton = document.querySelector('#importDbModal .btn-primary');
+
+            sqlFileInput.addEventListener('change', () => {
+                if (sqlFileInput.files.length > 0) {
+                    importButton.disabled = false;
+                } else {
+                    importButton.disabled = true;
+                }
+            });
+
+            importButton.addEventListener('click', (e) => {
+                const confirmImport = confirm('¿Estás seguro de que deseas importar esta base de datos? Esto sobrescribirá los datos actuales.');
+                if (!confirmImport) {
+                    e.preventDefault();
+                }
+            });
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const notificationLink = document.querySelector('a[href="notificacion.php"]');
+        const notificationContainer = document.getElementById('notification-container');
+        const closeNotifications = document.getElementById('close-notifications');
+
+        if (notificationLink) {
+            // Mostrar el contenedor de notificaciones
+            notificationLink.addEventListener('click', (e) => {
+                e.preventDefault(); // Evitar redirección
+                notificationContainer.style.display = "block"; // Mostrar contenedor
+            });
+        }
+
+        if (closeNotifications) {
+            // Cerrar el contenedor de notificaciones
+            closeNotifications.addEventListener('click', () => {
+                notificationContainer.style.display = "none"; // Ocultar contenedor
             });
         }
     });

@@ -6,6 +6,7 @@ if(isset($_SESSION['usuario'])){
     header('Location: inicio.php');
 }
 
+
 ?>
 
 
@@ -16,17 +17,21 @@ if(isset($_SESSION['usuario'])){
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Registro y control de asistencias</title>
   <link rel="stylesheet" href="Stilos/styles_login-register.css"/>
+  
+
+
 </head>
 <body>
   <main>
     <div class="Contenedor__login-register">          
       <!-- Registro-->
       <div class="register-container">
-        <div class="register-form">
+        <div class="register-form" id="contenedor-botones">
           <img src="imagen/Picsart_25-03-31_14-46-19-016.png" alt="Logo" class="logo" />
           <h2>Registro</h2>
           <p>Por favor introduce tus datos</p>
           <form action="registro_usuario_be.php" class="formulario__register" method="post">
+            <input type="hidden" name="data_tipo" value="registro" />
             <label for="nombre">Nombre completo</label>
             <input type="text" id="nombre_completo" name="nombre_completo" placeholder="Introduzca su nombre" required />
 
@@ -48,6 +53,7 @@ if(isset($_SESSION['usuario'])){
       </div>
     </div>
   </main>    
+
   <script src="Java/Script.js"></script>
 </body>
 </html>
