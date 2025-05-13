@@ -92,7 +92,7 @@ if (!$resultado) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Reposos</title>
-    <link rel="stylesheet" href="Stilos/styles_asistencias.css">
+    <link rel="stylesheet" href="Stilos/reposo.css">
     <link rel="stylesheet" href="Stilos/styles_tablas.css">
     <link rel="stylesheet" href="Stilos/css/bootstrap.min.css">
     <link rel="stylesheet" href="Stilos/jquery.dataTables.min.css">
@@ -203,9 +203,10 @@ if (!$resultado) {
             </div>
         </div>
 
-        <!-- Tabla para mostrar los registros -->
+        
         <div class="tabla">
-            <h2>Lista de Reposos</h2>
+         <div class="tabla-contenedor">
+                <h1>Lista de Reposos</h1>
             <table class="table table-striped table-hover" id="data-tables">
                 <thead>
                   <tr>
@@ -244,6 +245,7 @@ if (!$resultado) {
                     <?php endwhile; ?>
                 </tbody>
             </table>
+          </div>
         </div>
     </div>
 

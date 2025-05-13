@@ -105,6 +105,7 @@ while ($rol = $rol_resultado->fetch_assoc()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>usuarios</title>
+    <link rel="stylesheet" href="Stilos/usuarios.css">
     <link rel="stylesheet" href="Stilos/css/bootstrap.min.css">  <!--Opcional: agrega estilos a las tablas -->
     <link rel="stylesheet" href="Stilos/styles_tablas.css">  <!--Opcional: agrega estilos a las tablas -->
     <link rel="stylesheet" href="fontawesome/fontawesome-free-6.7.2-web/css/all.css">

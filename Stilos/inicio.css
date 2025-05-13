@@ -1,9 +1,12 @@
 body {
     background-image: url('../imagen/4-4.webp');
-    background-size: cover;
+    background-size: auto;
+    background-attachment: fixed;
     background-repeat: no-repeat;
     background-position: center;
     backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    overflow: hidden;
 }
 
 main.content {
@@ -22,15 +25,16 @@ main.content h1 {
     font-size: 2rem;
     color: #ffffff;
     margin-bottom: 1rem;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgb(255, 0, 115);
+    margin-left: 0; 
+    padding-top: 0; 
 }
 
-h1{
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+main.content h1{
+    text-shadow: 2px 2px 4px rgb(255, 0, 115);
 }
-  
-h1{
-    text-shadow: 1px 1px 2px black, -1px -1px 2px gray; /* Varias sombras */
-}
+
 
 main.content h2 {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -39,12 +43,9 @@ main.content h2 {
     margin-bottom: 1rem;
 }
 
-h2{
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
   
-h2{
-    text-shadow: 1px 1px 2px black, -1px -1px 2px gray; /* Varias sombras */
+main.content h2{
+    text-shadow: 1px 1px 2px rgb(255, 0, 166), -1px -1px 2px gray; /* Varias sombras */
 }
 
 main.content .container {
@@ -103,4 +104,14 @@ main.content .btn-inicio button.salida {
 
 main.content .btn-inicio button.salida:hover {
     background: linear-gradient(to right, #ff0044, #ff0000);
+}
+
+h1 {
+    position: relative; /* Necesario para que z-index funcione */
+    z-index: 1000; /* Asegura que esté por delante del header */
+    font-size: 1.5rem; /* Ajusta el tamaño del texto */
+    color: #ffffff; 
+    text-shadow: 2px 2px 4px rgb(255, 0, 115);
+    margin-left: 5rem;
+    padding-top: 0.5rem;
 }

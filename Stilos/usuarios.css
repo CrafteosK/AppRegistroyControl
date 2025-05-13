@@ -1,0 +1,184 @@
+body {
+    position: relative; 
+    margin: 0;
+    padding: 0;
+    height: 100vh; 
+    overflow: scroll; 
+}
+
+body::before {
+    content: '';
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../imagen/4-4.webp'); 
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: blur(5px); 
+    z-index: -1; 
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(59, 0, 86, 0.687);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #fff;
+
+}
+
+/* Título principal */
+h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    color: #ffffff; /* Morado oscuro */
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(255, 0, 191, 0.5);
+    font-family: 'Times New Roman', Times, serif;
+}
+
+form.from-rigth {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+form.from-rigth label {
+    font-weight: bold;
+    color: #ffffff;
+}
+
+form.from-rigth select {
+    padding: 10px;
+    border: 1px solid #90caf9; /* Azul claro */
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #ffffff;
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+
+form.from-rigth select:focus {
+    border-color: #1565c0; /* Azul oscuro */
+    outline: none;
+}
+
+/* Tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+}
+
+table thead {
+    background-color: #4a148c; /* Morado oscuro */
+    color: #fff;
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Botones de acciones */
+button.btn {
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button.btn-warning {
+    background-color: #ff9800; /* Naranja */
+}
+
+button.btn-warning:hover {
+    background-color: #e65100; /* Naranja oscuro */
+}
+
+button.btn-danger {
+    background-color: #e53935; /* Rojo */
+}
+
+button.btn-danger:hover {
+    background-color: #b71c1c; /* Rojo oscuro */
+}
+
+button.btn-primary {
+    background-color: #1565c0; /* Azul */
+}
+
+button.btn-primary:hover {
+    background-color: #0d47a1; /* Azul oscuro */
+}
+
+/* Modal */
+.modal-header {
+    background-color: #4a148c; /* Morado oscuro */
+    color: #fff;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+}
+
+.modal-body label {
+    font-weight: bold;
+    color: #333;
+}
+
+.modal-footer button {
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-footer button.btn-secondary {
+    background-color: #757575; /* Gris */
+}
+
+.modal-footer button.btn-secondary:hover {
+    background-color: #424242; /* Gris oscuro */
+}
+
+.modal-footer button.btn-primary {
+    background-color: #1565c0; /* Azul */
+}
+
+.modal-footer button.btn-primary:hover {
+    background-color: #0d47a1; /* Azul oscuro */
+}
+
+/* Mensaje de "No se encontraron registros" */
+table tbody tr td.text-center {
+    font-size: 1.2rem;
+    color: #757575; /* Gris */
+    font-style: italic;
+}

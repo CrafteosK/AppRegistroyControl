@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="fontawesome/fontawesome-free-6.7.2-web/css/all.css">
     <link rel="stylesheet" href="Stilos/header.css">
+    <link rel="stylesheet" href="Stilos/notificaciones.css"/>
+
     <title>Inicio</title>
 </head>
 <body>
@@ -22,10 +24,6 @@
          <h2 id="fecha"></h2>
             <a href="notificacion.php">
                 <div class="iconos"><i class="fa-solid fa-bell"></i></div>
-            </a>
-
-            <a href="cambiar-nombre.php">
-            <div class="iconos"><i class="fa-solid fa-circle-user"></i></div>
             </a>
 
             <a href="cerrar_sesion.php">

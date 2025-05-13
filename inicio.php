@@ -1,5 +1,4 @@
 <?php
-session_start();
 include 'conexion_be.php';
 include 'validar_sesion.php';
 include 'validar_level_user.php';

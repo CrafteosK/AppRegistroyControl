@@ -6,6 +6,8 @@ if(isset($_SESSION['usuario'])){
     header('Location: inicio.php');
 }
 
+include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
+
 ?>
 
 
@@ -15,8 +17,8 @@ if(isset($_SESSION['usuario'])){
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Registro y control de asistencias</title>
-  <link rel="stylesheet" href="Stilos/css/bootstrap.min.css"> <!-- Opcional: agrega estilos a las tablas -->
   <link rel="stylesheet" href="Stilos/styles_login-register.css"/>
+  <link rel="stylesheet" href="fontawesome/fontawesome-free-6.7.2-web/css/all.css">
 </head>
 <body>
   <main>
@@ -46,34 +48,10 @@ if(isset($_SESSION['usuario'])){
         </form>
       </div>
       <div class="login-bg"></div>
-    </div>
+
     
   </main> 
-  <?php
-    if(isset($_GET['message'])){
-          switch($_GET['message']){
-            case 'ok':
-              ?>
-              <div class="alert alert-success alerta" role="alert">
-              <?php
-              echo 'Correo enviado correctamente. Revisa tu correo';
-              ?>
-              </div>
-              <?php
-              break;
-            default:
-            ?>
-              <div class="alert alert-danger" role="alert">
-              <?php
-                echo 'Ha ocurrido un error. Intenta nuevamente.';
-                ?>
-              </div>
-              <?php
-              break;
-          }
-        
-    }
-    ?>   
+
   <script src="Java/Script.js"></script>
 </body>
 </html>
