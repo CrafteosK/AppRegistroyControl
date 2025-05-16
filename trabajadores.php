@@ -335,7 +335,7 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
                         <!-- Botón para eliminar, editar y abrir estadísticas -->
                         <form method="POST" action="" style="display:inline;">
                             <input type="hidden" name="id" value="<?php echo $fila['id_trabajador']; ?>">
-                            <button type="button" class="btn btn-success ">
+                            <button type="button" class="btn btn-success" onclick="window.location.href='graficas.php?cedula=<?php echo $fila['cedula']; ?>'">
                                 <i class="fa-solid fa-square-poll-vertical"></i>
                             </button>
                             <button type="button" class="btn btn-warning " data-bs-toggle="modal" data-bs-target="#exampleModal<?php echo $fila['id_trabajador']; ?>">

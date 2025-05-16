@@ -78,9 +78,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['sql_file'])) {
                 setInterval(actualizarHora, 1000);
             </script>
             
-            <a href="notificacion.php">
+            <!--<a href="notificacion.php">
                 <div class="iconos"><i class="fa-solid fa-bell"></i></div>
-            </a>
+            </a>-->
 
             <a href="cerrar_sesion.php" onclick="console.log('Cerrando sesión');">
                 <div class="iconos"><i class="fa-solid fa-right-to-bracket"></i></div>
@@ -127,6 +127,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['sql_file'])) {
                             <div class="text">Usuario</div>
                         </a>
                     <?php endif; ?>
+                </li>
+                <li style="--bg:#ff4dff;">
+                    <a href="settings.php">
+                        <div class="icon"><i class="fa-solid fa-bars-progress"></i></div>
+                        <div class="text">Configuracion</div>
+                    </a>
                 </li>
                 <li style="--bg:#ff4dff;">
                     <a href="backup_db.php" name="data_tipo" value="login">
