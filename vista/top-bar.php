@@ -134,18 +134,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['sql_file'])) {
                         <div class="text">Configuracion</div>
                     </a>
                 </li>
-                <li style="--bg:#ff4dff;">
-                    <a href="backup_db.php" name="data_tipo" value="login">
-                        <div class="icon"><i class="fa-solid fa-download"></i></div>
-                        <div class="text">Exportar Data Base</div>
-                    </a>
-                </li>
-                <li style="--bg:#ff4dhh;">
-                    <a href="modal_importar.php" data-bs-toggle="modal" data-bs-target="#importDbModal">
-                        <div class="icon"><i class="fa-solid fa-upload"></i></div>
-                        <div class="text">Importar Data Base</div>
-                    </a>
-                </li>
 
             </div>
         </ul>

@@ -31,7 +31,7 @@ CREATE TABLE `asistencias` (
   `tipo` enum('entrada','salida') NOT NULL,
   `hora` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `asistencias` (
 
 LOCK TABLES `asistencias` WRITE;
 /*!40000 ALTER TABLE `asistencias` DISABLE KEYS */;
-INSERT INTO `asistencias` VALUES (1,'Juan','Pérez','12345678','Vigilante','entrada','2025-05-13 06:11:33'),(2,'Juan','Pérez','12345678','Vigilante','salida','2025-05-13 06:11:38'),(3,'variedades','Yose','28688249','Vigilante','entrada','2025-05-13 06:15:09'),(4,'kervin','diaz','30993371','Cocinero','entrada','2025-05-13 06:15:14'),(5,'variedades','Yose','28688249','Vigilante','salida','2025-05-13 06:15:19'),(6,'kervin','diaz','30993371','Cocinero','entrada','2025-05-13 06:15:23'),(7,'kervin','diaz','30993371','Cocinero','salida','2025-05-13 06:15:29'),(8,'susu ledys','jkjkj','12761541','Obrero','entrada','2025-05-13 06:51:49'),(9,'susu ledys','jkjkj','12761541','Obrero','salida','2025-05-13 06:51:53');
+INSERT INTO `asistencias` VALUES (1,'Juan','Pérez','12345678','Vigilante','entrada','2025-05-13 06:11:33'),(2,'Juan','Pérez','12345678','Vigilante','salida','2025-05-13 06:11:38'),(3,'variedades','Yose','28688249','Vigilante','entrada','2025-05-13 06:15:09'),(4,'kervin','diaz','30993371','Cocinero','entrada','2025-05-13 06:15:14'),(5,'variedades','Yose','28688249','Vigilante','salida','2025-05-13 06:15:19'),(6,'kervin','diaz','30993371','Cocinero','entrada','2025-05-13 06:15:23'),(7,'kervin','diaz','30993371','Cocinero','salida','2025-05-13 06:15:29'),(8,'susu ledys','jkjkj','12761541','Obrero','entrada','2025-05-13 06:51:49'),(9,'susu ledys','jkjkj','12761541','Obrero','salida','2025-05-13 06:51:53'),(10,'variedades','Yose','28688249','Vigilante','entrada','2025-05-17 06:57:42'),(11,'variedades','Yose','28688249','Vigilante','salida','2025-05-17 06:57:53');
 /*!40000 ALTER TABLE `asistencias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -162,7 +162,7 @@ CREATE TABLE `usuarios` (
   `password` varchar(255) NOT NULL,
   `rol_id` int(11) NOT NULL DEFAULT 2,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -171,7 +171,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Kervin Días ','kervindiaz2017@gmail.com','Craft','d404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db',1),(18,'maria gh','siontvsports@gmail.com','guy58','40883b2b2bed501ba260864d6ad8821ccb8dda7ef84d21e1e884b3cc0bea04d88135089bd576ce1a5d828f6c1338963380afff2ef4623c63793d6439853da03b',3),(19,'maria d','kervindiaz2021@gmail.com','guy','450932b36461918a013b8d6cdf7491c9c601f49e71902d502daf8cdc8734cef65ed8e102cfa321b3441c87650751724fb3c15d32fa86bb1b5e6d2dc60ba86228',2);
+INSERT INTO `usuarios` VALUES (1,'Kervin Días ','kervindiaz2017@gmail.com','Craft','d404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db',1),(18,'maria gh','siontvsports@gmail.com','guy58','40883b2b2bed501ba260864d6ad8821ccb8dda7ef84d21e1e884b3cc0bea04d88135089bd576ce1a5d828f6c1338963380afff2ef4623c63793d6439853da03b',3),(19,'maria d','kervindiaz2021@gmail.com','guy','450932b36461918a013b8d6cdf7491c9c601f49e71902d502daf8cdc8734cef65ed8e102cfa321b3441c87650751724fb3c15d32fa86bb1b5e6d2dc60ba86228',2),(20,'maria f','elieljuliansanchez@gmail.com','kervin','106e5684fad4d2adfebfd5e0225b337ca21a786ab3fb076e78119bd002913f524536235d6d029cdef99399138e22db7d7bdbbf94538e2692be21bc03af0694f9',2);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -184,4 +184,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-13  6:52:41
+-- Dump completed on 2025-05-19 22:57:05

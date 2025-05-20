@@ -37,18 +37,56 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
             <div class="titulo-settings"><h2>Configuración de la Base de Datos</h2></div>
             <div class="nav">
                 <ul>
-                    <li>
-                        Importar<i class="fa-solid fa-upload"></i>
+                    <li id="import" onclick="mostrar_importar();">
+                        <div>
+                            Importar<i class="fa-solid fa-upload"></i>
+                        </div>
+                        
                     </li>
-                    <li>
-                        Exportar<i class="fa-solid fa-download"></i>
+                    <li id="export" onclick="mostrar_exportar();">
+                        <div>
+                            Exportar<i class="fa-solid fa-download"></i>
+                        </div>
                     </li>
                 </ul>
+                <div class="nav-content">
+                    <div class="import" id="importar">
+                        <h5 class="modal-title" id="importDbModalLabel">Importar Base de Datos</h5>
+                        <div class="modal-body">
+                            <form action="restore_db.php" method="POST" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="sql_file" class="form-label">Selecciona un archivo SQL:</label>
+                                    <input type="file" name="sql_file" id="sql_file" class="form-control" accept=".sql" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Importar</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="export" id="exportar">
+                        <h3>Exportar Base de Datos</h3>
+                    <a href="backup_db.php" name="data_tipo" value="login">
+                        <div class="icon"><i class="fa-solid fa-download"></i></div>
+                        <div class="text">Exportar Data Base</div>
+                    </a>
+                </div>
+                
+            </div>
             </div>
         </div>
     </div>
 </meta>
-    
+
+<script>
+    function mostrar_exportar(){
+        document.getElementById('importar').style.display = 'none';
+        document.getElementById('exportar').style.display = 'flex';
+    }
+    function mostrar_importar(){
+        document.getElementById('importar').style.display = 'flex';
+        document.getElementById('exportar').style.display = 'none';
+    }
+</script>
 
 </body>
 </html>

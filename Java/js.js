@@ -14,5 +14,5 @@ document.addEventListener("DOMContentLoaded", function() {
             header.classList.remove("sidebar-open");
             content.classList.remove("sidebar-open");
         }
-    });
-});
+    })
+})

@@ -10,37 +10,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['sql_file'])) {
     if ($_FILES['sql_file']['error'] === UPLOAD_ERR_OK) {
         // Ruta temporal del archivo subido
         $uploaded_file = $_FILES['sql_file']['tmp_name'];
-        $backup_file = __DIR__ . "/uploads/" . $_FILES['sql_file']['name']; // Guardar en el directorio "uploads"
+
+        // Crear el directorio "uploads" si no existe
+        $uploads_dir = __DIR__ . "/uploads";
+        if (!is_dir($uploads_dir)) {
+            mkdir($uploads_dir, 0777, true);
+        }
+
+        $backup_file = $uploads_dir . "/" . $_FILES['sql_file']['name']; // Guardar en el directorio "uploads"
 
         // Mover el archivo subido al directorio "uploads"
         if (move_uploaded_file($uploaded_file, $backup_file)) {
-            // Comando para importar la base de datos
-            $command = "mysql --host=$host --user=$user --password=$password $database < $backup_file";
-
-            // Ejecutar el comando
-            exec($command, $output, $result);
+            // Cambia la ruta según tu instalación de XAMPP
+            $mysqlPath = 'C:\\xampp\\mysql\\bin\\mysql.exe';
+            $command = "\"$mysqlPath\" --host=$host --user=$user --password=$password $database < \"$backup_file\"";
+            exec($command . " 2>&1", $output, $result);
 
             if ($result === 0) {
                 echo '<script>
                     alert("Base de datos restaurada exitosamente.");
-                    window.location.href = "index.php";
+                    window.location.href = "restore_db.php";
                 </script>';
             } else {
+                echo "<pre>Comando ejecutado: $command\n";
+                print_r($output);
+                echo "</pre>";
                 echo '<script>
                     alert("Error al restaurar la base de datos. Verifica el archivo SQL.");
-                    window.location.href = "index.php";
+                    window.location.href = "restore_db.php";
                 </script>';
             }
         } else {
             echo '<script>
                 alert("Error al mover el archivo subido.");
-                window.location.href = "index.php";
+                window.location.href = "restore_db.php";
             </script>';
         }
     } else {
         echo '<script>
             alert("Error al subir el archivo. Verifica que sea un archivo válido.");
-            window.location.href = "index.php";
+            window.location.href = "restore_db.php";
         </script>';
     }
 }
