@@ -65,11 +65,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } elseif (isset($_POST['btnsalida'])) {
                 $tipo = 'salida';
             } else {
-                echo '<script>
-                    alert("Debe seleccionar un tipo de asistencia.");
-                    window.location.href = "inicio.php";
-                </script>';
-                exit();
+                echo "<script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        agregarToast({
+                            tipo: 'alert',
+                            titulo: 'Alerta',
+                            descripcion: 'Debe seleccionar un tipo de asistencia.',
+                            autoCierre: true
+                        });
+                    });
+                </script>";
             }
 
             // Insertar los datos en la tabla asistencias
@@ -80,31 +85,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bind_param("ssssss", $nombre, $apellido, $cedula, $tipo_trabajador, $tipo, $hora_actual);
 
             if ($stmt->execute()) {
-                echo '<script>
-                    alert("Asistencia registrada correctamente.");
-                    window.location.href = "inicio.php";
-                </script>';
+                // Mostrar notificación toast de éxito siempre que se registre asistencia
+                echo "<script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        agregarToast({
+                            tipo: 'exito',
+                            titulo: 'Éxito',
+                            descripcion: 'Asistencia registrada correctamente',
+                            autoCierre: true
+                        });
+                    });
+                </script>";
             } else {
-                echo '<script>
-                    alert("Error al registrar la asistencia.");
-                    window.location.href = "inicio.php";
-                </script>';
+                echo "<script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        agregarToast({
+                            tipo: 'error',
+                            titulo: 'Error',
+                            descripcion: 'Error al registrar la asistencia.',
+                            autoCierre: true
+                        });
+                    });
+                </script>";
             }
 
             $stmt->close();
         } else {
-            echo '<script>
-                alert("La cédula no está registrada en la base de datos.");
-                window.location.href = "inicio.php";
-            </script>';
+            echo "<script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        agregarToast({
+                            tipo: 'error',
+                            titulo: 'Error',
+                            descripcion: 'La cédula no está registrada en la base de datos.',
+                            autoCierre: true
+                        });
+                    });
+                </script>";
         }
 
         $consulta->close();
     } else {
-        echo '<script>
-            alert("Por favor, ingrese una cédula.");
-            window.location.href = "inicio.php";
-        </script>';
+        echo "<script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        agregarToast({
+                            tipo: 'error',
+                            titulo: 'Error',
+                            descripcion: 'Por favor, ingrese una cédula.',
+                            autoCierre: true
+                        });
+                    });
+                </script>";
     }
 }
 include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
@@ -133,6 +163,7 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
         <div class="container">
             <p class="CI">Ingrese su Cedula</p>
             <form action="" method="POST">
+                <input type="hidden" name="data_tipo" value="asistencia" />
                 <input type="text" id="cedula" name="cedula" placeholder="Cedula del Trabajador" required>
                 <div class="btn-inicio">
                     <button type="submit" class="entrada" name="btnentrada">ENTRADA</button>
@@ -143,5 +174,23 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
     </main>
 
     <script src="Java/js.js"></script>
+    <script>
+    // Evitar submit con Enter en el input de cédula
+    document.addEventListener('DOMContentLoaded', function() {
+        const cedulaInput = document.getElementById('cedula');
+        const form = cedulaInput.closest('form');
+        cedulaInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                agregarToast({
+                    tipo: 'alert',
+                    titulo: 'Alerta',
+                    descripcion: 'Debe seleccionar un tipo de asistencia.',
+                });
+            }
+        });
+       
+    });
+    </script>
 </body>
 </html>

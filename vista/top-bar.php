@@ -129,10 +129,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['sql_file'])) {
                     <?php endif; ?>
                 </li>
                 <li style="--bg:#ff4dff;">
+                    <?php if (isset($_SESSION['rol_id']) && $_SESSION['rol_id'] == 1): // Solo Administradores ?>
                     <a href="settings.php">
                         <div class="icon"><i class="fa-solid fa-bars-progress"></i></div>
                         <div class="text">Configuracion</div>
                     </a>
+                    <?php endif; ?>
                 </li>
 
             </div>

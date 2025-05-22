@@ -1,4 +1,4 @@
-<body>
+
     
 <div class="contenedor">
     <div class="contenedor-toast" id="contenedor-toast">
@@ -58,5 +58,3 @@
 
     </div>
 </div>
-</body>
-</html>

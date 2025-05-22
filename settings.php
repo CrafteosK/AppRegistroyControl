@@ -27,6 +27,9 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="Stilos/inicio.css">
+    <script src="Java/jquery.dataTables.min.js"></script>
+    <script src="Java/jquery.dataTables.min.js"></script>
+
 
 </head>
 <body>
@@ -58,17 +61,51 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
                                     <label for="sql_file" class="form-label">Selecciona un archivo SQL:</label>
                                     <input type="file" name="sql_file" id="sql_file" class="form-control" accept=".sql" required>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Importar</button>
+                                <button type="submit" class="btn btn-primary">
+                                    Importar</button>
                             </form>
                         </div>
+                        <?php
+                        $backups = $enlace->query("SELECT * FROM backup ORDER BY fecha DESC");
+                        ?>
+                        <h3>Copias de Seguridad Recientes</h3>
+                        <table id="tabla-backups" class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nombre del Archivo</th>
+                                    <th>Fecha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $i = 1; while($row = $backups->fetch_assoc()): ?>
+                                <tr>
+                                    <td><?php echo $i++; ?></td>
+                                    <td><?php echo htmlspecialchars($row['nombre_archivo']); ?></td>
+                                    <td><?php echo $row['fecha']; ?></td>
+                                    <td>
+                                        <form action="restore_db.php" method="POST" style="display:inline;">
+                                            <input type="hidden" name="restore_file" value="<?php echo htmlspecialchars($row['nombre_archivo']); ?>">
+                                            <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('¿Restaurar esta copia de seguridad?')">
+                                                <i class="fa-solid fa-rotate-left"></i> Restaurar
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <?php endwhile; ?>
+                            </tbody>
+                        </table>
                     </div>
                     
                     <div class="export" id="exportar">
                         <h3>Exportar Base de Datos</h3>
-                    <a href="backup_db.php" name="data_tipo" value="login">
-                        <div class="icon"><i class="fa-solid fa-download"></i></div>
-                        <div class="text">Exportar Data Base</div>
-                    </a>
+                        <p>Haz clic en el botón de abajo para exportar la base de datos actual.</p>
+                        <button class="btn btn-primary" onclick="window.location.href='backup_db.php'">
+                            <div class="icon"><i class="fa-solid fa-download"></i></div>
+                            Exportar Base de Datos
+
+                        </button>
                 </div>
                 
             </div>
@@ -86,6 +123,19 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
         document.getElementById('importar').style.display = 'flex';
         document.getElementById('exportar').style.display = 'none';
     }
+</script>
+
+<script>
+$(document).ready(function() {
+    $('#tabla-backups').DataTable({
+        "pageLength": 5,
+        "lengthChange": false,
+        "ordering": false,
+        "info": false,
+        "searching": false,
+        "paging": false // No paginación, solo muestra los 5 más recientes
+    });
+});
 </script>
 
 </body>

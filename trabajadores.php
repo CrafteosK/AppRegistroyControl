@@ -24,6 +24,7 @@ if ($_SESSION['rol'] == 3) { // Usuario
 
 // Manejar la adición de un nuevo trabajador
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar'])) {
+    $data_tipo = $_POST['data_tipo']; // Recoge el valor del campo oculto
     $nombre = htmlspecialchars(trim($_POST['nombre']));
     $apellido = htmlspecialchars(trim($_POST['apellido']));
     $cedula = htmlspecialchars(trim($_POST['cedula']));
@@ -74,10 +75,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar'])) {
 
     if ($verificar_cedula->num_rows > 0) {
         echo '<script>
-            alert("La cédula ya está registrada para este cargo. Por favor, use una cédula diferente o seleccione otro cargo.");
+            alert("La cédula ya está registrada para este cargo.");
             window.location.href = "trabajadores.php";
         </script>';
-        $verificar_cedula->close();
         exit();
     }
     $verificar_cedula->close();
@@ -183,6 +183,8 @@ $cargos_array = [];
 while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
     $cargos_array[] = $cargo;
 }
+
+
 ?>
 
 <script>
@@ -191,6 +193,8 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
         return not;
     }
 </script>
+
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -205,10 +209,12 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
     <link rel="stylesheet" href="Stilos/jquery.dataTables.min.css">
     <script src="Java/jquery.min.js"></script>
     <script src="Java/jquery.dataTables.min.js"></script>
+    <script src="Java/notificaciones.js" defer></script>
+
 </head>
 <body class="trab-body">
     <?php include 'vista/top-bar.php'; ?>
-    <?php  ?>
+    <?php include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones ?>
 
     <div class="container">
         <h1>Gestión de Trabajadores</h1>
@@ -247,6 +253,7 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
                     </div>
                     <div class="modal-body">
                         <form method="POST" action="trabajadores.php">
+                            <input type="hidden" name="data_tipo" value="agregar" />
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre</label>
                                 <input type="text" class="form-control" name="nombre" placeholder="Nombre" required>
@@ -292,7 +299,9 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
                     <th>Cédula</th>
                     <th>Teléfono</th>
                     <th>Cargo</th>
-                    <th>Acciones</th>
+                    <?php if (!$solo_visualizar): // Solo si NO es usuario nivel 3 ?>
+                        <th>Acciones</th>
+                    <?php endif; ?>
                 </tr>
             </thead>
             <tbody id="trabajadores-list">
@@ -331,19 +340,21 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
                     <td><?php echo $fila['cedula']; ?></td>
                     <td><?php echo $fila['telefono']; ?></td>
                     <td><?php echo $fila['cargo']; ?></td> <!-- Mostrar el nombre del cargo -->
+                    <?php if (!$solo_visualizar): // Solo si NO es usuario nivel 3 ?>
                     <td>
                         <!-- Botón para eliminar, editar y abrir estadísticas -->
                         <form method="POST" action="" style="display:inline;">
                             <input type="hidden" name="id" value="<?php echo $fila['id_trabajador']; ?>">
-                            <button type="button" class="btn btn-success" onclick="window.location.href='graficas.php?cedula=<?php echo $fila['cedula']; ?>'">
+                            <!--<button type="button" class="btn btn-success" onclick="window.location.href='graficas.php?cedula=<?php echo $fila['cedula']; ?>'">
                                 <i class="fa-solid fa-square-poll-vertical"></i>
-                            </button>
+                            </button>-->
                             <button type="button" class="btn btn-warning " data-bs-toggle="modal" data-bs-target="#exampleModal<?php echo $fila['id_trabajador']; ?>">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>     
                             <button type="submit" name="eliminar" class="btn btn-danger " onclick="return advertencia()"><i class="fa-solid fa-trash"></i></button>
                         </form>
                     </td>
+                    <?php endif; ?>
                 </tr>
 
                 <!-- Modal para actualizar un trabajador -->
@@ -403,6 +414,46 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
             </tbody>
         </table>
     </div>
+
+    <script>
+//document.addEventListener('DOMContentLoaded', function() {
+//    const params = new URLSearchParams(window.location.search);
+//    const error = params.get('error');
+//    if (error) {
+//        let descripcion = '';
+//        switch (error) {
+//            case 'campos':
+//                descripcion = 'Por favor, complete todos los campos.';
+//                break;
+//            case 'cedula':
+//                descripcion = 'La cédula debe contener entre 7 y 8 dígitos.';
+//                break;
+//            case 'telefono':
+//                descripcion = 'El teléfono debe contener exactamente 11 dígitos.';
+//                break;
+//            case 'longitud':
+//                descripcion = 'El nombre y el apellido no deben exceder los 50 caracteres.';
+//                break;
+//            case 'duplicado':
+//                descripcion = 'La cédula ya está registrada para este cargo.';
+//                break;
+//            default:
+//                descripcion = 'Ocurrió un error.';
+//            
+//           
+//        }
+//        agregarToast({
+//            tipo: 'alert',
+//            titulo: 'Alerta',
+//            descripcion: descripcion,
+//            autoCierre: false // <--- Esto es lo importante
+//        });
+//        // Opcional: abrir el modal automáticamente
+//        var modal = new bootstrap.Modal(document.getElementById('addWorkerModal'));
+//        modal.show();
+//    }
+//});
+</script>
 
     <script src="Java/js/bootstrap.bundle.min.js"></script>
     <script src="Java/js.js"></script>

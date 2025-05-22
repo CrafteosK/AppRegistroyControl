@@ -99,7 +99,6 @@ input[type="text"],
 input[type="password"],
 input[type="email"] {
   padding: 10px;
-  margin-bottom: 20px;
   border: none;
   border-radius: 8px;
   background-color: #4a2153;
@@ -155,7 +154,7 @@ button:hover {
 }
 .register-form {
   flex: 1;
-  padding: 40px 40px;
+  padding: 55px 40px;
   color: white;
   background-color: #490467bc;
 }
@@ -352,4 +351,15 @@ h4 {
     width: 0%;
   }
   
+}
+
+/* Mensajes de error para el formulario de registro */
+.error {
+  color: #f7323b;
+  font-size: 13px;
+  display: none;
+
+}
+input.error-input {
+  border: 2px solid #d8000c;
 }

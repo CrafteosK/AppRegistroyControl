@@ -28,13 +28,15 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
           <!-- Inicio de sesion -->
           <h2>Inicio de sesion</h2>
           <p>Por favor introduce tu usuario</p>
-          <form action="login_usuario_be.php" class="formulario__login" method="post">
+          <form action="login_usuario_be.php" class="formulario__login" method="post" id="form-login" autocomplete="off" novalidate>
             <input type="hidden" name="data_tipo" value="login" />
             <label for="usuario">Usuario</label>
             <input type="text" id="usuario" name="user" placeholder="Introduzca el usuario" required />
+            <span class="error" id="error-login-usuario"></span>
 
             <label for="password">Contraseña</label>
             <input type="password" id="password" name="password" placeholder="Introduzca la contraseña" required />
+            <span class="error" id="error-login-password"></span>
 
             <div class="remember">
               <input type="checkbox" id="remember" />
@@ -80,5 +82,61 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
   ?>
 
   <script src="Java/Script.js"></script>
+  <script>
+  document.getElementById('form-login').addEventListener('submit', function(e) {
+      let valido = true;
+
+      // Limpiar errores previos
+      document.getElementById('error-login-usuario').style.display = 'none';
+      document.getElementById('error-login-password').style.display = 'none';
+      document.getElementById('usuario').classList.remove('error-input');
+      document.getElementById('password').classList.remove('error-input');
+
+      // Usuario
+      const usuario = document.getElementById('usuario');
+      if (!usuario.value.trim()) {
+          mostrarErrorLogin('error-login-usuario', 'El usuario es requerido.', usuario);
+          valido = false;
+      }
+
+      // Contraseña
+      const password = document.getElementById('password');
+      if (!password.value) {
+          mostrarErrorLogin('error-login-password', 'La contraseña es requerida.', password);
+          valido = false;
+      }
+
+      if (!valido) e.preventDefault();
+  });
+
+  function mostrarErrorLogin(id, mensaje, input) {
+      const error = document.getElementById(id);
+      error.textContent = mensaje;
+      error.style.display = 'block';
+      if (input) input.classList.add('error-input');
+  }
+
+  // Validación automática al salir de cada input
+  document.getElementById('usuario').addEventListener('blur', function() {
+      if (!this.value.trim()) {
+          mostrarErrorLogin('error-login-usuario', 'El usuario es requerido.', this);
+      } else {
+          limpiarErrorLogin('error-login-usuario', this);
+      }
+  });
+  document.getElementById('password').addEventListener('blur', function() {
+      if (!this.value) {
+          mostrarErrorLogin('error-login-password', 'La contraseña es requerida.', this);
+      } else {
+          limpiarErrorLogin('error-login-password', this);
+      }
+  });
+  function limpiarErrorLogin(id, input) {
+      const error = document.getElementById(id);
+      error.textContent = '';
+      error.style.display = 'none';
+      if (input) input.classList.remove('error-input');
+  }
+  </script>
 </body>
 </html>

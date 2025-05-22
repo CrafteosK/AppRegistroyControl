@@ -1,12 +1,11 @@
 /* General */
 body {
-    background-image: url('../imagen/4-4.webp');
+    background-image: url('../imagen/result.png');
     background-size: auto;
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-position: center;
-    backdrop-filter: blur(5px);
-    overflow: hidden;
+    overflow: scroll;
 }
 
 main.content {
@@ -105,7 +104,7 @@ main.content .btn-inicio button.salida:hover {
 }
 
 .hola {
-    position: relative;
+    position: fixed;
     z-index: 1000;
     font-size: 1.5rem;
     color: #ffffff;
@@ -139,16 +138,19 @@ main.content .btn-inicio button.salida:hover {
     position: relative;
 }
 
-.toast.exito {
+.toast.exito{
     background: #4caf50;
 }
 
-.toast.error, .toast.error2 {
+.toast.error{
     background: #f44336;
 }
 
 .toast.info {
     background: #2196F3;
+}
+.toast.alert{
+    background: #ff9800;
 }
 
 .toast .contenido {
@@ -416,15 +418,13 @@ main.content .btn-inicio button.salida:hover {
     top: 15%;
     left: 24%;
     width: 1100px;
-    height: 750px;
-    background: rgb(236, 234, 234);
+    height: 800px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     border-radius: 30px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.9);
-    overflow: hidden;
     gap: 20px;
 }
 
@@ -434,13 +434,13 @@ main.content .btn-inicio button.salida:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(203, 98, 255, 0.788);
     border-radius: 30px;
 }
 
 .nav-settings .titulo-settings {
-    color: #000;
     text-align: center;
+    border-radius: 10px 10px 0 0;
     background: #4c006e;
     width: 100%;
     padding: 20px;
@@ -452,8 +452,10 @@ main.content .btn-inicio button.salida:hover {
 }
 
 .nav-settings .titulo-settings h2{
+    font-family: 'Times New Roman', Times, serif;
     font-size: 2rem;
     color: #fff;
+    text-shadow: 2px 2px 4px rgba(255, 0, 115, 0.628);
 
 }
 
@@ -467,12 +469,11 @@ main.content .btn-inicio button.salida:hover {
     flex-direction: column;
     display: flex;
     width: 25%;
-    height: 90%;
+    height: 90.4%;
     padding: 0;
     margin: 0;
-    border: #000 solid 1px;
     background: rgb(100, 4, 163);
-    box-shadow: 4px 0px 6px black;
+    border-radius: 0 0 0 10px;
 }
 
 .nav-settings .nav ul li {
@@ -483,14 +484,14 @@ main.content .btn-inicio button.salida:hover {
     font-size: 1.2rem;
     color: #fff;
     cursor: pointer;
-    background: rgb(89, 4, 146);
+    background: rgba(68, 0, 113, 0.696);
     width: 100%;
     height: auto;
     transition: 0.5s;
 }
 
 .nav-settings .nav ul li:hover {
-    background: #4c006e;
+    background: #9400d9;
 }
 
 .nav-settings .nav ul li.active {
@@ -501,14 +502,12 @@ main.content .btn-inicio button.salida:hover {
     display: flex;
     padding: 20px;
     overflow-y: auto;
-    color: #000;
-    
-
+    color: #ffffff;
 }
 
 .nav-settings .nav-content h3{
     font-size: 1.5rem;
-    color: #000;
+    color: #ffffff;
 }
 
 .import{
@@ -519,10 +518,51 @@ main.content .btn-inicio button.salida:hover {
     display: none;
 }
 
+.export h3{
+    font-size: 1.5rem;
+    color: #ffffff;
+    position: absolute;
+    top: 10%;
+    left: 28%;
+}
+
+.export p{
+    font-size: 1.2rem;
+    color: #ffffff;
+    position: absolute;
+    top: 27%;
+    left: 3%;
+}
+
+.export .btn {
+    background: #2196F3;
+    width: 400px;
+    height: 60px;
+    position: absolute;
+    left: 17%;
+    box-shadow: #3901549a 0px 10px 20px;
+    border-radius: 10px;
+    transition: 0.5s ease;
+    font-size: 20px;
+}
+
+.export .btn:hover{
+    background: #167ccf;
+}
+
+.export .btn .icon, .import .modal-body form .btn .icon{
+    color: #ffffff;
+    font-size: 2rem;
+    position: absolute;
+    top: 18%;
+    left: 5%;
+
+}
+
 .import, .export{
     flex-direction: column;
     width: 600px;
-    height: 500px;
+    height: 550px;
     background: #4403707b;
     text-align: center;
     justify-content: center;
@@ -530,6 +570,77 @@ main.content .btn-inicio button.salida:hover {
     position: absolute;
     top: 20%;
     left: 35%;
-    box-shadow: #000 0px 10px 20px;
-
+    box-shadow: #3901549a 0px 10px 20px;
+    overflow: hidden;
 }
+
+.mb-3 label {
+    font-size: 1.2rem;
+    color: #ffffff;
+}
+
+.mb-3 input[type="file"] {
+    font-size: 1rem;
+    border-radius: 10px;
+    border: #efcbff 1px solid;
+    color: #ffffffa7;
+}
+
+.mb-3 input[type="file"]::file-selector-button {
+    background: #4c006e;
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.mb-3 input[type="file"]::file-selector-button:hover {
+    background: #4c006e;
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.nav button {
+    background: #4c006e;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.nav button:hover {
+    background: #ae00ff;
+    color: #ffffff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+thead {
+    background: #c763f5;
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+td {
+    background: #4403707b;
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.text {
+    font-size: 1.2rem;
+    color: #ffffff;
+}
+

@@ -210,3 +210,55 @@ form.from-rigth .download-button:hover {
         margin-top: 30px;
     }
 }
+
+/* Toast container siempre visible arriba a la derecha */
+.contenedor-toast {
+    position: fixed;
+    top: 40px;
+    right: 40px;
+    width: 350px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+/* Toast básico */
+.toast {
+    background: #fff;
+    color: #222;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    padding: 16px 24px;
+    font-size: 16px;
+    border-left: 6px solid #007bff;
+    min-width: 200px;
+    max-width: 100%;
+    margin-bottom: 10px;
+    pointer-events: all;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    animation: aparecer 0.3s;
+}
+
+/* Tipos de toast */
+.toast.alert { border-left-color: #dc3545; }
+.toast.exito { border-left-color: #28a745; }
+.toast.info  { border-left-color: #17a2b8; }
+
+/* Botón cerrar */
+.toast .btn-cerrar {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #888;
+    cursor: pointer;
+    margin-left: 16px;
+}
+
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(-20px);}
+    to   { opacity: 1; transform: translateY(0);}
+}
