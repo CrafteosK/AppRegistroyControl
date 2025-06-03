@@ -31,7 +31,7 @@ CREATE TABLE `asistencias` (
   `tipo` enum('entrada','salida') NOT NULL,
   `hora` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `asistencias` (
 
 LOCK TABLES `asistencias` WRITE;
 /*!40000 ALTER TABLE `asistencias` DISABLE KEYS */;
-INSERT INTO `asistencias` VALUES (1,'Juan','Pérez','12345678','Vigilante','entrada','2025-05-13 06:11:33'),(2,'Juan','Pérez','12345678','Vigilante','salida','2025-05-13 06:11:38'),(3,'variedades','Yose','28688249','Vigilante','entrada','2025-05-13 06:15:09'),(4,'kervin','diaz','30993371','Cocinero','entrada','2025-05-13 06:15:14'),(5,'variedades','Yose','28688249','Vigilante','salida','2025-05-13 06:15:19'),(6,'kervin','diaz','30993371','Cocinero','entrada','2025-05-13 06:15:23'),(7,'kervin','diaz','30993371','Cocinero','salida','2025-05-13 06:15:29'),(8,'susu ledys','jkjkj','12761541','Obrero','entrada','2025-05-13 06:51:49'),(9,'susu ledys','jkjkj','12761541','Obrero','salida','2025-05-13 06:51:53'),(10,'variedades','Yose','28688249','Vigilante','entrada','2025-05-17 06:57:42'),(11,'variedades','Yose','28688249','Vigilante','salida','2025-05-17 06:57:53'),(12,'kervin','diaz','30993371','Vigilante','entrada','2025-05-22 10:35:33'),(13,'kervin','diaz','30993371','Vigilante','salida','2025-05-22 10:35:37');
+INSERT INTO `asistencias` VALUES (1,'Juan','Pérez','12345678','Vigilante','entrada','2025-05-13 06:11:33'),(2,'Juan','Pérez','12345678','Vigilante','salida','2025-05-13 06:11:38'),(3,'variedades','Yose','28688249','Vigilante','entrada','2025-05-13 06:15:09'),(4,'kervin','diaz','30993371','Cocinero','entrada','2025-05-13 06:15:14'),(5,'variedades','Yose','28688249','Vigilante','salida','2025-05-13 06:15:19'),(6,'kervin','diaz','30993371','Cocinero','entrada','2025-05-13 06:15:23'),(7,'kervin','diaz','30993371','Cocinero','salida','2025-05-13 06:15:29'),(8,'susu ledys','jkjkj','12761541','Obrero','entrada','2025-05-13 06:51:49'),(9,'susu ledys','jkjkj','12761541','Obrero','salida','2025-05-13 06:51:53'),(10,'variedades','Yose','28688249','Vigilante','entrada','2025-05-17 06:57:42'),(11,'variedades','Yose','28688249','Vigilante','salida','2025-05-17 06:57:53'),(12,'kervin','diaz','30993371','Vigilante','entrada','2025-05-22 10:35:33'),(13,'kervin','diaz','30993371','Vigilante','salida','2025-05-22 10:35:37'),(14,'variedades','Yose','28688249','Maestro','entrada','2025-05-31 10:54:44'),(15,'variedades','Yose','28688249','Maestro','entrada','2025-05-31 13:07:33'),(16,'variedades','Yose','28688249','Maestro','salida','2025-05-31 13:19:42');
 /*!40000 ALTER TABLE `asistencias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -56,7 +56,7 @@ CREATE TABLE `backup` (
   `nombre_archivo` varchar(255) NOT NULL,
   `fecha` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +65,7 @@ CREATE TABLE `backup` (
 
 LOCK TABLES `backup` WRITE;
 /*!40000 ALTER TABLE `backup` DISABLE KEYS */;
-INSERT INTO `backup` VALUES (13,'registro.sql','2025-05-22 09:56:57'),(14,'registro.sql','2025-05-22 09:57:04'),(15,'registro.sql','2025-05-22 09:57:11'),(16,'registro.sql','2025-05-22 09:57:22'),(17,'registro.sql','2025-05-22 09:57:41');
+INSERT INTO `backup` VALUES (15,'registro.sql','2025-05-22 09:57:11'),(16,'registro.sql','2025-05-22 09:57:22'),(17,'registro.sql','2025-05-22 09:57:41'),(18,'registro.sql','2025-05-22 10:38:26'),(19,'registro.sql','2025-05-22 10:46:26');
 /*!40000 ALTER TABLE `backup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -127,12 +127,12 @@ DROP TABLE IF EXISTS `medical_rest`;
 CREATE TABLE `medical_rest` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_trabajador` int(11) NOT NULL,
-  `e` date NOT NULL,
+  `expedicion` date NOT NULL,
   `Vence` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_medical_rest_trabajadores` (`id_trabajador`),
   CONSTRAINT `fk_medical_rest_trabajadores` FOREIGN KEY (`id_trabajador`) REFERENCES `trabajadores` (`id_trabajador`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,7 +141,7 @@ CREATE TABLE `medical_rest` (
 
 LOCK TABLES `medical_rest` WRITE;
 /*!40000 ALTER TABLE `medical_rest` DISABLE KEYS */;
-INSERT INTO `medical_rest` VALUES (7,32,'2025-04-01','2025-06-05');
+INSERT INTO `medical_rest` VALUES (7,32,'2025-04-01','2025-06-05'),(8,33,'2025-05-01','2025-06-04'),(9,51,'2025-06-03','2025-07-03');
 /*!40000 ALTER TABLE `medical_rest` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -162,7 +162,7 @@ CREATE TABLE `trabajadores` (
   PRIMARY KEY (`id_trabajador`),
   KEY `fk_trabajadores_cargos` (`cargos`),
   CONSTRAINT `fk_trabajadores_cargos` FOREIGN KEY (`cargos`) REFERENCES `cargos` (`id_cargo`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -171,7 +171,7 @@ CREATE TABLE `trabajadores` (
 
 LOCK TABLES `trabajadores` WRITE;
 /*!40000 ALTER TABLE `trabajadores` DISABLE KEYS */;
-INSERT INTO `trabajadores` VALUES (32,'kervin','diaz','30993371','04249677356',3),(33,'variedades','Yose','28688249','04148503709',2);
+INSERT INTO `trabajadores` VALUES (32,'kervin','diaz','30993371','04249677356',3),(33,'variedades','Yose','28688249','04148503709',1),(51,'susu ledys','jkjkj','28688249','04249677356',2);
 /*!40000 ALTER TABLE `trabajadores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -192,7 +192,7 @@ CREATE TABLE `usuarios` (
   PRIMARY KEY (`ID`),
   KEY `fk_usuarios_level_user` (`rol_id`),
   CONSTRAINT `fk_usuarios_level_user` FOREIGN KEY (`rol_id`) REFERENCES `level_user` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -201,7 +201,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Kervin Días ','kervindiaz2017@gmail.com','Craft','d404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db',1),(22,'maria f','elieljuliansanchez@gmail.com','kervin','d404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db',2),(24,'Kervin Diaz','kervindiaz2021@gmail.com','CrafeosK','dcbfced1b4314250ca9f14cab5407cd0c8d58fc7ca2a3d2a4addfb3347247a16a35bfaf09d9151ccd40a98c3c35d43b26cfe1a6f8eea5d6318a7eb6b78fbe057',3);
+INSERT INTO `usuarios` VALUES (1,'Kervin Días ','kervindiaz2017@gmail.com','Craft','d404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db',1),(22,'maria f','elieljuliansanchez@gmail.com','kervin','d404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db',2),(24,'Kervin Diaz','kervindiaz2021@gmail.com','CrafeosK','dcbfced1b4314250ca9f14cab5407cd0c8d58fc7ca2a3d2a4addfb3347247a16a35bfaf09d9151ccd40a98c3c35d43b26cfe1a6f8eea5d6318a7eb6b78fbe057',2),(25,'hola yo','siontv2021@gmail.com','hola','dcbfced1b4314250ca9f14cab5407cd0c8d58fc7ca2a3d2a4addfb3347247a16a35bfaf09d9151ccd40a98c3c35d43b26cfe1a6f8eea5d6318a7eb6b78fbe057',3),(26,'fdhgfdh','dfgdfg@gmail.com','agfdagh','f17413b1c781d8bde01c5e63d2bff4919e478665f039837c5891f491348b34056c47a1143db70c51cf89cbf157c8f82ca4fd2c4550ceb14b5576154e174b6e9b',3);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -214,4 +214,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-22 10:38:11
+-- Dump completed on 2025-06-03  0:38:33

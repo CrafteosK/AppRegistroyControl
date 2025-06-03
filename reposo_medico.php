@@ -13,34 +13,120 @@ include 'validar_acceso.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar'])) {
     // Validar que el campo 'trabajadores' esté definido
     if (!isset($_POST['trabajadores']) || empty($_POST['trabajadores'])) {
-        die("Por favor, seleccione un trabajador.");
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', () => {
+                agregarToast({
+                    tipo: 'error',
+                    titulo: 'Error',
+                    descripcion: 'Por favor, seleccione un trabajador.',
+                    autoCierre: true
+                });
+            });
+        </script>";
+        return;
     }
 
     $id_trabajador = intval($_POST['trabajadores']);
-    $e = $_POST['e']; // Fecha de expedición
+    $expedicion = $_POST['expedicion']; // Fecha de expedición
     $vence = $_POST['vence']; // Fecha de vencimiento
 
+    $hay_error = false;
+
     // Validar que los campos no estén vacíos
-    if (empty($e) || empty($vence)) {
-        die("Por favor, complete todos los campos.");
+    if (empty($expedicion) || empty($vence)) {
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', () => {
+                agregarToast({
+                    tipo: 'error',
+                    titulo: 'Error',
+                    descripcion: 'Por favor, complete todos los campos.',
+                    autoCierre: true
+                });
+            });
+        </script>";
+        $hay_error = true;
     }
 
-    // Insertar el reposo en la base de datos
-    $insert_query = "
-        INSERT INTO medical_rest (id_trabajador, e, vence)
-        VALUES (?, ?, ?)
-    ";
-
-    $stmt = $enlace->prepare($insert_query);
-    $stmt->bind_param("iss", $id_trabajador, $e, $vence);
-
-    if ($stmt->execute()) {
-        echo '<script>alert("Reposo registrado correctamente."); window.location.href = "reposo_medico.php";</script>';
-    } else {
-        die("Error al registrar el reposo: " . $enlace->error);
+    // Validar que la fecha de expedición no sea mayor que la de vencimiento
+    if (!$hay_error && $expedicion > $vence) {
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', () => {
+                agregarToast({
+                    tipo: 'error',
+                    titulo: 'Error',
+                    descripcion: 'La fecha de expedición no puede ser mayor que la de vencimiento.',
+                    autoCierre: true
+                });
+            });
+        </script>";
+        $hay_error = true;
     }
 
-    $stmt->close();
+    // Validar si el trabajador ya tiene un reposo vigente
+    if (!$hay_error) {
+        $fecha_actual = date('Y-m-d');
+        $verificar_reposo = $enlace->prepare("
+            SELECT id FROM medical_rest 
+            WHERE id_trabajador = ? AND vence >= ?
+            LIMIT 1
+        ");
+        $verificar_reposo->bind_param("is", $id_trabajador, $fecha_actual);
+        $verificar_reposo->execute();
+        $verificar_reposo->store_result();
+
+        if ($verificar_reposo->num_rows > 0) {
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    agregarToast({
+                        tipo: 'error',
+                        titulo: 'Error',
+                        descripcion: 'Este trabajador ya tiene un reposo vigente.',
+                        autoCierre: true
+                    });
+                });
+            </script>";
+            $hay_error = true;
+        }
+        $verificar_reposo->close();
+    }
+
+    // Solo registrar si NO hay errores
+    if (!$hay_error) {
+        $insert_query = "
+            INSERT INTO medical_rest (id_trabajador, expedicion, vence)
+            VALUES (?, ?, ?)
+        ";
+
+        $stmt = $enlace->prepare($insert_query);
+        $stmt->bind_param("iss", $id_trabajador, $expedicion, $vence);
+
+        if ($stmt->execute()) {
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    agregarToast({
+                        tipo: 'exito',
+                        titulo: 'Éxito',
+                        descripcion: 'Reposo registrado correctamente.',
+                        autoCierre: true
+                    });
+                });
+            </script>";
+            // Opcional: puedes recargar la página después de un tiempo si quieres
+            // echo '<script>setTimeout(() => { window.location.href = "reposo_medico.php"; }, 1500);</script>';
+        } else {
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    agregarToast({
+                        tipo: 'error',
+                        titulo: 'Error',
+                        descripcion: 'Error al registrar el reposo.',
+                        autoCierre: true
+                    });
+                });
+            </script>";
+        }
+        $stmt->close();
+    }
 }
 
 // Obtener los filtros seleccionados
@@ -57,7 +143,7 @@ $consulta = "
         t.apellido, 
         t.cedula, 
         c.cargo AS tipo_trabajador, 
-        m.e AS fecha_expedicion, 
+        m.expedicion AS fecha_expedicion, 
         m.vence AS fecha_vencimiento
     FROM medical_rest m
     INNER JOIN trabajadores t ON m.id_trabajador = t.id_trabajador
@@ -91,6 +177,9 @@ $resultado = $enlace->query($consulta);
 if (!$resultado) {
     die("Error en la consulta: " . $enlace->error);
 }
+
+include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
+
 ?>
 
 <!DOCTYPE html>
@@ -105,12 +194,13 @@ if (!$resultado) {
     <link rel="stylesheet" href="Stilos/jquery.dataTables.min.css">
     <script src="Java/jquery.min.js"></script>
     <script src="Java/jquery.dataTables.min.js"></script>
+    <script src="Java/notificaciones.js" defer></script>
 </head>
 <body>
 
     <?php include 'vista/top-bar.php'; ?>
     <div class="container">
-        <div class="contenedor">
+        <div class="contenedor2">
             <h1>Gestión de Reposos</h1>
         </div>
 
@@ -197,8 +287,8 @@ if (!$resultado) {
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="e" class="form-label">Fecha de Expedición</label>
-                                <input type="date" class="form-control" name="e" <?php echo $solo_visualizar ? 'disabled' : ''; ?> required>
+                                <label for="expedicion" class="form-label">Fecha de Expedición</label>
+                                <input type="date" class="form-control" name="expedicion" <?php echo $solo_visualizar ? 'disabled' : ''; ?> required>
                             </div>
                             <div class="mb-3">
                                 <label for="vence" class="form-label">Fecha de Vencimiento</label>

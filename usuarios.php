@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar'])) {
     exit();
 }
 
-// Manejar la actualización de un usuario
+// Validar campos vacíos al actualizar usuario
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar'])) {
     $id_usuario = intval($_POST['id']);
     $nombre_completo = htmlspecialchars(trim($_POST['nombre_completo']));
@@ -41,33 +41,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar'])) {
 
     // Validar campos vacíos
     if (empty($nombre_completo) || empty($email) || empty($user) || empty($rol_id)) {
-        echo '<script>
-            alert("Por favor, complete todos los campos.");
-            window.location.href = "usuarios.php";
-        </script>';
-        exit();
-    }
-
-    // Actualizar el usuario en la base de datos
-    $stmt = $enlace->prepare("UPDATE usuarios SET nombre_completo = ?, email = ?, user = ?, rol_id = ? WHERE ID = ?");
-    $stmt->bind_param("sssii", $nombre_completo, $email, $user, $rol_id, $id_usuario);
-
-    if ($stmt->execute()) {
-        echo '<script>
-            alert("Trabajador actualizado correctamente.");
-            window.location = "usuarios.php";
-        </script>';
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', () => {
+                agregarToast({
+                    tipo: 'error',
+                    titulo: 'Error',
+                    descripcion: 'Por favor, complete todos los campos.',
+                    autoCierre: true
+                });
+            });
+        </script>";
     } else {
-        echo '<script>alert("Ocurrió un error al actualizar el trabajador.");</script>';
+        // Actualizar el usuario en la base de datos
+        $stmt = $enlace->prepare("UPDATE usuarios SET nombre_completo = ?, email = ?, user = ?, rol_id = ? WHERE ID = ?");
+        $stmt->bind_param("sssii", $nombre_completo, $email, $user, $rol_id, $id_usuario);
+
+        if ($stmt->execute()) {
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    agregarToast({
+                        tipo: 'exito',
+                        titulo: 'Éxito',
+                        descripcion: 'Usuario actualizado correctamente.',
+                        autoCierre: true
+                    });
+                });
+            </script>";
+        } else {
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    agregarToast({
+                        tipo: 'error',
+                        titulo: 'Error',
+                        descripcion: 'Ocurrió un error al actualizar el usuario.',
+                        autoCierre: true
+                    });
+                });
+            </script>";
+        }
+        $stmt->close();
     }
-    $stmt->close();
 }
 
 // Obtener todos los registros de la tabla usuarios con el nombre del rol
 $rol_filtro = isset($_GET['rol']) ? $_GET['rol'] : 'todos';
 
 if ($rol_filtro !== 'todos' && !is_numeric($rol_filtro)) {
-    echo '<script>alert("Filtro de rol no válido.");</script>';
+    echo "<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            agregarToast({
+                tipo: 'error',
+                titulo: 'Error',
+                descripcion: 'Filtro de rol no válido.',
+                autoCierre: true
+            });
+        });
+    </script>";
     $rol_filtro = 'todos';
 }
 
@@ -101,6 +130,9 @@ $rol_array = [];
 while ($rol = $rol_resultado->fetch_assoc()) {
     $rol_array[] = $rol;
 }
+
+include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
+
 ?>
 
 <script>
@@ -123,6 +155,7 @@ while ($rol = $rol_resultado->fetch_assoc()) {
     <link rel="stylesheet" href="Stilos/jquery.dataTables.min.css">
     <script src="Java/jquery.min.js"></script>
     <script src="Java/jquery.dataTables.min.js"></script>
+    <script src="Java/notificaciones.js" defer></script>
 </head>
 <body class="trab-body">
     <?php include 'vista/top-bar.php'; ?>

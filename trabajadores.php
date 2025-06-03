@@ -24,47 +24,73 @@ if ($_SESSION['rol'] == 3) { // Usuario
 
 // Manejar la adición de un nuevo trabajador
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar'])) {
-    $data_tipo = $_POST['data_tipo']; // Recoge el valor del campo oculto
+    $data_tipo = $_POST['data_tipo'];
     $nombre = htmlspecialchars(trim($_POST['nombre']));
     $apellido = htmlspecialchars(trim($_POST['apellido']));
     $cedula = htmlspecialchars(trim($_POST['cedula']));
     $telefono = htmlspecialchars(trim($_POST['telefono']));
     $cargos = intval($_POST['cargos']);
 
+    $hay_error = false;
+
     // Validar campos vacíos
     if (empty($nombre) || empty($apellido) || empty($cedula) || empty($telefono) || empty($cargos)) {
-        echo '<script>
-            alert("Por favor, complete todos los campos.");
-            window.location.href = "trabajadores.php";
-        </script>';
-        exit();
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', () => {
+                agregarToast({
+                    tipo: 'error',
+                    titulo: 'Error',
+                    descripcion: 'Por favor, complete todos los campos.',
+                    autoCierre: true
+                });
+            });
+        </script>";
+        $hay_error = true;
     }
 
-    // Validar formato de cédula (solo números y longitud específica)
+    // Validar formato de cédula
     if (!preg_match('/^\d{7,8}$/', $cedula)) {
-        echo '<script>
-            alert("La cédula debe contener entre 7 y 8 dígitos.");
-            window.location.href = "trabajadores.php";
-        </script>';
-        exit();
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', () => {
+                agregarToast({
+                    tipo: 'error',
+                    titulo: 'Error',
+                    descripcion: 'La cédula debe contener entre 7 y 8 dígitos.',
+                    autoCierre: true
+                });
+            });
+        </script>";
+        $hay_error = true;
     }
 
-    // Validar formato de teléfono (solo números y longitud específica)
+    // Validar formato de teléfono
     if (!preg_match('/^\d{11}$/', $telefono)) {
-        echo '<script>
-            alert("El teléfono debe contener exactamente 11 dígitos.");
-            window.location.href = "trabajadores.php";
-        </script>';
-        exit();
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', () => {
+                agregarToast({
+                    tipo: 'error',
+                    titulo: 'Error',
+                    descripcion: 'El teléfono debe contener exactamente 11 dígitos.',
+                    autoCierre: true
+                });
+            });
+        </script>";
+        $hay_error = true;
     }
 
     // Validar longitud de nombre y apellido
     if (strlen($nombre) > 50 || strlen($apellido) > 50) {
-        echo '<script>
-            alert("El nombre y el apellido no deben exceder los 50 caracteres.");
-            window.location.href = "trabajadores.php";
-        </script>';
-        exit();
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', () => {
+                agregarToast({
+                    tipo: 'error',
+                    titulo: 'Error',
+                    descripcion: 'El nombre y el apellido no deben exceder los 50 caracteres.',
+                    autoCierre: true
+                });
+            });
+        </script>";
+        $hay_error = true;
     }
 
     // Verificar si la cédula ya existe para el mismo cargo
@@ -74,26 +100,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar'])) {
     $verificar_cedula->store_result();
 
     if ($verificar_cedula->num_rows > 0) {
-        echo '<script>
-            alert("La cédula ya está registrada para este cargo.");
-            window.location.href = "trabajadores.php";
-        </script>';
-        exit();
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', () => {
+                agregarToast({
+                    tipo: 'error',
+                    titulo: 'Error',
+                    descripcion: 'La cédula ya está registrada para este cargo.',
+                    autoCierre: true
+                });
+            });
+        </script>";
+        $hay_error = true;
     }
     $verificar_cedula->close();
 
-    // Insertar el nuevo trabajador
-    $stmt = $enlace->prepare("INSERT INTO trabajadores (nombre, apellido, cedula, telefono, cargos) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssi", $nombre, $apellido, $cedula, $telefono, $cargos);
-    if ($stmt->execute()) {
-        echo '<script>
-            alert("Trabajador registrado correctamente.");
-            window.location = "trabajadores.php";
-        </script>';
-    } else {
-        echo '<script>alert("Ocurrió un error al registrar el trabajador.");</script>';
+    // Solo registrar si NO hay errores
+    if (!$hay_error) {
+        $stmt = $enlace->prepare("INSERT INTO trabajadores (nombre, apellido, cedula, telefono, cargos) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssi", $nombre, $apellido, $cedula, $telefono, $cargos);
+        if ($stmt->execute()) {
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    agregarToast({
+                        tipo: 'exito',
+                        titulo: 'Éxito',
+                        descripcion: 'Trabajador registrado correctamente',
+                        autoCierre: true
+                    });
+                });
+            </script>";
+        } else {
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    agregarToast({
+                        tipo: 'error',
+                        titulo: 'Error',
+                        descripcion: 'Ocurrió un error al registrar el trabajador.',
+                        autoCierre: true
+                    });
+                });
+            </script>";
+        }
+        $stmt->close();
     }
-    $stmt->close();
 }
 
 // Manejar la eliminación de un trabajador
@@ -118,56 +167,99 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar'])) {
     $telefono = htmlspecialchars(trim($_POST['telefono']));
     $cargos = intval($_POST['cargos']);
 
+    $hay_error = false;
+
     // Validar campos vacíos
     if (empty($nombre) || empty($apellido) || empty($cedula) || empty($telefono) || empty($cargos)) {
-        echo '<script>
-            alert("Por favor, complete todos los campos.");
-            window.location.href = "trabajadores.php";
-        </script>';
-        exit();
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', () => {
+                agregarToast({
+                    tipo: 'error',
+                    titulo: 'Error',
+                    descripcion: 'Por favor, complete todos los campos.',
+                    autoCierre: true
+                });
+            });
+        </script>";
+        $hay_error = true;
     }
 
     // Validar formato de cédula y teléfono
     if (!preg_match('/^\d{7,8}$/', $cedula)) {
-        echo '<script>
-            alert("La cédula debe contener entre 7 y 8 dígitos.");
-            window.location.href = "trabajadores.php";
-        </script>';
-        exit();
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', () => {
+                agregarToast({
+                    tipo: 'error',
+                    titulo: 'Error',
+                    descripcion: 'La cédula debe contener entre 7 y 8 dígitos.',
+                    autoCierre: true
+                });
+            });
+        </script>";
+        $hay_error = true;
     }
     if (!preg_match('/^\d{11}$/', $telefono)) {
-        echo '<script>
-            alert("El teléfono debe contener exactamente 11 dígitos.");
-            window.location.href = "trabajadores.php";
-        </script>';
-        exit();
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', () => {
+                agregarToast({
+                    tipo: 'error',
+                    titulo: 'Error',
+                    descripcion: 'El teléfono debe contener exactamente 11 dígitos.',
+                    autoCierre: true
+                });
+            });
+        </script>";
+        $hay_error = true;
     }
 
     // Validar longitud de nombre y apellido
     if (strlen($nombre) > 50 || strlen($apellido) > 50) {
-        echo '<script>
-            alert("El nombre y el apellido no deben exceder los 50 caracteres.");
-            window.location.href = "trabajadores.php";
-        </script>';
-        exit();
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', () => {
+                agregarToast({
+                    tipo: 'error',
+                    titulo: 'Error',
+                    descripcion: 'El nombre y el apellido no deben exceder los 50 caracteres.',
+                    autoCierre: true
+                });
+            });
+        </script>";
+        $hay_error = true;
     }
 
     // Actualizar el trabajador en la base de datos
-    $stmt = $enlace->prepare("UPDATE trabajadores SET nombre = ?, apellido = ?, cedula = ?, telefono = ?, cargos = ? WHERE id_trabajador = ?");
-    $stmt->bind_param("ssssii", $nombre, $apellido, $cedula, $telefono, $cargos, $id_trabajador);
+    if (!$hay_error) {
+        $stmt = $enlace->prepare("UPDATE trabajadores SET nombre = ?, apellido = ?, cedula = ?, telefono = ?, cargos = ? WHERE id_trabajador = ?");
+        $stmt->bind_param("ssssii", $nombre, $apellido, $cedula, $telefono, $cargos, $id_trabajador);
 
-    if ($stmt->execute()) {
-        echo '<script>
-            alert("Trabajador actualizado correctamente.");
-            window.location = "trabajadores.php";
-        </script>';
-    } else {
-        echo '<script>alert("Ocurrió un error al actualizar el trabajador.");</script>';
+        if ($stmt->execute()) {
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    agregarToast({
+                        tipo: 'exito',
+                        titulo: 'Éxito',
+                        descripcion: 'Trabajador actualizado correctamente',
+                        autoCierre: true
+                    });
+                });
+            </script>";
+        } else {
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    agregarToast({
+                        tipo: 'error',
+                        titulo: 'Error',
+                        descripcion: 'Ocurrió un error al actualizar el trabajador.',
+                        autoCierre: true
+                    });
+                });
+            </script>";
+        }
+        $stmt->close();
     }
-    $stmt->close();
 }
 
-// Obtener todos los registros de la tabla trabajadores con el nombre del cargo
+// Obtener todos los registros de la tabla trabajadores with el nombre del cargo
 $resultado = $enlace->query("
     SELECT trabajadores.id_trabajador, trabajadores.nombre, trabajadores.apellido, trabajadores.cedula, trabajadores.telefono, cargos.cargo, trabajadores.cargos 
     FROM trabajadores
@@ -184,6 +276,7 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
     $cargos_array[] = $cargo;
 }
 
+include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
 
 ?>
 
@@ -214,7 +307,6 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
 </head>
 <body class="trab-body">
     <?php include 'vista/top-bar.php'; ?>
-    <?php include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones ?>
 
     <div class="container">
         <h1>Gestión de Trabajadores</h1>
@@ -252,7 +344,7 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form method="POST" action="trabajadores.php">
+                        <form method="POST" action="">
                             <input type="hidden" name="data_tipo" value="agregar" />
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre</label>
@@ -347,7 +439,7 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
                             <input type="hidden" name="id" value="<?php echo $fila['id_trabajador']; ?>">
                             <!--<button type="button" class="btn btn-success" onclick="window.location.href='graficas.php?cedula=<?php echo $fila['cedula']; ?>'">
                                 <i class="fa-solid fa-square-poll-vertical"></i>
-                            </button>-->
+                            </button>-->  
                             <button type="button" class="btn btn-warning " data-bs-toggle="modal" data-bs-target="#exampleModal<?php echo $fila['id_trabajador']; ?>">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>     
@@ -416,43 +508,7 @@ while ($cargo = $cargos_resultado_modal->fetch_assoc()) {
     </div>
 
     <script>
-//document.addEventListener('DOMContentLoaded', function() {
-//    const params = new URLSearchParams(window.location.search);
-//    const error = params.get('error');
-//    if (error) {
-//        let descripcion = '';
-//        switch (error) {
-//            case 'campos':
-//                descripcion = 'Por favor, complete todos los campos.';
-//                break;
-//            case 'cedula':
-//                descripcion = 'La cédula debe contener entre 7 y 8 dígitos.';
-//                break;
-//            case 'telefono':
-//                descripcion = 'El teléfono debe contener exactamente 11 dígitos.';
-//                break;
-//            case 'longitud':
-//                descripcion = 'El nombre y el apellido no deben exceder los 50 caracteres.';
-//                break;
-//            case 'duplicado':
-//                descripcion = 'La cédula ya está registrada para este cargo.';
-//                break;
-//            default:
-//                descripcion = 'Ocurrió un error.';
-//            
-//           
-//        }
-//        agregarToast({
-//            tipo: 'alert',
-//            titulo: 'Alerta',
-//            descripcion: descripcion,
-//            autoCierre: false // <--- Esto es lo importante
-//        });
-//        // Opcional: abrir el modal automáticamente
-//        var modal = new bootstrap.Modal(document.getElementById('addWorkerModal'));
-//        modal.show();
-//    }
-//});
+
 </script>
 
     <script src="Java/js/bootstrap.bundle.min.js"></script>

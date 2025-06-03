@@ -1,7 +1,9 @@
 // Define primero la función agregarToast
 const agregarToast = ({ tipo, titulo, descripcion, autoCierre }) => {
     // Crear nuevo toast
+    console.log('Agregando toast:', tipo, titulo, descripcion, autoCierre);
     const nuevoToast = document.createElement('div');
+    nuevoToast.style.display = 'flex';
 
     // Agregar clases correspondientes
     nuevoToast.classList.add('toast');
@@ -24,6 +26,7 @@ const agregarToast = ({ tipo, titulo, descripcion, autoCierre }) => {
         error: `<i class="fa-solid fa-circle-exclamation i"></i>`,
         error2: `<i class="fa-solid fa-circle-exclamation i"></i>`,
         info: `<i class="fa-solid fa-circle-info i"></i>`,
+        alert: `<i class="fa-solid fa-triangle-exclamation i"></i>`,
     };
 
     // Plantilla del toast
@@ -87,9 +90,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 agregarToast({ tipo: 'error', titulo: 'Error', descripcion: 'Hubo un error al procesar la información.', autoCierre: true });
             } else if (tipo === 'error2') {
                 agregarToast({ tipo: 'error2', titulo: 'Error', descripcion: 'Usuario o contraseña incorrecta', autoCierre: true });
+            } else if (tipo === 'error') {
+                agregarToast({ tipo: 'error2', titulo: 'Error', descripcion: 'La cédula debe contener entre 7 y 8 dígitos.', autoCierre: true });
             } else if (tipo === 'info') {
                 agregarToast({ tipo: 'info', titulo: 'Información', descripcion: 'Por favor, asegúrese de que la fecha y hora de su ordenador estén configuradas correctamente para que el sistema funcione adecuadamente.'});
-            } 
+            } else if (tipo === 'alert') {
+                agregarToast({ tipo: 'alert', titulo: 'Alerta', descripcion: 'Ya se registró la entrada de este trabajador hoy.'});
+            } else if (tipo === 'alert') {
+                agregarToast({ tipo: 'alert', titulo: 'Alerta', descripcion: 'Ya se registró la salida de este trabajador hoy.'});
+            }
         });
     }
 

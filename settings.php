@@ -29,6 +29,7 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
     <link rel="stylesheet" href="Stilos/inicio.css">
     <script src="Java/jquery.dataTables.min.js"></script>
     <script src="Java/jquery.dataTables.min.js"></script>
+    <script src="Java/notificaciones.js" defer></script>
 
 
 </head>
@@ -137,6 +138,24 @@ $(document).ready(function() {
     });
 });
 </script>
+
+<?php
+if (isset($_GET['toast_tipo']) && isset($_GET['toast_titulo']) && isset($_GET['toast_descripcion'])) {
+    $toast_tipo = htmlspecialchars($_GET['toast_tipo']);
+    $toast_titulo = htmlspecialchars($_GET['toast_titulo']);
+    $toast_descripcion = htmlspecialchars($_GET['toast_descripcion']);
+    echo "<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            agregarToast({
+                tipo: '$toast_tipo',
+                titulo: '$toast_titulo',
+                descripcion: '$toast_descripcion',
+                autoCierre: true
+            });
+        });
+    </script>";
+}
+?>
 
 </body>
 </html>
