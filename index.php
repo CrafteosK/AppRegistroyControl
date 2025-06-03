@@ -79,6 +79,22 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
           });
       </script>";
   }
+
+  if (isset($_GET['toast_tipo']) && isset($_GET['toast_titulo']) && isset($_GET['toast_descripcion'])) {
+    $toast_tipo = htmlspecialchars($_GET['toast_tipo']);
+    $toast_titulo = htmlspecialchars($_GET['toast_titulo']);
+    $toast_descripcion = htmlspecialchars($_GET['toast_descripcion']);
+    echo "<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            agregarToast({
+                tipo: '$toast_tipo',
+                titulo: '$toast_titulo',
+                descripcion: '$toast_descripcion',
+                autoCierre: true
+            });
+        });
+    </script>";
+}
   ?>
 
   <script src="Java/Script.js"></script>

@@ -42,7 +42,7 @@ form label {
     text-align: left;
 }
 
-form input[type="email"] {
+form input[type="email"], form input[type="password"] {
     width: 100%;
     padding: 0.8rem;
     margin-bottom: 1rem;
@@ -82,6 +82,17 @@ form p a {
 
 form p a:hover {
     text-decoration: underline;
+}
+
+.error {
+    color: #f44336;
+    font-size: 0.95em;
+    display: block;
+    margin-bottom: 7px;
+}
+
+.error-input {
+    border: 2.5px solid #f44336 !important;
 }
 
 /* Responsive Design */

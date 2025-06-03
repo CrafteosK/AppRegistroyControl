@@ -15,32 +15,36 @@ if (isset($_POST['ID']) && isset($_POST['new_password'])) {
     $new_password = $_POST['new_password'];
     $new_password = hash('sha512', $new_password); // Encriptar la nueva contraseña
 
-    // Depuración: Verificar los datos recibidos
-    echo "ID recibido: $ID<br>";
-    echo "Nueva contraseña (encriptada): $new_password<br>";
-
     // Actualizar la contraseña en la base de datos
     $stmt = "UPDATE usuarios SET password = '$new_password' WHERE ID = $ID";
     $ejecutar = mysqli_query($enlace, $stmt);
 
     if ($ejecutar) {
-        echo '<script>
-            alert("Contraseña actualizada exitosamente");
-            window.location = "index.php?message=ok";
-        </script>';
+        header("Location: index.php?toast_tipo=exito&toast_titulo=Éxito&toast_descripcion=Contraseña+actualizada+exitosamente.");
+        exit();
     } else {
-        echo '<script>
-            alert("Error al actualizar la contraseña");
-            window.location = "index.php?message=error";
-        </script>';
+        header("Location: index.php?toast_tipo=error&toast_titulo=Error&toast_descripcion=Error+al+actualizar+la+contraseña.");
+        exit();
     }
 
     mysqli_close($enlace);
+} else if (isset($_POST['token']) && isset($_POST['new_password'])) {
+    $token = $_POST['token'];
+    $query = mysqli_query($enlace, "SELECT user_id FROM password_resets WHERE token = '$token' AND expires_at > NOW()");
+    if ($row = mysqli_fetch_assoc($query)) {
+        $user_id = $row['user_id'];
+        // Cambiar la contraseña del usuario
+        // Eliminar el token para que no se pueda reutilizar
+        mysqli_query($enlace, "DELETE FROM password_resets WHERE token = '$token'");
+        header("Location: index.php?toast_tipo=exito&toast_titulo=Éxito&toast_descripcion=Contraseña+actualizada+exitosamente.");
+        exit();
+    } else {
+        // Redirigir con toast de error: enlace inválido o expirado
+        header("Location: index.php?toast_tipo=error&toast_titulo=Error&toast_descripcion=Enlace+inválido+o+expirado.");
+        exit();
+    }
 } else {
-    echo '<script>
-        alert("Error: Datos incompletos");
-        window.location = "index.php?message=error";
-    </script>';
+    header("Location: index.php?toast_tipo=error&toast_titulo=Error&toast_descripcion=Datos+incompletos+para+cambiar+la+contraseña.");
+    exit();
 }
-
 ?>

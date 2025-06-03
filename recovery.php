@@ -22,5 +22,45 @@ session_start();
             <p>¿No tienes cuenta? <a href="register.php">Registrarse</a></p>
         </form>
     </div>
+
+    <script>
+const inputEmail = document.getElementById('email');
+
+function validarEmail() {
+    // Limpiar errores previos
+    let errorEmail = document.getElementById('error-email');
+    if (errorEmail) errorEmail.remove();
+    inputEmail.classList.remove('error-input');
+
+    // Validar email
+    const email = inputEmail.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) {
+        mostrarError('El correo electrónico es requerido.', inputEmail);
+        return false;
+    } else if (!emailRegex.test(email)) {
+        mostrarError('Ingrese un correo electrónico válido.', inputEmail);
+        return false;
+    }
+    return true;
+}
+
+function mostrarError(mensaje, input) {
+    let errorSpan = document.createElement('span');
+    errorSpan.id = 'error-email';
+    errorSpan.className = 'error';
+    errorSpan.textContent = mensaje;
+    input.parentNode.insertBefore(errorSpan, input.nextSibling);
+    input.classList.add('error-input');
+}
+
+// Validar al enviar el formulario
+document.querySelector('form[action="recovery_be.php"]').addEventListener('submit', function(e) {
+    if (!validarEmail()) e.preventDefault();
+});
+
+// Validar al salir del campo (blur)
+inputEmail.addEventListener('blur', validarEmail);
+</script>
 </body>
 </html>

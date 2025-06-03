@@ -39,13 +39,24 @@ if (isset($row2['ID'])) {
 
         $mail->isHTML(true);
         $mail->Subject = 'Recuperación de Contraseña';
+
+        // Generar token seguro
+        $token = bin2hex(random_bytes(32));
+        $expira = date('Y-m-d H:i:s', strtotime('+1 hour'));
+
+        // Guardar token y expiración en la base de datos (puedes crear una tabla password_resets)
+        mysqli_query($enlace, "INSERT INTO password_resets (user_id, token, expires_at) VALUES ('{$row2['ID']}', '$token', '$expira')");
+
+        // Enlace con token
+        $link = "http://localhost/AppRegistroyControl/change_password.php?token=$token";
         $mail->Body = 'Hola, si te llegó este correo es porque has solicitado recuperar tu contraseña.<br>
         <br>Si no has solicitado este correo, por favor ignora este mensaje.<br><br>
-        Entra al siguiente link para cambiar la contraseña: <a href="http://localhost/AppRegistroyControl/change_password.php?id=' . htmlspecialchars($row2['ID']) . '">Recuperar Contraseña</a>';
+        Entra al siguiente link para cambiar la contraseña: <a href="' . $link . '">Recuperar Contraseña</a>';
         $mail->AltBody = 'Este es el mensaje en texto plano para clientes que no soportan HTML.';
 
         $mail->send();
-        header("Location: index.php?message=ok");
+        header("Location: index.php?toast_tipo=exito&toast_titulo=Éxito&toast_descripcion=Correo+de+recuperación+enviado+correctamente.");
+        exit();
     } catch (Exception $e) {
         echo "Error al enviar el correo: {$mail->ErrorInfo}";
             }
@@ -53,7 +64,8 @@ if (isset($row2['ID'])) {
             echo "No se encontró el ID del usuario.";
         }
     } else {
-        echo "El correo electrónico no está registrado.";
+        header("Location: index.php?toast_tipo=error&toast_titulo=Error&toast_descripcion=No+se+pudo+enviar+el+correo.+Inténtalo+nuevamente.");
+        exit();
     }
 } else {
     header("Location: index.php?message=not_found");
