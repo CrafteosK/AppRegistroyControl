@@ -56,7 +56,7 @@ CREATE TABLE `backup` (
   `nombre_archivo` varchar(255) NOT NULL,
   `fecha` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +65,7 @@ CREATE TABLE `backup` (
 
 LOCK TABLES `backup` WRITE;
 /*!40000 ALTER TABLE `backup` DISABLE KEYS */;
-INSERT INTO `backup` VALUES (15,'registro.sql','2025-05-22 09:57:11'),(16,'registro.sql','2025-05-22 09:57:22'),(17,'registro.sql','2025-05-22 09:57:41'),(18,'registro.sql','2025-05-22 10:38:26'),(19,'registro.sql','2025-05-22 10:46:26');
+INSERT INTO `backup` VALUES (16,'registro.sql','2025-05-22 09:57:22'),(17,'registro.sql','2025-05-22 09:57:41'),(18,'registro.sql','2025-05-22 10:38:26'),(19,'registro.sql','2025-05-22 10:46:26'),(20,'registro.sql','2025-06-03 00:43:25');
 /*!40000 ALTER TABLE `backup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -146,6 +146,36 @@ INSERT INTO `medical_rest` VALUES (7,32,'2025-04-01','2025-06-05'),(8,33,'2025-0
 UNLOCK TABLES;
 
 --
+-- Table structure for table `password_resets`
+--
+
+DROP TABLE IF EXISTS `password_resets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `password_resets` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `expires_at` datetime NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `token` (`token`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `password_resets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `usuarios` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `password_resets`
+--
+
+LOCK TABLES `password_resets` WRITE;
+/*!40000 ALTER TABLE `password_resets` DISABLE KEYS */;
+INSERT INTO `password_resets` VALUES (1,1,'d74ba29078dd06208c459d6cc84248c10339d5f68ed463553de0b71974215231','2025-06-03 02:26:55','2025-06-03 05:26:55'),(2,1,'69b55e33f47e40f3f556fca685645fe140341dbc58f5c509e67a79016ef7ace6','2025-06-03 02:27:35','2025-06-03 05:27:35'),(4,1,'0e024c3c775cf39f60eb95876147ebc41a8bdc26246463ca1f2df28bf614257b','2025-06-03 02:31:58','2025-06-03 05:31:58');
+/*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `trabajadores`
 --
 
@@ -201,7 +231,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Kervin Días ','kervindiaz2017@gmail.com','Craft','d404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db',1),(22,'maria f','elieljuliansanchez@gmail.com','kervin','d404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db',2),(24,'Kervin Diaz','kervindiaz2021@gmail.com','CrafeosK','dcbfced1b4314250ca9f14cab5407cd0c8d58fc7ca2a3d2a4addfb3347247a16a35bfaf09d9151ccd40a98c3c35d43b26cfe1a6f8eea5d6318a7eb6b78fbe057',2),(25,'hola yo','siontv2021@gmail.com','hola','dcbfced1b4314250ca9f14cab5407cd0c8d58fc7ca2a3d2a4addfb3347247a16a35bfaf09d9151ccd40a98c3c35d43b26cfe1a6f8eea5d6318a7eb6b78fbe057',3),(26,'fdhgfdh','dfgdfg@gmail.com','agfdagh','f17413b1c781d8bde01c5e63d2bff4919e478665f039837c5891f491348b34056c47a1143db70c51cf89cbf157c8f82ca4fd2c4550ceb14b5576154e174b6e9b',3);
+INSERT INTO `usuarios` VALUES (1,'Kervin Días ','kervindiaz2017@gmail.com','Craft','dcbfced1b4314250ca9f14cab5407cd0c8d58fc7ca2a3d2a4addfb3347247a16a35bfaf09d9151ccd40a98c3c35d43b26cfe1a6f8eea5d6318a7eb6b78fbe057',1),(22,'maria f','elieljuliansanchez@gmail.com','kervin','d404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db',2),(24,'Kervin Diaz','kervindiaz2021@gmail.com','CrafeosK','dcbfced1b4314250ca9f14cab5407cd0c8d58fc7ca2a3d2a4addfb3347247a16a35bfaf09d9151ccd40a98c3c35d43b26cfe1a6f8eea5d6318a7eb6b78fbe057',2),(25,'hola yo','siontv2021@gmail.com','hola','dcbfced1b4314250ca9f14cab5407cd0c8d58fc7ca2a3d2a4addfb3347247a16a35bfaf09d9151ccd40a98c3c35d43b26cfe1a6f8eea5d6318a7eb6b78fbe057',3),(26,'fdhgfdh','dfgdfg@gmail.com','agfdagh','f17413b1c781d8bde01c5e63d2bff4919e478665f039837c5891f491348b34056c47a1143db70c51cf89cbf157c8f82ca4fd2c4550ceb14b5576154e174b6e9b',3);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -214,4 +244,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-06-03  0:38:33
+-- Dump completed on 2025-06-03  1:35:04
