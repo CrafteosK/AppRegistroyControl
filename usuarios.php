@@ -154,7 +154,8 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
     <link rel="stylesheet" href="fontawesome/fontawesome-free-6.7.2-web/css/all.css">
     <link rel="stylesheet" href="Stilos/jquery.dataTables.min.css">
     <script src="Java/jquery.min.js"></script>
-    <script src="Java/jquery.dataTables.min.js"></script>
+    <script src="Java/jquery.dataTables.min.js"></script>    
+    <script src="Java/main.js"></script>
     <script src="Java/notificaciones.js" defer></script>
 </head>
 <body class="trab-body">
