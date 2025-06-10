@@ -11,8 +11,8 @@ body{
 
 /* Fondo y bordes generales */
 table.dataTable {
-    background: #1f0034ce;
-    border-radius: 20px;
+    background: #bd5bffc1;
+    border-radius: 10px;
     box-shadow: 0 2px 8px rgba(120, 81, 169, 0.08);
     border-collapse: separate !important;
     border-spacing: 0;
@@ -20,21 +20,16 @@ table.dataTable {
     margin: 0 auto;
 }
 
+/* Líneas divisorias moradas */
 table.dataTable th,
 table.dataTable td {
-    padding: 12px 18px;
-    font-size: 1em;
-    text-align: center;
-    border: none;
-    color: #261c38;
-    background-color: #fcf8ff;
-
+    border: 1.5px solid #b39ddb !important;
 }
 
 table.dataTable thead th {
-    background: linear-gradient(90deg, #8400ff 0%, #a084ca 100%);
-    color: #ffffff;
-    border-bottom: none;
+    background: linear-gradient(90deg, #c3aed6 0%, #a084ca 100%);
+    color: #fff;
+    border-bottom: 2.5px solid #7c43bd !important;
     font-weight: bold;
     font-size: 1.05em;
 }
