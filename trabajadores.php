@@ -302,14 +302,18 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
     <link rel="stylesheet" href="Stilos/jquery.dataTables.min.css">
     <script src="Java/jquery.min.js"></script>
     <script src="Java/jquery.dataTables.min.js"></script>
+    <script src="Java/main.js"></script>
     <script src="Java/notificaciones.js" defer></script>
 
 </head>
 <body class="trab-body">
     <?php include 'vista/top-bar.php'; ?>
 
-    <div class="container">
+    <div class="containerh3">
         <h1>Gestión de Trabajadores</h1>
+        </div>
+
+        <div class="tabla-termination">
         <!-- Formulario para filtrar por cargo -->
         <form method="GET" action="trabajadores.php" class="mb-3 d-flex align-items-center from-rigth">
             <label for="filtro-cargo" class="form-label me-2">Filtrar Cargo:</label>
@@ -385,7 +389,7 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
         <table class="table table-striped table-hover" id="data-tables">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>ID</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Cédula</th>

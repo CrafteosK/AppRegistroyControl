@@ -1,7 +1,13 @@
-/* General */
+@font-face {
+  font-family: 'Lato';
+  src: url('../Stilos/PT_Sans/PTSans-Bold.ttf');
+  font-weight: bold;
+  font-style: bold;
+}
+
 body {
-    background-image: url('../imagen/result.png');
-    background-size: auto;
+    background-image: url('../imagen/parque.jpg');
+    background-size: 1300px;
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-position: center;
@@ -11,16 +17,16 @@ body {
 main.content {
     align-items: center;
     padding: 6rem;
-    background-color: #4403707b; /* Fondo claro para diferenciar */
+    background-color: #44037095; /* Fondo claro para diferenciar */
     border-radius: 40px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-width: 600px;
-    margin: 2rem auto;
+    margin: 6rem auto;
     text-align: center;
 }
 
 main.content h1 {
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Lato';
     font-size: 2rem;
     color: #ffffff;
     margin-bottom: 1rem;
@@ -104,14 +110,15 @@ main.content .btn-inicio button.salida:hover {
 }
 
 .hola {
-    position: fixed;
+    position: fixed; 
     z-index: 1000;
-    font-size: 1.5rem;
-    color: #ffffff;
+    font-size: 1.5rem; 
+    color: #ffffff; 
     text-shadow: 2px 2px 4px rgb(255, 0, 115);
     margin-left: 5rem;
-    padding-top: 0.5rem;
+    top: 10px;
     pointer-events: none;
+    font-family: 'Lato';
 }
 
 /* Toast */
@@ -416,45 +423,42 @@ main.content .btn-inicio button.salida:hover {
 
 /*Contenedor settings*/
 .container-settings {
-    position: fixed;
+    position: relative;
     top: 15%;
-    left: 24%;
-    width: 1100px;
+    left: 15%;
+    width: 900px;
     height: 800px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background:linear-gradient(#4b006e7d, #137dff6c);
     border-radius: 30px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.9);
     gap: 20px;
 }
 
 .nav-settings {
-    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(203, 98, 255, 0.788);
     border-radius: 30px;
 }
 
 .nav-settings .titulo-settings {
     text-align: center;
-    border-radius: 10px 10px 0 0;
-    background: #4c006e;
+    border-radius: 20px 20px 0 0;
+    background: #29003b;
     width: 100%;
     padding: 20px;
     height: auto;
-    /*centrar contenido*/
     display: flex;
     justify-content: center;
 
 }
 
 .nav-settings .titulo-settings h2{
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Lato';
     font-size: 2rem;
     color: #fff;
     text-shadow: 2px 2px 4px rgba(255, 0, 115, 0.628);
@@ -470,23 +474,26 @@ main.content .btn-inicio button.salida:hover {
 .nav-settings .nav ul {
     flex-direction: column;
     display: flex;
-    width: 25%;
+    width: 19%;
     height: 90.4%;
     padding: 0;
-    margin: 0;
-    background: rgb(100, 4, 163);
-    border-radius: 0 0 0 10px;
+    margin-top: 0px;
+    border-radius: 0px 0 0px 30px;
+    background-color: #260037;
+    gap: 10px;
 }
 
 .nav-settings .nav ul li {
     list-style: none;
     padding: 20px;
+    margin-top: 30px;
     margin-bottom: 0px;
     text-align: center;
     font-size: 1.2rem;
     color: #fff;
     cursor: pointer;
     background: rgba(68, 0, 113, 0.696);
+    border-radius: 20px;
     width: 100%;
     height: auto;
     transition: 0.5s;
@@ -570,8 +577,8 @@ main.content .btn-inicio button.salida:hover {
     justify-content: center;
     border-radius: 50px;
     position: absolute;
-    top: 20%;
-    left: 35%;
+    top: 13%;
+    left: 25%;
     box-shadow: #3901549a 0px 10px 20px;
     overflow: hidden;
 }
@@ -607,8 +614,9 @@ main.content .btn-inicio button.salida:hover {
 }
 
 .nav button {
-    background: #4c006e;
+    background: linear-gradient(to right, #4c006e, #137dffc4);
     color: #ffffff;
+    border-radius: 10px;
     padding: 10px 20px;
     border: none;
     cursor: pointer;
@@ -645,4 +653,3 @@ td {
     font-size: 1.2rem;
     color: #ffffff;
 }
-

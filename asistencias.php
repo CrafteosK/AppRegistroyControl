@@ -97,6 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="Stilos/jquery.dataTables.min.css">
     <script src="Java/jquery.min.js"></script>
     <script src="Java/jquery.dataTables.min.js"></script>
+    <script src="Java/main.js"></script>
 </head>
 <body>
 
@@ -153,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <table class="table table-striped table-hover" id="data-tables">
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th>ID</th>
                         <th>Nombre</th>
                         <th>Apellido</th>
                         <th>Cédula</th>

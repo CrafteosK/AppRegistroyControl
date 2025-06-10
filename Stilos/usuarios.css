@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Lato';
+  src: url('../Stilos/PT_Sans/PTSans-Bold.ttf');
+  font-weight: bold;
+  font-style: bold;
+}
+
+
 body {
     position: relative;
     margin: 0;
@@ -10,26 +18,35 @@ body {
     background-position: center;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 20px auto;
+.container3 {
+    width: 50%;            
+    max-width: 1000px;
+    margin-top: 80px;
+    margin-left: 340px; 
     padding: 20px;
     background-color: rgba(59, 0, 86, 0.687);
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    color: #fff;
-
 }
 
 /* Título principal */
-.container h1 {
+.container3 h1 {
     font-size: 2.5rem;
     text-align: center;
     font-weight: bold;
     color: #ffffff; /* Morado oscuro */
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     text-shadow: 2px 2px 4px rgba(255, 0, 191, 0.5);
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Lato';
+}
+
+.container4 {
+    background-color: rgba(59, 0, 86, 0.687);
+    padding: 10px;
+    border-radius: 30px;
+    width: 1100px;
+    margin-top: 50px;
+    margin-left: 120px;
 }
 
 form.from-rigth {
@@ -58,35 +75,6 @@ form.from-rigth select {
 form.from-rigth select:focus {
     border-color: #1565c0; /* Azul oscuro */
     outline: none;
-}
-
-/* Tabla */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-}
-
-table thead {
-    background-color: #4a148c; /* Morado oscuro */
-    color: #fff;
-}
-
-table th, table td {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ddd;
-}
-
-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-table tbody tr:hover {
-    background-color: #f1f1f1;
 }
 
 /* Botones de acciones */
@@ -168,20 +156,20 @@ button.btn-primary:hover {
 /* Mensaje de "No se encontraron registros" */
 table tbody tr td.text-center {
     font-size: 1.2rem;
-    color: #757575; /* Gris */
+    color: #797979; /* Gris */
     font-style: italic;
 }
 
 .hola {
     position: fixed; 
-    z-index: 1000; 
+    z-index: 1000;
     font-size: 1.5rem; 
     color: #ffffff; 
     text-shadow: 2px 2px 4px rgb(255, 0, 115);
     margin-left: 5rem;
-    padding-top: 0.5rem;
+    top: 10px;
+    font-family: 'Lato';
     pointer-events: none;
-
 }
 
 /* Toast */

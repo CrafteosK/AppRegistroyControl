@@ -151,18 +151,20 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
     <link rel="stylesheet" href="Stilos/usuarios.css">
     <link rel="stylesheet" href="Stilos/css/bootstrap.min.css">  <!--Opcional: agrega estilos a las tablas -->
     <link rel="stylesheet" href="Stilos/styles_tablas.css">  <!--Opcional: agrega estilos a las tablas -->
-    <link rel="stylesheet" href="fontawesome/fontawesome-free-6.7.2-web/css/all.css">
+    <link rel="stylesheet" href="fontawesome/fontawesome-free-6.7.2-web/css/all.css">">
     <link rel="stylesheet" href="Stilos/jquery.dataTables.min.css">
     <script src="Java/jquery.min.js"></script>
-    <script src="Java/jquery.dataTables.min.js"></script>
+    <script src="Java/jquery.dataTables.min.js"></script>    
+    <script src="Java/main.js"></script>
     <script src="Java/notificaciones.js" defer></script>
 </head>
 <body class="trab-body">
     <?php include 'vista/top-bar.php'; ?>
 
-    <div class="container">
+    <div class="container3">
         <h1>Registro de usuarios</h1>
-        <!-- Formulario para filtrar por rol -->
+        </div>
+    <div class="container4">
         <form method="GET" action="usuarios.php" class="mb-3 d-flex align-items-center from-rigth">
             <label for="filtro-rol" class="form-label me-2">Filtrar Rol:</label>
             <select name="rol" id="filtro-rol" class="form-select me-3 sel2" onchange="this.form.submit()">

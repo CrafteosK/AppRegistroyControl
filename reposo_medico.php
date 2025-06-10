@@ -194,6 +194,7 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
     <link rel="stylesheet" href="Stilos/jquery.dataTables.min.css">
     <script src="Java/jquery.min.js"></script>
     <script src="Java/jquery.dataTables.min.js"></script>
+    <script src="Java/main.js"></script>
     <script src="Java/notificaciones.js" defer></script>
 </head>
 <body>
@@ -313,7 +314,7 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
             <table class="table table-striped table-hover" id="data-tables">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">ID</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Apellido</th>
                     <th scope="col">Cédula</th>
