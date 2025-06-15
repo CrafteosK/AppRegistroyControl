@@ -31,11 +31,11 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
           <form action="login_usuario_be.php" class="formulario__login" method="post" id="form-login" autocomplete="off" novalidate>
             <input type="hidden" name="data_tipo" value="login" />
             <label for="usuario">Usuario</label>
-            <input type="text" id="usuario" name="user" placeholder="Introduzca el usuario" required />
+            <input type="text" id="usuario" name="user" placeholder="Introduzca el usuario" />
             <span class="error" id="error-login-usuario"></span>
 
             <label for="password">Contraseña</label>
-            <input type="password" id="password" name="password" placeholder="Introduzca la contraseña" required />
+            <input type="password" id="password" name="password" placeholder="Introduzca la contraseña" />
             <span class="error" id="error-login-password"></span>
 
             <div class="remember">

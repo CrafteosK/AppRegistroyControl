@@ -66,8 +66,148 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Registrar entrada o salida en la tabla asistencias
                 if (isset($_POST['btnentrada'])) {
                     $tipo = 'entrada';
+
+                    // Verificar si ya existe una entrada hoy
+                    $fecha_hoy = date('Y-m-d');
+                    $verificar = $enlace->prepare("
+                        SELECT id FROM asistencias 
+                        WHERE cedula = ? AND tipo = 'entrada' AND DATE(hora) = ?
+                    ");
+                    $verificar->bind_param("ss", $cedula, $fecha_hoy);
+                    $verificar->execute();
+                    $verificar->store_result();
+
+                    if ($verificar->num_rows > 0) {
+                        // Ya existe registro de entrada hoy
+                        echo "<script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                agregarToast({
+                                    tipo: 'alert',
+                                    titulo: 'Alerta',
+                                    descripcion: 'Ya se registró la entrada de este trabajador hoy.',
+                                    autoCierre: true
+                                });
+                            });
+                        </script>";
+                    } else {
+                        // Insertar entrada
+                        $stmt = $enlace->prepare("
+                            INSERT INTO asistencias (nombre, apellido, cedula, tipo_trabajador, tipo, hora)
+                            VALUES (?, ?, ?, ?, 'entrada', ?)
+                        ");
+                        $stmt->bind_param("sssss", $nombre, $apellido, $cedula, $tipo_trabajador, $hora_actual);
+
+                        if ($stmt->execute()) {
+                            echo "<script>
+                                document.addEventListener('DOMContentLoaded', () => {
+                                    agregarToast({
+                                        tipo: 'exito',
+                                        titulo: 'Éxito',
+                                        descripcion: 'Entrada registrada correctamente',
+                                        autoCierre: true
+                                    });
+                                });
+                            </script>";
+                        } else {
+                            echo "<script>
+                                document.addEventListener('DOMContentLoaded', () => {
+                                    agregarToast({
+                                        tipo: 'error',
+                                        titulo: 'Error',
+                                        descripcion: 'Error al registrar la entrada.',
+                                        autoCierre: true
+                                    });
+                                });
+                            </script>";
+                        }
+                        $stmt->close();
+                    }
+                    $verificar->close();
+
                 } elseif (isset($_POST['btnsalida'])) {
                     $tipo = 'salida';
+
+                    // Verificar si ya existe una entrada hoy
+                    $fecha_hoy = date('Y-m-d');
+                    $verificar_entrada = $enlace->prepare("
+                        SELECT id FROM asistencias 
+                        WHERE cedula = ? AND tipo = 'entrada' AND DATE(hora) = ?
+                    ");
+                    $verificar_entrada->bind_param("ss", $cedula, $fecha_hoy);
+                    $verificar_entrada->execute();
+                    $verificar_entrada->store_result();
+
+                    if ($verificar_entrada->num_rows == 0) {
+                        // No hay entrada registrada hoy, no permitir salida
+                        echo "<script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                agregarToast({
+                                    tipo: 'alert',
+                                    titulo: 'Alerta',
+                                    descripcion: 'Debe registrar primero una entrada antes de registrar la salida.',
+                                    autoCierre: true
+                                });
+                            });
+                        </script>";
+                    } else {
+                        // Verificar si ya existe una salida hoy
+                        $verificar_salida = $enlace->prepare("
+                            SELECT id FROM asistencias 
+                            WHERE cedula = ? AND tipo = 'salida' AND DATE(hora) = ?
+                        ");
+                        $verificar_salida->bind_param("ss", $cedula, $fecha_hoy);
+                        $verificar_salida->execute();
+                        $verificar_salida->store_result();
+
+                        if ($verificar_salida->num_rows > 0) {
+                            // Ya existe registro de salida hoy
+                            echo "<script>
+                                document.addEventListener('DOMContentLoaded', () => {
+                                    agregarToast({
+                                        tipo: 'alert',
+                                        titulo: 'Alerta',
+                                        descripcion: 'Ya se registró la salida de este trabajador hoy.',
+                                        autoCierre: true
+                                    });
+                                });
+                            </script>";
+                        } else {
+                            // Insertar salida
+                            $stmt = $enlace->prepare("
+                                INSERT INTO asistencias (nombre, apellido, cedula, tipo_trabajador, tipo, hora)
+                                VALUES (?, ?, ?, ?, 'salida', ?)
+                            ");
+                            $stmt->bind_param("sssss", $nombre, $apellido, $cedula, $tipo_trabajador, $hora_actual);
+
+                            if ($stmt->execute()) {
+                                echo "<script>
+                                    document.addEventListener('DOMContentLoaded', () => {
+                                        agregarToast({
+                                            tipo: 'exito',
+                                            titulo: 'Éxito',
+                                            descripcion: 'Salida registrada correctamente',
+                                            autoCierre: true
+                                        });
+                                    });
+                                </script>";
+                            } else {
+                                echo "<script>
+                                    document.addEventListener('DOMContentLoaded', () => {
+                                        agregarToast({
+                                            tipo: 'error',
+                                            titulo: 'Error',
+                                            descripcion: 'Error al registrar la salida.',
+                                            autoCierre: true
+                                        });
+                                    });
+                                </script>";
+                            }
+                            $stmt->close();
+                        }
+                        $verificar_salida->close();
+                    }
+                    $verificar_entrada->close();
+
                 } else {
                     echo "<script>
                         document.addEventListener('DOMContentLoaded', () => {
@@ -81,67 +221,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </script>";
                     return;
                 }
-
-                // Verificar si ya existe un registro de este tipo hoy
-                $fecha_hoy = date('Y-m-d');
-                $verificar = $enlace->prepare("
-                    SELECT id FROM asistencias 
-                    WHERE cedula = ? AND tipo = ? AND DATE(hora) = ?
-                ");
-                $verificar->bind_param("sss", $cedula, $tipo, $fecha_hoy);
-                $verificar->execute();
-                $verificar->store_result();
-
-                if ($verificar->num_rows > 0) {
-                    // Ya existe registro de este tipo hoy
-                    $mensaje = $tipo === 'entrada' 
-                        ? 'Ya se registró la entrada de este trabajador hoy.'
-                        : 'Ya se registró la salida de este trabajador hoy.';
-                    echo "<script>
-                        document.addEventListener('DOMContentLoaded', () => {
-                            agregarToast({
-                                tipo: 'alert',
-                                titulo: 'Alerta',
-                                descripcion: '$mensaje',
-                                autoCierre: true
-                            });
-                        });
-                    </script>";
-                } else {
-                    // Insertar los datos en la tabla asistencias
-                    $stmt = $enlace->prepare("
-                        INSERT INTO asistencias (nombre, apellido, cedula, tipo_trabajador, tipo, hora)
-                        VALUES (?, ?, ?, ?, ?, ?)
-                    ");
-                    $stmt->bind_param("ssssss", $nombre, $apellido, $cedula, $tipo_trabajador, $tipo, $hora_actual);
-
-                    if ($stmt->execute()) {
-                        // Mostrar notificación toast de éxito siempre que se registre asistencia
-                        echo "<script>
-                            document.addEventListener('DOMContentLoaded', () => {
-                                agregarToast({
-                                    tipo: 'exito',
-                                    titulo: 'Éxito',
-                                    descripcion: 'Asistencia registrada correctamente',
-                                    autoCierre: true
-                            });
-                        });
-                    </script>";
-                    } else {
-                        echo "<script>
-                            document.addEventListener('DOMContentLoaded', () => {
-                                agregarToast({
-                                    tipo: 'error',
-                                    titulo: 'Error',
-                                    descripcion: 'Error al registrar la asistencia.',
-                                    autoCierre: true
-                            });
-                        });
-                    </script>";
-                    }
-                    $stmt->close();
-                }
-                $verificar->close();
             } else {
                 echo "<script>
                     document.addEventListener('DOMContentLoaded', () => {
@@ -196,7 +275,7 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
             <p class="CI">Ingrese su Cedula</p>
             <form action="" method="POST">
                 <input type="hidden" name="data_tipo" value="asistencia" />
-                <input type="text" id="cedula" name="cedula" placeholder="Cedula del Trabajador" required>
+                <input type="text" id="cedula" name="cedula" placeholder="Cedula del Trabajador">
                 <div class="btn-inicio">
                     <button type="submit" class="entrada" name="btnentrada">ENTRADA</button>
                     <button type="submit" class="salida" name="btnsalida">SALIDA</button>

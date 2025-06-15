@@ -30,15 +30,16 @@ if (isset($row2['ID'])) {
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'kervindiaz2021@gmail.com';
-        $mail->Password   = 'udgcpaaykjtrrhsr';
+        $mail->Username   = 'dara12336448@gmail.com';
+        $mail->Password   = 'zvwtlnlntjkzfbje';
         $mail->Port       = 587;
 
-        $mail->setFrom('kervindiaz2021@gmail.com', 'Kervin Diaz');
+        $mail->setFrom('dara12336448@gmail.com', 'Dara');
         $mail->addAddress($email);
 
-        $mail->isHTML(true);
-        $mail->Subject = 'Recuperación de Contraseña';
+        $mail->CharSet = 'UTF-8'; // Asegura la codificación correcta
+        $mail->Subject = "Recuperación de contraseña";
+        $mail->isHTML(true); // Si el mensaje es HTML
 
         // Generar token seguro
         $token = bin2hex(random_bytes(32));
@@ -54,9 +55,12 @@ if (isset($row2['ID'])) {
         Entra al siguiente link para cambiar la contraseña: <a href="' . $link . '">Recuperar Contraseña</a>';
         $mail->AltBody = 'Este es el mensaje en texto plano para clientes que no soportan HTML.';
 
-        $mail->send();
-        header("Location: index.php?toast_tipo=exito&toast_titulo=Éxito&toast_descripcion=Correo+de+recuperación+enviado+correctamente.");
-        exit();
+        if ($mail->send()) {
+            header("Location: index.php?toast_tipo=exito&toast_titulo=Éxito&toast_descripcion=Correo+de+recuperación+enviado+correctamente.");
+            exit();
+        } else {
+            echo "Error al enviar el correo: {$mail->ErrorInfo}";
+        }
     } catch (Exception $e) {
         echo "Error al enviar el correo: {$mail->ErrorInfo}";
             }

@@ -14,14 +14,13 @@ body {
     background-image: url('../imagen/result.png');
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center;
+   
 }
 
 .containerh3 {
     width: 50%;
     max-width: 1000px;
     margin: 80px auto;
-    margin-left: 340px;
     padding: 20px;
     background-color: rgba(59, 0, 86, 0.687);
     border-radius: 10px;
@@ -33,7 +32,9 @@ body {
     padding: 10px;
     border-radius: 30px;
     width: 1100px;
-    margin-left: 120px;
+    max-width: 1000px;
+    margin: 80px auto;
+
 }
 /* Título principal */
 .containerh3 h1 {

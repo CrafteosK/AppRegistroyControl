@@ -35,7 +35,7 @@ if ($row = mysqli_fetch_assoc($query)) {
         <form action="change_password_be.php" method="POST">
             <h1>Cambiar Contraseña</h1>
             <label for="password">Nueva Contraseña</label>
-            <input type="password" id="password" name="new_password" placeholder="Contraseña" required>
+            <input type="password" id="password" name="new_password" placeholder="Contraseña">
             <!-- Campo oculto para enviar el token -->
             <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
             <button type="submit">Recuperar Contraseña</button>

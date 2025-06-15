@@ -34,19 +34,19 @@ if(isset($_SESSION['usuario'])){
             <input type="hidden" name="data_tipo" value="registro" />
 
             <label for="nombre">Nombre completo</label>
-            <input type="text" id="nombre_completo" name="nombre_completo" placeholder="Introduzca su nombre" required />
+            <input type="text" id="nombre_completo" name="nombre_completo" placeholder="Introduzca su nombre" />
             <span class="error" id="error-nombre"></span>
 
             <label for="Correo_electronico">Correo electrónico</label>
-            <input type="email" id="Correo_electronico" name="email" placeholder="Introduzca su Correo electronico" required />
+            <input type="email" id="Correo_electronico" name="email" placeholder="Introduzca su Correo electronico" />
             <span class="error" id="error-email"></span>
 
             <label for="usuario-registro">Usuario</label>
-            <input type="text" id="usuario-registro" name="user" placeholder="Introduzca el usuario" minlength="4" maxlength="15" required />
+            <input type="text" id="usuario-registro" name="user" placeholder="Introduzca el usuario" minlength="4" maxlength="15" />
             <span class="error" id="error-usuario"></span>
 
             <label for="password-registro">Contraseña</label>
-            <input type="password" id="password-registro" name="password" placeholder="Introduzca la contraseña" required />
+            <input type="password" id="password-registro" name="password" placeholder="Introduzca la contraseña" />
             <span class="error" id="error-password"></span>
 
             <button type="submit" name="registro" id="btn__registrarse">Registrar</button>

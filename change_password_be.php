@@ -30,10 +30,14 @@ if (isset($_POST['ID']) && isset($_POST['new_password'])) {
     mysqli_close($enlace);
 } else if (isset($_POST['token']) && isset($_POST['new_password'])) {
     $token = $_POST['token'];
+    $new_password = $_POST['new_password'];
+    $new_password_hashed = hash('sha512', $new_password); // Encriptar la nueva contraseña
+
     $query = mysqli_query($enlace, "SELECT user_id FROM password_resets WHERE token = '$token' AND expires_at > NOW()");
     if ($row = mysqli_fetch_assoc($query)) {
         $user_id = $row['user_id'];
         // Cambiar la contraseña del usuario
+        mysqli_query($enlace, "UPDATE usuarios SET password = '$new_password_hashed' WHERE ID = $user_id");
         // Eliminar el token para que no se pueda reutilizar
         mysqli_query($enlace, "DELETE FROM password_resets WHERE token = '$token'");
         header("Location: index.php?toast_tipo=exito&toast_titulo=Éxito&toast_descripcion=Contraseña+actualizada+exitosamente.");

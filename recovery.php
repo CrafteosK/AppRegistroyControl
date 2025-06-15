@@ -16,7 +16,7 @@ session_start();
             <h1>Ingresa tu Correo</h1>
             <h3>Correo electrónico:</h3>
             <label for="email">Correo electrónico:</label>
-            <input type="email" id="email" name="email" placeholder="Ingresa tu correo electrónico" required>
+            <input type="email" id="email" name="email" placeholder="Ingresa tu correo electrónico" >
             <button type="submit">Recuperar Contraseña</button>
             <p>¿Ya tienes cuenta? <a href="index.php">Iniciar sesión</a></p>
             <p>¿No tienes cuenta? <a href="register.php">Registrarse</a></p>

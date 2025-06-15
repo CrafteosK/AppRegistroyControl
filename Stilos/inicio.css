@@ -425,7 +425,6 @@ main.content .btn-inicio button.salida:hover {
 .container-settings {
     position: relative;
     top: 15%;
-    left: 15%;
     width: 900px;
     height: 800px;
     display: flex;
@@ -435,6 +434,7 @@ main.content .btn-inicio button.salida:hover {
     background:linear-gradient(#4b006e7d, #137dff6c);
     border-radius: 30px;
     gap: 20px;
+    margin: auto;
 }
 
 .nav-settings {

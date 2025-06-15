@@ -29,7 +29,7 @@ if ($filtro === 'todos') {
             t.apellido, 
             t.cedula, 
             c.cargo AS tipo_trabajador, 
-            m.e AS fecha_expedicion, 
+            m.expedicion AS fecha_expedicion, 
             m.vence AS fecha_vencimiento
         FROM medical_rest m
         INNER JOIN trabajadores t ON m.id_trabajador = t.id_trabajador
@@ -44,7 +44,7 @@ if ($filtro === 'todos') {
             t.apellido, 
             t.cedula, 
             c.cargo AS tipo_trabajador, 
-            m.e AS fecha_expedicion, 
+            m.expedicion AS fecha_expedicion, 
             m.vence AS fecha_vencimiento
         FROM medical_rest m
         INNER JOIN trabajadores t ON m.id_trabajador = t.id_trabajador
