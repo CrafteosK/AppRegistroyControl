@@ -93,9 +93,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar'])) {
         $hay_error = true;
     }
 
-    // Verificar si la cédula ya existe para el mismo cargo
-    $verificar_cedula = $enlace->prepare("SELECT id_trabajador FROM trabajadores WHERE cedula = ? AND cargos = ?");
-    $verificar_cedula->bind_param("si", $cedula, $cargos);
+    // Verificar si la cédula ya existe en cualquier cargo
+    $verificar_cedula = $enlace->prepare("SELECT id_trabajador FROM trabajadores WHERE cedula = ?");
+    $verificar_cedula->bind_param("s", $cedula);
     $verificar_cedula->execute();
     $verificar_cedula->store_result();
 
@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar'])) {
                 agregarToast({
                     tipo: 'error',
                     titulo: 'Error',
-                    descripcion: 'La cédula ya está registrada para este cargo.',
+                    descripcion: 'La cédula ya está registrada.',
                     autoCierre: true
                 });
             });
@@ -352,28 +352,33 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
                             <input type="hidden" name="data_tipo" value="agregar" />
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" name="nombre" placeholder="Nombre" required>
+                                <input type="text" class="form-control" name="nombre" placeholder="Nombre" >
+                                <span class="error"></span>
                             </div>
                             <div class="mb-3">
                                 <label for="apellido" class="form-label">Apellido</label>
-                                <input type="text" class="form-control" name="apellido" placeholder="Apellido" required>
+                                <input type="text" class="form-control" name="apellido" placeholder="Apellido" >
+                                <span class="error"></span>
                             </div>
                             <div class="mb-3">
                                 <label for="cedula" class="form-label">Cédula</label>
-                                <input type="text" class="form-control" name="cedula" placeholder="Cédula" required>
+                                <input type="text" class="form-control" name="cedula" placeholder="Cédula" >
+                                <span class="error"></span>
                             </div>
                             <div class="mb-3">
                                 <label for="telefono" class="form-label">Teléfono</label>
-                                <input type="text" class="form-control" name="telefono" placeholder="Teléfono" required>
+                                <input type="text" class="form-control" name="telefono" placeholder="Teléfono" >
+                                <span class="error"></span>
                             </div>
                             <div class="mb-3">
                                 <label for="cargos" class="form-label">Cargo</label>
-                                <select class="form-select" name="cargos" required>
+                                <select class="form-select" name="cargos" >
                                     <option value="" disabled selected>Seleccione un cargo</option>
                                     <?php while ($cargo = $cargos_resultado->fetch_assoc()): ?>
                                         <option value="<?php echo $cargo['id_cargo']; ?>"><?php echo $cargo['cargo']; ?></option>
                                     <?php endwhile; ?>
                                 </select>
+                                <span class="error"></span>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -468,18 +473,22 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
                                     <div class="mb-3">
                                         <label for="nombre" class="form-label">Nombre</label>
                                         <input type="text" class="form-control" name="nombre" value="<?php echo $fila['nombre']; ?>" <?php echo $solo_visualizar ? 'readonly' : ''; ?>>
+                                        <span class="error"></span>
                                     </div>
                                     <div class="mb-3">
                                         <label for="apellido" class="form-label">Apellido</label>
                                         <input type="text" class="form-control" name="apellido" value="<?php echo $fila['apellido']; ?>" <?php echo $solo_visualizar ? 'readonly' : ''; ?>>
+                                        <span class="error"></span>
                                     </div>
                                     <div class="mb-3">
                                         <label for="cedula" class="form-label">Cédula</label>
                                         <input type="text" class="form-control" name="cedula" value="<?php echo $fila['cedula']; ?>" <?php echo $solo_visualizar ? 'readonly' : ''; ?>>
+                                        <span class="error"></span>
                                     </div>
                                     <div class="mb-3">
                                         <label for="telefono" class="form-label">Teléfono</label>
                                         <input type="text" class="form-control" name="telefono" value="<?php echo $fila['telefono']; ?>" <?php echo $solo_visualizar ? 'readonly' : ''; ?>>
+                                        <span class="error"></span>
                                     </div>
                                     <div class="mb-3">
                                         <label for="cargos" class="form-label">Cargo</label>
@@ -492,6 +501,7 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
                                                 </option>
                                             <?php endforeach; ?>
                                         </select>
+                                        <span class="error"></span>
                                     </div>
 
                                     <?php if (!$solo_visualizar): // Mostrar botones solo si no es Usuario ?>
@@ -512,7 +522,196 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
     </div>
 
     <script>
+// Validación para el formulario de agregar trabajador
+document.addEventListener('DOMContentLoaded', function() {
+    // Agregar Trabajador
+    const formAdd = document.querySelector('#addWorkerModal form');
+    if (formAdd) {
+        formAdd.addEventListener('submit', function(e) {
+            let valido = true;
 
+            limpiarErroresModal(formAdd);
+
+            // Nombre
+            const nombre = formAdd.querySelector('[name="nombre"]');
+            if (!nombre.value.trim()) {
+                mostrarErrorModal(nombre, 'El nombre es requerido.');
+                valido = false;
+            } else if (nombre.value.length > 50) {
+                mostrarErrorModal(nombre, 'El nombre no debe exceder 50 caracteres.');
+                valido = false;
+            }
+
+            // Apellido
+            const apellido = formAdd.querySelector('[name="apellido"]');
+            if (!apellido.value.trim()) {
+                mostrarErrorModal(apellido, 'El apellido es requerido.');
+                valido = false;
+            } else if (apellido.value.length > 50) {
+                mostrarErrorModal(apellido, 'El apellido no debe exceder 50 caracteres.');
+                valido = false;
+            }
+
+            // Cédula
+            const cedula = formAdd.querySelector('[name="cedula"]');
+            if (!cedula.value.trim()) {
+                mostrarErrorModal(cedula, 'La cédula es requerida.');
+                valido = false;
+            } else if (!/^\d{7,8}$/.test(cedula.value)) {
+                mostrarErrorModal(cedula, 'La cédula debe contener entre 7 y 8 dígitos.');
+                valido = false;
+            }
+
+            // Teléfono
+            const telefono = formAdd.querySelector('[name="telefono"]');
+            if (!telefono.value.trim()) {
+                mostrarErrorModal(telefono, 'El teléfono es requerido.');
+                valido = false;
+            } else if (!/^\d{11}$/.test(telefono.value)) {
+                mostrarErrorModal(telefono, 'El teléfono debe contener exactamente 11 dígitos.');
+                valido = false;
+            }
+
+            // Cargo
+            const cargos = formAdd.querySelector('[name="cargos"]');
+            if (!cargos.value) {
+                mostrarErrorModal(cargos, 'Debe seleccionar un cargo.');
+                valido = false;
+            }
+
+            if (!valido) e.preventDefault();
+        });
+
+        // Validación al salir de cada input
+        ['nombre', 'apellido', 'cedula', 'telefono', 'cargos'].forEach(function(campo) {
+            const input = formAdd.querySelector(`[name="${campo}"]`);
+            if (input) {
+                input.addEventListener('blur', function() {
+                    limpiarErrorModal(input);
+                    if (!input.value.trim()) {
+                        mostrarErrorModal(input, (campo.charAt(0).toUpperCase() + campo.slice(1)) + ' es requerido.');
+                    } else if (campo === 'cedula' && !/^\d{7,8}$/.test(input.value)) {
+                        mostrarErrorModal(input, 'La cédula debe contener entre 7 y 8 dígitos.');
+                    } else if (campo === 'telefono' && !/^\d{11}$/.test(input.value)) {
+                        mostrarErrorModal(input, 'El teléfono debe contener exactamente 11 dígitos.');
+                    } else if ((campo === 'nombre' || campo === 'apellido') && input.value.length > 50) {
+                        mostrarErrorModal(input, 'No debe exceder 50 caracteres.');
+                    }
+                });
+            }
+        });
+    }
+
+    // Editar Trabajador (para todos los modales de edición)
+    document.querySelectorAll('form[action=""]').forEach(function(formEdit) {
+        if (formEdit.closest('.modal')) {
+            formEdit.addEventListener('submit', function(e) {
+                let valido = true;
+                limpiarErroresModal(formEdit);
+
+                // Nombre
+                const nombre = formEdit.querySelector('[name="nombre"]');
+                if (!nombre.value.trim()) {
+                    mostrarErrorModal(nombre, 'El nombre es requerido.');
+                    valido = false;
+                } else if (nombre.value.length > 50) {
+                    mostrarErrorModal(nombre, 'El nombre no debe exceder 50 caracteres.');
+                    valido = false;
+                }
+
+                // Apellido
+                const apellido = formEdit.querySelector('[name="apellido"]');
+                if (!apellido.value.trim()) {
+                    mostrarErrorModal(apellido, 'El apellido es requerido.');
+                    valido = false;
+                } else if (apellido.value.length > 50) {
+                    mostrarErrorModal(apellido, 'El apellido no debe exceder 50 caracteres.');
+                    valido = false;
+                }
+
+                // Cédula
+                const cedula = formEdit.querySelector('[name="cedula"]');
+                if (!cedula.value.trim()) {
+                    mostrarErrorModal(cedula, 'La cédula es requerida.');
+                    valido = false;
+                } else if (!/^\d{7,8}$/.test(cedula.value)) {
+                    mostrarErrorModal(cedula, 'La cédula debe contener entre 7 y 8 dígitos.');
+                    valido = false;
+                }
+
+                // Teléfono
+                const telefono = formEdit.querySelector('[name="telefono"]');
+                if (!telefono.value.trim()) {
+                    mostrarErrorModal(telefono, 'El teléfono es requerido.');
+                    valido = false;
+                } else if (!/^\d{11}$/.test(telefono.value)) {
+                    mostrarErrorModal(telefono, 'El teléfono debe contener exactamente 11 dígitos.');
+                    valido = false;
+                }
+
+                // Cargo
+                const cargos = formEdit.querySelector('[name="cargos"]');
+                if (!cargos.value) {
+                    mostrarErrorModal(cargos, 'Debe seleccionar un cargo.');
+                    valido = false;
+                }
+
+                if (!valido) e.preventDefault();
+            });
+
+            // Validación al salir de cada input
+            ['nombre', 'apellido', 'cedula', 'telefono', 'cargos'].forEach(function(campo) {
+                const input = formEdit.querySelector(`[name="${campo}"]`);
+                if (input) {
+                    input.addEventListener('blur', function() {
+                        limpiarErrorModal(input);
+                        if (!input.value.trim()) {
+                            mostrarErrorModal(input, (campo.charAt(0).toUpperCase() + campo.slice(1)) + ' es requerido.');
+                        } else if (campo === 'cedula' && !/^\d{7,8}$/.test(input.value)) {
+                            mostrarErrorModal(input, 'La cédula debe contener entre 7 y 8 dígitos.');
+                        } else if (campo === 'telefono' && !/^\d{11}$/.test(input.value)) {
+                            mostrarErrorModal(input, 'El teléfono debe contener exactamente 11 dígitos.');
+                        } else if ((campo === 'nombre' || campo === 'apellido') && input.value.length > 50) {
+                            mostrarErrorModal(input, 'No debe exceder 50 caracteres.');
+                        }
+                    });
+                }
+            });
+        }
+    });
+
+    // Funciones auxiliares
+    function mostrarErrorModal(input, mensaje) {
+        let error = input.parentElement.querySelector('.error');
+        if (!error) {
+            error = document.createElement('span');
+            error.className = 'error';
+            input.parentElement.appendChild(error);
+        }
+        error.textContent = mensaje;
+        error.style.display = 'block';
+        input.classList.add('error-input');
+    }
+
+    function limpiarErrorModal(input) {
+        let error = input.parentElement.querySelector('.error');
+        if (error) {
+            error.textContent = '';
+            error.style.display = 'none';
+        }
+        input.classList.remove('error-input');
+    }
+
+    function limpiarErroresModal(form) {
+        form.querySelectorAll('.error').forEach(function(e) {
+            e.textContent = '';
+            e.style.display = 'none';
+        });
+        form.querySelectorAll('.error-input').forEach(function(e) {
+            e.classList.remove('error-input');
+        });
+    }
+});
 </script>
 
     <script src="Java/js/bootstrap.bundle.min.js"></script>

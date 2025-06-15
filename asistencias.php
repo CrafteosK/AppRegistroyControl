@@ -175,7 +175,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <td><?php echo $fila['cedula']; ?></td>
                             <td><?php echo $fila['tipo_trabajador']; ?></td>
                             <td><?php echo $fila['tipo']; ?></td>
-                            <td><?php echo substr($fila['hora'], 0, 16); ?></td>
+                            <td>
+                                <?php
+                                    $fecha = strtotime($fila['hora']);
+                                    echo date('d/m/Y, H:i', $fecha);
+                                ?>
+                            </td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>

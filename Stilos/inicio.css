@@ -521,6 +521,8 @@ main.content .btn-inicio button.salida:hover {
 
 .import{
     display: flex;
+    overflow: scroll;
+
 }
 
 .export{
@@ -571,7 +573,7 @@ main.content .btn-inicio button.salida:hover {
 .import, .export{
     flex-direction: column;
     width: 600px;
-    height: 550px;
+    height: 650px;
     background: #4403707b;
     text-align: center;
     justify-content: center;

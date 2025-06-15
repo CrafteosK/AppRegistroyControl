@@ -3,6 +3,62 @@ error_reporting(E_ERROR | E_PARSE); // Solo mostrar errores críticos
 require('fpdf/fpdf.php');
 include 'conexion_be.php'; // Conexión a la base de datos
 
+class PDF extends FPDF
+{
+    public $titulo;
+    public $file;
+
+    function Header()
+    {
+        $this->Ln(10);
+        $this->SetFont('Arial', 'B', 16);
+        $this->Cell(0, 20, utf8_decode('C.E.I. Simoncito Guayana'), 0, 1, 'C');
+        $this->Ln(5);
+
+        // Imagen del cintillo (ajusta la ruta si es necesario)
+        $this->Image('imagen/cintillo.jpg', 0, -3, 190, 27);
+
+        // Imagen del logo (ajusta la ruta si es necesario)
+        $this->Image('imagen/Picsart_25-03-31_14-46-19-016.png', 188, 2, 17);
+
+        $this->SetFont('Arial', 'B', 14);
+        // Subtítulo según el archivo
+        if ($this->titulo) {
+            $this->Cell(0, 10, $this->titulo, 0, 1, 'C');
+        }
+        $this->SetFont('Arial', '', 10);
+        $this->Cell(0, 8, date('d/m/Y H:i'), 0, 1, 'C');
+        $this->Ln(3);
+
+        // Encabezados de la tabla según el archivo
+        $this->SetFont('Arial', 'B', 12);
+
+        if ($this->file === 'registros_trabajadores.pdf') {
+            $this->Cell(10, 10, utf8_decode('N°'), 1, 0, 'C');
+            $this->Cell(40, 10, utf8_decode('Nombre'), 1, 0, 'C');
+            $this->Cell(40, 10, utf8_decode('Apellido'), 1, 0, 'C');
+            $this->Cell(30, 10, utf8_decode('Cédula'), 1, 0, 'C');
+            $this->Cell(30, 10, utf8_decode('Teléfono'), 1, 0, 'C');
+            $this->Cell(30, 10, utf8_decode('Cargo'), 1, 0, 'C');
+        } else {
+            $this->Cell(10, 10, utf8_decode('N°'), 1, 0, 'C');
+            $this->Cell(40, 10, utf8_decode('Nombre'), 1, 0, 'C');
+            $this->Cell(40, 10, utf8_decode('Apellido'), 1, 0, 'C');
+            $this->Cell(33.3, 10, utf8_decode('Cédula'), 1, 0, 'C');
+            $this->Cell(33.3, 10, utf8_decode('Telefono'), 1, 0, 'C');
+            $this->Cell(33.3, 10, utf8_decode('Cargo'), 1, 0, 'C');
+        }
+        $this->Ln();
+    }
+
+    function Footer()
+    {
+        $this->SetY(-15);
+        $this->SetFont('Arial', 'I', 10);
+        $this->Cell(0, 10, utf8_decode('Página ') . $this->PageNo() . ' de {nb}', 0, 0, 'C');
+    }
+}
+
 // Verifica si se ha enviado el parámetro "file"
 if (isset($_GET['file'])) {
     $file = $_GET['file'];
@@ -53,60 +109,54 @@ if (isset($_GET['file'])) {
         die("Error en la consulta: " . $enlace->error);
     }
 
-    // Crea el PDF
-    $pdf = new FPDF();
+    $pdf = new PDF();
+    $pdf->AliasNbPages();
+    $pdf->titulo = $titulo;
+    $pdf->file = $file;
     $pdf->AddPage();
-    $pdf->SetFont('Arial', 'B', 16);
-    $pdf->Cell(0, 10, $titulo, 0, 1, 'C');
-    $pdf->Ln(10);
+
+    // Colores para filas intercaladas
+    $gris1 = [230, 230, 230];
+    $gris2 = [245, 245, 245];
+    $contador = 1;
 
     // Agrega encabezados y datos específicos para registros_trabajadores.pdf
     if ($file === 'registros_trabajadores.pdf') {
-        $pdf->SetFont('Arial', 'B', 12);
-        $pdf->Cell(20, 10, 'ID', 1);
-        $pdf->Cell(40, 10, utf8_decode('Nombre'), 1);
-        $pdf->Cell(40, 10, utf8_decode('Apellido'), 1);
-        $pdf->Cell(30, 10, utf8_decode('Cédula'), 1);
-        $pdf->Cell(30, 10, utf8_decode('Teléfono'), 1);
-        $pdf->Cell(30, 10, utf8_decode('Cargo'), 1);
-        $pdf->Ln();
-
         $pdf->SetFont('Arial', '', 10);
         while ($fila = $resultado->fetch_assoc()) {
-            $pdf->Cell(20, 10, $fila['id_trabajador'], 1);
-            $pdf->Cell(40, 10, utf8_decode($fila['nombre']), 1);
-            $pdf->Cell(40, 10, utf8_decode($fila['apellido']), 1);
-            $pdf->Cell(30, 10, utf8_decode($fila['cedula']), 1);
-            $pdf->Cell(30, 10, utf8_decode($fila['telefono']), 1);
-            $pdf->Cell(30, 10, utf8_decode($fila['cargos']), 1);
-            $pdf->Ln();
+            if ($contador % 2 == 0) {
+                $pdf->SetFillColor($gris1[0], $gris1[1], $gris1[2]);
+            } else {
+                $pdf->SetFillColor($gris2[0], $gris2[1], $gris2[2]);
+            }
+            $pdf->Cell(10, 10, $fila['id_trabajador'], 1, 0, 'C', true);
+            $pdf->Cell(40, 10, utf8_decode($fila['nombre']), 1, 0, 'C', true);
+            $pdf->Cell(40, 10, utf8_decode($fila['apellido']), 1, 0, 'C', true);
+            $pdf->Cell(30, 10, utf8_decode($fila['cedula']), 1, 0, 'C', true);
+            $pdf->Cell(30, 10, utf8_decode($fila['telefono']), 1, 0, 'C', true);
+            $pdf->Cell(30, 10, utf8_decode($fila['cargos']), 1, 1, 'C', true);
+            $contador++;
         }
     } else {
-        // Encabezados de la tabla
-        $pdf->SetFont('Arial', 'B', 12);
-        $pdf->Cell(20, 10, 'ID', 1);
-        $pdf->Cell(40, 10, utf8_decode('Nombre'), 1);
-        $pdf->Cell(40, 10, utf8_decode('Apellido'), 1);
-        $pdf->Cell(30, 10, utf8_decode('Cédula'), 1);
-        $pdf->Cell(30, 10, utf8_decode('Tipo'), 1);
-        $pdf->Cell(30, 10, utf8_decode('Hora'), 1);
-        $pdf->Ln();
-
-        // Datos de la tabla
         $pdf->SetFont('Arial', '', 10);
         while ($fila = $resultado->fetch_assoc()) {
+            if ($contador % 2 == 0) {
+                $pdf->SetFillColor($gris1[0], $gris1[1], $gris1[2]);
+            } else {
+                $pdf->SetFillColor($gris2[0], $gris2[1], $gris2[2]);
+            }
             // Verifica si las claves existen antes de usarlas
             $id = isset($fila['id']) ? $fila['id'] : 'N/A';
             $tipo = isset($fila['tipo']) ? utf8_decode($fila['tipo']) : 'N/A';
             $hora_sin_segundos = isset($fila['hora']) ? substr($fila['hora'], 0, 16) : 'N/A';
 
-            $pdf->Cell(20, 10, $id, 1);
-            $pdf->Cell(40, 10, utf8_decode($fila['nombre']), 1);
-            $pdf->Cell(40, 10, utf8_decode($fila['apellido']), 1);
-            $pdf->Cell(30, 10, utf8_decode($fila['cedula']), 1);
-            $pdf->Cell(30, 10, $tipo, 1);
-            $pdf->Cell(30, 10, $hora_sin_segundos, 1);
-            $pdf->Ln();
+            $pdf->Cell(10, 10, $id, 1, 0, 'C', true);
+            $pdf->Cell(40, 10, utf8_decode($fila['nombre']), 1, 0, 'C', true);
+            $pdf->Cell(40, 10, utf8_decode($fila['apellido']), 1, 0, 'C', true);
+            $pdf->Cell(30, 10, utf8_decode($fila['cedula']), 1, 0, 'C', true);
+            $pdf->Cell(30, 10, $tipo, 1, 0, 'C', true);
+            $pdf->Cell(30, 10, $hora_sin_segundos, 1, 1, 'C', true);
+            $contador++;
         }
     }
 
@@ -144,34 +194,31 @@ if (isset($_GET['file'])) {
     }
 
     // Crear el PDF
-    $pdf = new FPDF();
+    $pdf = new PDF();
+    $pdf->AliasNbPages();
+    $pdf->titulo = utf8_decode('Registro de Trabajadores');
+    $pdf->file = '';
     $pdf->AddPage();
-    $pdf->SetFont('Arial', 'B', 16); // Fuente más grande para el título principal
-    $pdf->Cell(0, 10, utf8_decode('C.E.I. Simoncito Guayana'), 0, 1, 'C');
-    $pdf->Ln(5); // Espacio debajo del título principal
 
-    $pdf->SetFont('Arial', 'B', 14); // Fuente más pequeña para el subtítulo
-    $pdf->Cell(0, 10, utf8_decode('Registro de asistencias'), 0, 1, 'C');
-    $pdf->Ln(1);
-
-    // Agregar encabezados de la tabla
-    $pdf->SetFont('Arial', 'B', 12);
-    $pdf->Cell(40, 10, utf8_decode('Nombre'), 1);
-    $pdf->Cell(40, 10, utf8_decode('Apellido'), 1);
-    $pdf->Cell(40, 10, utf8_decode('Cédula'), 1);
-    $pdf->Cell(40, 10, utf8_decode('Teléfono'), 1);
-    $pdf->Cell(30, 10, utf8_decode('Cargo'), 1);
-    $pdf->Ln();
+    $pdf->SetFont('Arial', '', 10);
+    $gris1 = [230, 230, 230];
+    $gris2 = [245, 245, 245];
+    $contador = 1;
 
     // Agregar los datos al PDF
-    $pdf->SetFont('Arial', '', 10);
     while ($fila = $resultado->fetch_assoc()) {
-        $pdf->Cell(40, 10, utf8_decode($fila['nombre']), 1);
-        $pdf->Cell(40, 10, utf8_decode($fila['apellido']), 1);
-        $pdf->Cell(40, 10, utf8_decode($fila['cedula']), 1);
-        $pdf->Cell(40, 10, utf8_decode($fila['telefono']), 1);
-        $pdf->Cell(30, 10, utf8_decode($fila['cargo']), 1);
-        $pdf->Ln();
+        if ($contador % 2 == 0) {
+            $pdf->SetFillColor($gris1[0], $gris1[1], $gris1[2]);
+        } else {
+            $pdf->SetFillColor($gris2[0], $gris2[1], $gris2[2]);
+        }
+        $pdf->Cell(10, 10, $contador, 1, 0, 'C', true);
+        $pdf->Cell(40, 10, utf8_decode($fila['nombre']), 1, 0, 'C', true);
+        $pdf->Cell(40, 10, utf8_decode($fila['apellido']), 1, 0, 'C', true);
+        $pdf->Cell(33.3, 10, utf8_decode($fila['cedula']), 1, 0, 'C', true);
+        $pdf->Cell(33.3, 10, utf8_decode($fila['telefono']), 1, 0, 'C', true);
+        $pdf->Cell(33.3, 10, utf8_decode($fila['cargo']), 1, 1, 'C', true);
+        $contador++;
     }
 
     // Salida del PDF

@@ -24,48 +24,16 @@ if ($filtro_fecha === 'hoy') {
 // Construir la consulta SQL según el filtro de tipo de trabajador
 if ($filtro === 'todos') {
     $consulta = "
-        SELECT c.id, t.nombre, t.apellido, t.cedula, 'Cocinero' AS tipo_trabajador, c.tipo, c.hora
-        FROM cocineros c
-        INNER JOIN trabajadores t ON c.id_trabajador = t.id_trabajador
-        WHERE $consulta_fecha
-        UNION
-        SELECT v.id, t.nombre, t.apellido, t.cedula, 'Vigilante' AS tipo_trabajador, v.tipo, v.hora
-        FROM vigilantes v
-        INNER JOIN trabajadores t ON v.id_trabajador = t.id_trabajador
-        WHERE $consulta_fecha
-        UNION
-        SELECT m.id, t.nombre, t.apellido, t.cedula, 'Maestro' AS tipo_trabajador, m.tipo, m.hora
-        FROM maestros m
-        INNER JOIN trabajadores t ON m.id_trabajador = t.id_trabajador
-        WHERE $consulta_fecha
-        UNION
-        SELECT o.id, t.nombre, t.apellido, t.cedula, 'Obrero' AS tipo_trabajador, o.tipo, o.hora
-        FROM obreros o
-        INNER JOIN trabajadores t ON o.id_trabajador = t.id_trabajador
+        SELECT id, nombre, apellido, cedula, tipo_trabajador, tipo, hora
+        FROM asistencias
         WHERE $consulta_fecha
         ORDER BY hora DESC
     ";
 } else {
     $consulta = "
-        SELECT c.id, t.nombre, t.apellido, t.cedula, 'Cocinero' AS tipo_trabajador, c.tipo, c.hora
-        FROM cocineros c
-        INNER JOIN trabajadores t ON c.id_trabajador = t.id_trabajador
-        WHERE 'Cocinero' = '$filtro' AND $consulta_fecha
-        UNION
-        SELECT v.id, t.nombre, t.apellido, t.cedula, 'Vigilante' AS tipo_trabajador, v.tipo, v.hora
-        FROM vigilantes v
-        INNER JOIN trabajadores t ON v.id_trabajador = t.id_trabajador
-        WHERE 'Vigilante' = '$filtro' AND $consulta_fecha
-        UNION
-        SELECT m.id, t.nombre, t.apellido, t.cedula, 'Maestro' AS tipo_trabajador, m.tipo, m.hora
-        FROM maestros m
-        INNER JOIN trabajadores t ON m.id_trabajador = t.id_trabajador
-        WHERE 'Maestro' = '$filtro' AND $consulta_fecha
-        UNION
-        SELECT o.id, t.nombre, t.apellido, t.cedula, 'Obrero' AS tipo_trabajador, o.tipo, o.hora
-        FROM obreros o
-        INNER JOIN trabajadores t ON o.id_trabajador = t.id_trabajador
-        WHERE 'Obrero' = '$filtro' AND $consulta_fecha
+        SELECT id, nombre, apellido, cedula, tipo_trabajador, tipo, hora
+        FROM asistencias
+        WHERE tipo_trabajador = '$filtro' AND $consulta_fecha
         ORDER BY hora DESC
     ";
 }
@@ -79,35 +47,79 @@ if (!$resultado) {
 }
 
 // Crear el PDF
-$pdf = new FPDF();
-    $pdf->AddPage();
-    $pdf->SetFont('Arial', 'B', 16); // Fuente más grande para el título principal
-    $pdf->Cell(0, 10, utf8_decode('C.E.I. Simoncito Guayana'), 0, 1, 'C');
-    $pdf->Ln(5); // Espacio debajo del título principal
 
-    $pdf->SetFont('Arial', 'B', 14); // Fuente más pequeña para el subtítulo
-    $pdf->Cell(0, 10, utf8_decode('Registro de asistencias'), 0, 1, 'C');
-    $pdf->Ln(1);
-// Agregar encabezados de la tabla
-$pdf->SetFont('Arial', 'B', 12);
-$pdf->Cell(30, 10, utf8_decode('Nombre'), 1);
-$pdf->Cell(30, 10, utf8_decode('Apellido'), 1);
-$pdf->Cell(30, 10, utf8_decode('Cédula'), 1);
-$pdf->Cell(40, 10, utf8_decode('Tipo Trabajador'), 1);
-$pdf->Cell(30, 10, utf8_decode('Tipo'), 1);
-$pdf->Cell(30, 10, utf8_decode('Hora'), 1);
-$pdf->Ln();
+// Clase PDF personalizada para encabezado repetido
+class PDF extends FPDF
+{
+    function Header()
+    {
+        $this->Ln(10);
+        $this->SetFont('Arial', 'B', 16); // Fuente más grande para el título principal
+        $this->Cell(0, 20, utf8_decode('C.E.I. Simoncito Guayana'), 0, 1, 'C');
+        $this->Ln(5); // Espacio debajo del título principal
+
+        // Imagen del cintillo (ajusta la ruta si es necesario)
+        $this->Image('imagen/cintillo.jpg', 0, -3, 190, 27);
+
+        // Imagen del logo (ajusta la ruta si es necesario)
+        $this->Image('imagen/Picsart_25-03-31_14-46-19-016.png', 188, 2, 17);
+
+        $this->SetFont('Arial', 'B', 14); // Fuente más pequeña para el subtítulo
+        $this->Cell(0, 10, utf8_decode('Registro de asistencias'), 0, 1, 'C');
+        $this->SetFont('Arial', '', 10);
+        $this->Cell(0, 8, date('d/m/Y H:i'), 0, 1, 'C');
+        $this->Ln(3);
+
+        // Agregar encabezados de la tabla
+        $this->SetFont('Arial', 'B', 12);
+        $this->Cell(10, 10, utf8_decode('N°'), 1, 0, 'C');
+        $this->Cell(30, 10, utf8_decode('Nombre'), 1, 0, 'C');
+        $this->Cell(30, 10, utf8_decode('Apellido'), 1, 0, 'C');
+        $this->Cell(25, 10, utf8_decode('Cédula'), 1, 0, 'C');
+        $this->Cell(40, 10, utf8_decode('Tipo Trabajador'), 1, 0, 'C');
+        $this->Cell(25, 10, utf8_decode('Tipo'), 1, 0, 'C');
+        $this->Cell(30, 10, utf8_decode('Hora'), 1, 0, 'C');
+        $this->Ln();
+    }
+
+    function Footer()
+    {
+        // Posición a 1.5 cm del final de la página
+        $this->SetY(-15);
+        $this->SetFont('Arial', 'I', 10);
+        // Número de página centrado
+        $this->Cell(0, 10, utf8_decode('Página ') . $this->PageNo(), 0, 0, 'C');
+    }
+}
+
+$pdf = new PDF();
+$pdf->AddPage();
+
+    
 
 // Agregar los datos al PDF
-$pdf->SetFont('Arial', '', 10);
+$pdf->SetFont('Arial', '', 10); // Sin negrita
+$gris1 = [230, 230, 230]; // Gris claro
+$gris2 = [245, 245, 245]; // Gris aún más claro
+$contador = 1;
 while ($fila = $resultado->fetch_assoc()) {
-    $pdf->Cell(30, 10, utf8_decode($fila['nombre']), 1);
-    $pdf->Cell(30, 10, utf8_decode($fila['apellido']), 1);
-    $pdf->Cell(30, 10, utf8_decode($fila['cedula']), 1);
-    $pdf->Cell(40, 10, utf8_decode($fila['tipo_trabajador']), 1);
-    $pdf->Cell(30, 10, utf8_decode($fila['tipo']), 1);
-    $pdf->Cell(30, 10, utf8_decode(substr($fila['hora'], 0, 16)), 1); // Mostrar solo fecha y hora sin segundos
-    $pdf->Ln();
+    // Alternar color según si la fila es par o impar
+    if ($contador % 2 == 0) {
+        $pdf->SetFillColor($gris1[0], $gris1[1], $gris1[2]);
+    } else {
+        $pdf->SetFillColor($gris2[0], $gris2[1], $gris2[2]);
+    }
+
+    $pdf->Cell(10, 10, $contador, 1, 0, 'C', true);
+    $pdf->Cell(30, 10, utf8_decode($fila['nombre']), 1, 0, 'C', true);
+    $pdf->Cell(30, 10, utf8_decode($fila['apellido']), 1, 0, 'C', true);
+    $pdf->Cell(25, 10, utf8_decode($fila['cedula']), 1, 0, 'C', true);
+    $pdf->Cell(40, 10, utf8_decode($fila['tipo_trabajador']), 1, 0, 'C', true);
+    $pdf->Cell(25, 10, utf8_decode($fila['tipo']), 1, 0, 'C', true);
+    $fecha = strtotime($fila['hora']);
+    $pdf->Cell(30, 10, date('d/m/Y, H:i', $fecha), 1, 1, 'C', true);
+
+    $contador++;
 }
 
 // Salida del PDF

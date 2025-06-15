@@ -137,6 +137,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['sql_file'])) {
                     <?php endif; ?>
                 </li>
 
+                <li style="--bg:#4dff4d;">
+                    <a href="archivos/Manual de usuarios.pdf" download>
+                        <div class="icon"><i class="fa-solid fa-circle-question"></i></div>
+                        <div class="text">Manual de Usuarios</div>
+                    </a>
+                </li>
+
             </div>
         </ul>
     </div>

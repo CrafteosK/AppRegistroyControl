@@ -317,3 +317,14 @@ a.btn:hover {
         width: 0%;
     }
 }
+
+/* Mensajes de error para el formulario de registro */
+.error {
+  color: #f7323b;
+  font-size: 13px;
+  display: none;
+
+}
+input.error-input {
+  border: 2px solid #d8000c;
+}

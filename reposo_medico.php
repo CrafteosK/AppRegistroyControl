@@ -266,7 +266,7 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
                         <form method="POST" action="reposo_medico.php">
                             <div class="mb-3">
                                 <label for="trabajadores" class="form-label">Seleccione un trabajador</label>
-                                <select name="trabajadores" id="trabajadores" class="form-control" <?php echo $solo_visualizar ? 'disabled' : ''; ?> required>
+                                <select name="trabajadores" id="trabajadores" class="form-control" <?php echo $solo_visualizar ? 'disabled' : ''; ?> >
                                     <option value="" disabled selected>Seleccione un trabajador</option>
                                     <?php
                                     // Consulta para obtener los trabajadores
@@ -286,14 +286,17 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
                                         </option>
                                     <?php endwhile; ?>
                                 </select>
+                                <span class="error"></span>
                             </div>
                             <div class="mb-3">
                                 <label for="expedicion" class="form-label">Fecha de Expedición</label>
-                                <input type="date" class="form-control" name="expedicion" <?php echo $solo_visualizar ? 'disabled' : ''; ?> required>
+                                <input type="date" class="form-control" name="expedicion" <?php echo $solo_visualizar ? 'disabled' : ''; ?> >
+                                <span class="error"></span>
                             </div>
                             <div class="mb-3">
                                 <label for="vence" class="form-label">Fecha de Vencimiento</label>
-                                <input type="date" class="form-control" name="vence" <?php echo $solo_visualizar ? 'disabled' : ''; ?> required>
+                                <input type="date" class="form-control" name="vence" <?php echo $solo_visualizar ? 'disabled' : ''; ?> >
+                                <span class="error"></span>
                             </div>
                             <?php if (!$solo_visualizar): // Mostrar botones solo si no es Usuario ?>
                                 <div class="modal-footer">
@@ -363,6 +366,102 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
                 fechasPersonalizadas.style.display = 'none';
             }
         }
+
+        // Validación para el formulario de agregar reposo médico
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('#addWorkerModal form');
+    if (!form) return;
+
+    form.addEventListener('submit', function(e) {
+        let valido = true;
+        limpiarErroresModal(form);
+
+        // Trabajador
+        const trabajador = form.querySelector('[name="trabajadores"]');
+        if (!trabajador.value) {
+            mostrarErrorModal(trabajador, 'Debe seleccionar un trabajador.');
+            valido = false;
+        }
+
+        // Fecha de expedición
+        const expedicion = form.querySelector('[name="expedicion"]');
+        if (!expedicion.value) {
+            mostrarErrorModal(expedicion, 'La fecha de expedición es requerida.');
+            valido = false;
+        }
+
+        // Fecha de vencimiento
+        const vence = form.querySelector('[name="vence"]');
+        if (!vence.value) {
+            mostrarErrorModal(vence, 'La fecha de vencimiento es requerida.');
+            valido = false;
+        }
+
+        // Validar que expedición no sea mayor que vencimiento
+        if (expedicion.value && vence.value && expedicion.value > vence.value) {
+            mostrarErrorModal(vence, 'La fecha de expedición no puede ser mayor que la de vencimiento.');
+            valido = false;
+        }
+
+        if (!valido) e.preventDefault();
+    });
+
+    // Validación al salir de cada input
+    [
+        {campo: 'trabajadores', mensaje: 'Debe seleccionar un trabajador.'},
+        {campo: 'expedicion', mensaje: 'La fecha de expedición es requerida.'},
+        {campo: 'vence', mensaje: 'La fecha de vencimiento es requerida.'}
+    ].forEach(function(obj) {
+        const input = form.querySelector(`[name="${obj.campo}"]`);
+        if (input) {
+            input.addEventListener('blur', function() {
+                limpiarErrorModal(input);
+                if (!input.value) {
+                    mostrarErrorModal(input, obj.mensaje);
+                }
+                // Validar fechas
+                if (obj.campo === 'vence') {
+                    const expedicion = form.querySelector('[name="expedicion"]');
+                    if (expedicion.value && input.value && expedicion.value > input.value) {
+                        mostrarErrorModal(input, 'La fecha de expedición no puede ser mayor que la de vencimiento.');
+                    }
+                }
+            });
+        }
+    });
+
+    // Funciones auxiliares
+    function mostrarErrorModal(input, mensaje) {
+        let error = input.parentElement.querySelector('.error');
+        if (!error) {
+            error = document.createElement('span');
+            error.className = 'error';
+            input.parentElement.appendChild(error);
+        }
+        error.textContent = mensaje;
+        error.style.display = 'block';
+        input.classList.add('error-input');
+    }
+
+    function limpiarErrorModal(input) {
+        let error = input.parentElement.querySelector('.error');
+        if (error) {
+            error.textContent = '';
+            error.style.display = 'none';
+        }
+        input.classList.remove('error-input');
+    }
+
+    function limpiarErroresModal(form) {
+        form.querySelectorAll('.error').forEach(function(e) {
+            e.textContent = '';
+            e.style.display = 'none';
+        });
+        form.querySelectorAll('.error-input').forEach(function(e) {
+            e.classList.remove('error-input');
+        });
+    }
+});
     </script>
 
     <script src="Java/js/bootstrap.bundle.min.js"></script>
