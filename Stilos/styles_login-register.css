@@ -372,3 +372,39 @@ h4 {
 input.error-input {
   border: 2px solid #d8000c;
 }
+
+.manual-link{
+  padding: 15px;
+  width: 70px;
+  height: 70px;
+  background: radial-gradient(
+    circle,
+    #3a14a5 0%,
+    #3a14a5 45%,
+    #4f27bc 55%,
+    #4f27bc 65%,
+    #6949c2 75%,
+    #6949c2 100%
+  );
+
+  align-items: center;
+  font-size: 40px;
+  border-radius: 50%;
+  display: flex;
+  position: absolute;
+  text-decoration: none;
+  text-shadow: 2px 2px 4px #050505;
+  bottom: 44px;
+  right: 44px;
+  font-family: none;
+}
+
+.manual-linka, .manual-linkb{
+  color: white;
+
+}
+
+.manual-linkb{
+  position: absolute;
+  top: 18%;
+}

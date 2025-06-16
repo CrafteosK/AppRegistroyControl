@@ -352,22 +352,22 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
                             <input type="hidden" name="data_tipo" value="agregar" />
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" name="nombre" placeholder="Nombre" >
+                                <input type="text" class="form-control" name="nombre" placeholder="Agregue el Nombre" >
                                 <span class="error"></span>
                             </div>
                             <div class="mb-3">
                                 <label for="apellido" class="form-label">Apellido</label>
-                                <input type="text" class="form-control" name="apellido" placeholder="Apellido" >
+                                <input type="text" class="form-control" name="apellido" placeholder="Agregue el Apellido" >
                                 <span class="error"></span>
                             </div>
                             <div class="mb-3">
                                 <label for="cedula" class="form-label">Cédula</label>
-                                <input type="text" class="form-control" name="cedula" placeholder="Cédula" >
+                                <input type="text" class="form-control" name="cedula" placeholder="Agregue la Cédula" >
                                 <span class="error"></span>
                             </div>
                             <div class="mb-3">
                                 <label for="telefono" class="form-label">Teléfono</label>
-                                <input type="text" class="form-control" name="telefono" placeholder="Teléfono" >
+                                <input type="text" class="form-control" name="telefono" placeholder="Agregue el numero de Teléfono" >
                                 <span class="error"></span>
                             </div>
                             <div class="mb-3">

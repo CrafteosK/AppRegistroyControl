@@ -52,8 +52,14 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
         <div class="login-bg"></div>
       </div>
     </div>
+    
   </main>
-
+  <div class="manual-link">
+    <a href="archivos/Manual de usuarios.pdf" download class="manual-linka">
+        <div class="icon"><i class="fa-solid fa-circle-question"></i></div>
+    </a>
+  </div>
+    
   <?php
   // Mostrar el toast dependiendo del parámetro en la URL
   if (isset($_GET['status']) && isset($_GET['data_tipo'])) {

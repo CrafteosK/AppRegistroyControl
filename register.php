@@ -17,7 +17,7 @@ if(isset($_SESSION['usuario'])){
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Registro y control de asistencias</title>
   <link rel="stylesheet" href="Stilos/styles_login-register.css"/>
-  
+  <link rel="stylesheet" href="fontawesome/fontawesome-free-6.7.2-web/css/all.css">
 
 
 </head>
@@ -57,8 +57,13 @@ if(isset($_SESSION['usuario'])){
       <div class="register-bg"></div>
       </div>
     </div>
-  </main>    
-
+  </main>
+    <div class="manual-link">
+        <a href="archivos/Manual de usuarios.pdf" download class="manual-linkb">
+            <div class="icon"><i class="fa-solid fa-circle-question"></i></div>
+        </a>
+    </div>
+    
   <script src="Java/Script.js"></script>
   <script>
 document.getElementById('form-registro').addEventListener('submit', function(e) {

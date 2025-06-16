@@ -9,6 +9,8 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recuperar contraseña</title>
     <link rel="stylesheet" href="Stilos/stylos_recuperar_contrasena.css">
+    <link rel="stylesheet" href="fontawesome/fontawesome-free-6.7.2-web/css/all.css">
+
 </head>
 <body>
     <div class="form">
@@ -22,7 +24,12 @@ session_start();
             <p>¿No tienes cuenta? <a href="register.php">Registrarse</a></p>
         </form>
     </div>
-
+    <div class="manual-link">
+        <a href="archivos/Manual de usuarios.pdf" download class="manual-linka">
+            <div class="icon"><i class="fa-solid fa-circle-question"></i></div>
+        </a>
+    </div>
+    
     <script>
 const inputEmail = document.getElementById('email');
 
