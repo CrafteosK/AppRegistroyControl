@@ -184,7 +184,7 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
         <table class="table table-striped table-hover" id="data-tables">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>N°</th>
                     <th>Nombre Completo</th>
                     <th>Correo Electrónico</th>
                     <th>Usuario</th>
@@ -194,9 +194,10 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
             </thead>
             <tbody id="usuarios-list">
                 <?php if ($resultado && $resultado->num_rows > 0): ?>
+                    <?php $contador = 1; // <-- Agrega esta línea ?>
                     <?php while ($fila = $resultado->fetch_assoc()): ?>
                     <tr>
-                        <td><?php echo $fila['ID']; ?></td>
+                        <td><?php echo $contador++; ?></td> <!-- Cambia esto para mostrar el número consecutivo -->
                         <td><?php echo $fila['nombre_completo']; ?></td>
                         <td><?php echo $fila['email']; ?></td>
                         <td><?php echo $fila['user']; ?></td>

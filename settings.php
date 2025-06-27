@@ -73,7 +73,7 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
                         <table id="tabla-backups" class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>N°</th>
                                     <th>Nombre del Archivo</th>
                                     <th>Fecha</th>
                                     <th>Acciones</th>

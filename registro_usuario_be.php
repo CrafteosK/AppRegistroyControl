@@ -17,7 +17,7 @@ if (isset($_POST['registro'])) {
     $contraseña = $_POST['password'];
 
     // Encriptar contraseña
-    $contraseña = hash('sha512', $contraseña);
+    $contraseña = password_hash($contraseña, PASSWORD_BCRYPT);
 
     // Verificar que el correo no se repita en la base de datos
     $verificar_correo = mysqli_query($enlace, "SELECT * FROM usuarios WHERE email = '$email'");

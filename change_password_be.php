@@ -13,7 +13,7 @@ error_reporting(E_ALL);
 if (isset($_POST['ID']) && isset($_POST['new_password'])) {
     $ID = intval($_POST['ID']); // Convertir el ID a un número entero
     $new_password = $_POST['new_password'];
-    $new_password = hash('sha512', $new_password); // Encriptar la nueva contraseña
+    $new_password = password_hash($new_password, PASSWORD_BCRYPT); // Encriptar la nueva contraseña
 
     // Actualizar la contraseña en la base de datos
     $stmt = "UPDATE usuarios SET password = '$new_password' WHERE ID = $ID";
@@ -31,7 +31,7 @@ if (isset($_POST['ID']) && isset($_POST['new_password'])) {
 } else if (isset($_POST['token']) && isset($_POST['new_password'])) {
     $token = $_POST['token'];
     $new_password = $_POST['new_password'];
-    $new_password_hashed = hash('sha512', $new_password); // Encriptar la nueva contraseña
+    $new_password_hashed = password_hash($new_password, PASSWORD_BCRYPT); // Encriptar la nueva contraseña
 
     $query = mysqli_query($enlace, "SELECT user_id FROM password_resets WHERE token = '$token' AND expires_at > NOW()");
     if ($row = mysqli_fetch_assoc($query)) {

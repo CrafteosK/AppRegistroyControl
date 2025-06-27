@@ -394,7 +394,7 @@ include 'vista/notificaciones.php'; // Incluir el archivo de notificaciones
         <table class="table table-striped table-hover" id="data-tables">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>N°</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Cédula</th>

@@ -141,7 +141,7 @@ button:hover {
 
 .login-bg {
   flex: 1;
-  background-image: url('../imagen/Simon.jpg');
+  background-image: url('../imagen/simon-bolivar1.webp');
   background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
   background-position: center; /* Centra la imagen */
   background-repeat: no-repeat; /* Evita que la imagen se repita */
@@ -218,7 +218,7 @@ h4 {
   width: 100%; 
   height: 100%; 
   flex: 1;
-  background: url('../imagen/Simon.jpg') center/cover;
+  background: url('../imagen/simon-bolivar1.webp') center/cover;
 }
 
 /* Toast */
